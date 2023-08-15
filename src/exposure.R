@@ -2,7 +2,7 @@
 library(readr)
 library(dplyr, warn.conflicts = FALSE)
 library(tidyr)
-library(zoo)
+library(zoo, warn.conflicts = FALSE)
 library(lubridate, warn.conflicts = FALSE)
 library(poputils)
 library(command)

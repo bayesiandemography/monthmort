@@ -1,8 +1,8 @@
 
 library(ggplot2)
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
 library(command)
-library(lubridate)
+library(lubridate, warn.conflicts = FALSE)
 
 cmd_assign(deaths = "out/deaths.rds",
            exposure = "out/exposure.rds",
@@ -17,20 +17,43 @@ data <- inner_join(rename(deaths, deaths = count),
            time = ymd(time)) %>%
     filter(time > ymd(start_date))
 
-
-p <- ggplot(data, aes(x = time, y = rate, color = sex)) +
+p_deaths <- ggplot(data, aes(x = time, y = deaths, color = sex)) +
     facet_wrap(vars(age)) +
     geom_line(linewidth = 0.25) +
-    scale_y_log10() +
+    scale_y_log10(labels = function(x) format(x, scientific = FALSE)) +
+    xlab("") +
+    ylab("") +
+    theme(legend.position = "top",
+          legend.title = element_blank()) +
+    ggtitle("Deaths (log scale)")
+
+p_exposure <- ggplot(data, aes(x = time, y = exposure, color = sex)) +
+    facet_wrap(vars(age)) +
+    geom_line(linewidth = 0.25) +
+    scale_y_log10(labels = function(x) format(x, scientific = FALSE)) +
+    xlab("") +
+    ylab("") +
+    theme(legend.position = "top",
+          legend.title = element_blank()) +
+    ggtitle("Exposure (log scale)")
+
+p_direct <- ggplot(data, aes(x = time, y = rate, color = sex)) +
+    facet_wrap(vars(age)) +
+    geom_line(linewidth = 0.25) +
+    scale_y_log10(labels = function(x) format(x, scientific = FALSE)) +
     xlab("") +
     ylab("") +
     theme(legend.position = "top",
           legend.title = element_blank()) +
     ggtitle("Direct estimates of mortality rates (log scale)")
 
+
 graphics.off()
 pdf(file = .out,
     width = 10,
-    height = 12)
-plot(p)
-dev.off()
+    height = 12,
+    onefile = TRUE)
+plot(p_deaths)
+plot(p_exposure)
+plot(p_direct)
+dev.off()        
