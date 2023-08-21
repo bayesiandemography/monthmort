@@ -28,8 +28,8 @@ p_age <- comp %>%
                ymin = .fitted.lower,
                y = .fitted.mid,
                ymax = .fitted.upper)) +
-    geom_ribbon(fill = "lightgreen") +
-    geom_line(col = "darkgreen",
+    geom_ribbon(fill = "lightblue") +
+    geom_line(col = "darkblue",
               linewidth = 0.5) +
     ggtitle("Age effect")
 
@@ -46,8 +46,8 @@ p_agesex <- comp %>%
                y = .fitted.mid,
                ymax = .fitted.upper)) +
     facet_wrap(vars(sex)) +
-    geom_ribbon(fill = "lightgreen") +
-    geom_line(col = "darkgreen",
+    geom_ribbon(fill = "lightblue") +
+    geom_line(col = "darkblue",
               linewidth = 0.5) +
     ggtitle("Age:sex effect")
 
@@ -79,8 +79,8 @@ p_season <- comp %>%
                y = .fitted.mid,
                ymax = .fitted.upper)) +
     facet_wrap(vars(age)) +
-    geom_ribbon(fill = "lightgreen") +
-    geom_line(col = "darkgreen",
+    geom_ribbon(fill = "lightblue") +
+    geom_line(col = "darkblue",
               linewidth = 0.1) +
     scale_x_date(breaks = "1 year") +
     xlab("") +
@@ -100,8 +100,8 @@ plot_age_rates <- function(level_age) {
                y = .fitted.mid,
                ymax = .fitted.upper)) +
         facet_wrap(vars(sex), nrow = 2) +
-        geom_ribbon(fill = "lightgreen") +
-        geom_line(col = "darkgreen",
+        geom_ribbon(fill = "lightblue") +
+        geom_line(col = "darkblue",
                   linewidth = 0.2) +
         geom_point(aes(y = .observed),
                    col = "darkblue",
@@ -127,15 +127,19 @@ p_lifeexp <- aug %>%
     ggplot(aes(x = time,
                ymin = lifeexp.lower,
                y = lifeexp.mid,
-               ymax = lifeexp.upper)) +
-    facet_wrap(vars(sex), nrow = 2) +
-    geom_ribbon(fill = "lightgreen") +
-    geom_line(col = "darkgreen",
-              linewidth = 0.2) +
+               ymax = lifeexp.upper,
+               fill = sex)) +
+    geom_vline(xintercept = as.Date("2020-03-01"),
+               linewidth = 0.5,
+               linetype = "dotted") +
+    geom_ribbon(alpha = 0.5) +
+    geom_line(linewidth = 0.2) +
     scale_x_date(breaks = "1 year") +
     xlab("") +
     ylab("") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1),
+          legend.position = "top",
+          legend.title = element_blank()) +
     ggtitle("Life expectancy")
 
 

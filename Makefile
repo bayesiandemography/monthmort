@@ -1,16 +1,16 @@
 
-START_DATE = 2010-01-01
+START_DATE = 2000-01-01
 
 .PHONY: all
 all: out/fig_direct.pdf \
      out/fig_mod.pdf
 
 out/deaths.rds: src/deaths.R \
-  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2023M2.csv.gz
+  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2023M5.csv.gz
 	Rscript $^ $@
 
 out/popn.rds: src/popn.R \
-  data/DPE403901_20230814_011926_27.csv.gz
+  data/DPE403901_20230817_110132_82.csv.gz
 	Rscript $^ $@
 
 out/exposure.rds: src/exposure.R \
