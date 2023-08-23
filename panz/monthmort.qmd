@@ -9,18 +9,35 @@ author:
 format: 
   beamer:
     theme: Arguelles
+    slide-level: 2
     classoption:
-      - '`xcolor={dvipsnames}`{=latex}' 
+      - '`xcolor={dvipsnames}`{=latex}'
 editor: visual
 ---
 
 ------------------------------------------------------------------------
 
-# The problem
+## The project
+
+- Estimate mortality by age, sex, month
+    -   Current official is three-year rolling average
+- Challenges
+    -   Small numbers
+    -   Complicated patterns
+- Why
+    -   Effect of events, eg COVID
+    -   Seasonal mortality
+    -   Generic methodology
+- Exploratory, work in progress
 
 # The model
 
 ## Data
+
+-   Deaths by age, sex, month
+    -   Date of occurrence (not registration)
+-   Population at risk
+    - Interpolated from quarterly ERP
 
 ## Specification
 
@@ -28,12 +45,11 @@ editor: visual
 
 ## Computation
 
-- Bayesian
-- Open source R package
-    - github.com/bayesiandemography/bage
-- Fast approximation
-    - Template Model Builder (TMB)
-
+-   Bayesian
+-   Open source R package
+    -   github.com/bayesiandemography/bage
+-   Fast approximation
+    -   Template Model Builder (TMB)
 
 # Preliminary results
 
@@ -41,21 +57,32 @@ editor: visual
 
 ![](fig_rates.pdf)
 
-## Life expectancy
+## Time effect
 
-![](fig_lifeexp.pdf)
+![](fig_time.pdf)
 
 ## Seasonal effect
 
 ![](fig_season.pdf)
 
-## Time effect
+## Life expectancy
 
-![](fig_time.pdf)
-
+![](fig_lifeexp.pdf)
 
 # Future work
 
+## Monthly mortality
 
+- Model testing
+- Refine decomposition
+- Isolate effects of COVID
 
+## General methodology
 
+- Extend theory and software
+- Other topics
+    - Fertility
+    - Migration
+    - Labour force
+    - etc
+- Detailed estimation becomes routine
