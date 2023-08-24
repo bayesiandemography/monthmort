@@ -47,7 +47,7 @@ editor: visual
 
 -   Bayesian
 -   Open source R package
-    -   github.com/bayesiandemography/bage
+    -   `github.com/bayesiandemography/bage`
 -   Fast approximation
     -   Template Model Builder (TMB)
 
@@ -76,6 +76,7 @@ editor: visual
 -   Model testing
 -   Refine decomposition
 -   Isolate effects of COVID
+-   `github.com/bayesiandemography/monthmort`
 
 ## General methodology
 
@@ -85,4 +86,4 @@ editor: visual
     -   Migration
     -   Labour force
     -   etc
--   Detailed estimation becomes routine
+-   Make detailed estimation easy
