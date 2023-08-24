@@ -19,16 +19,16 @@ editor: visual
 
 ## The project
 
-- Estimate mortality by age, sex, month
+-   Estimate mortality by age, sex, month
     -   Current official is three-year rolling average
-- Challenges
+-   Challenges
     -   Small numbers
     -   Complicated patterns
-- Why
+-   Why
     -   Effect of events, eg COVID
     -   Seasonal mortality
     -   Generic methodology
-- Exploratory, work in progress
+-   Exploratory, work in progress
 
 # The model
 
@@ -37,7 +37,7 @@ editor: visual
 -   Deaths by age, sex, month
     -   Date of occurrence (not registration)
 -   Population at risk
-    - Interpolated from quarterly ERP
+    -   Interpolated from quarterly ERP
 
 ## Specification
 
@@ -73,16 +73,16 @@ editor: visual
 
 ## Monthly mortality
 
-- Model testing
-- Refine decomposition
-- Isolate effects of COVID
+-   Model testing
+-   Refine decomposition
+-   Isolate effects of COVID
 
 ## General methodology
 
-- Extend theory and software
-- Other topics
-    - Fertility
-    - Migration
-    - Labour force
-    - etc
-- Detailed estimation becomes routine
+-   Extend theory and software
+-   Other topics
+    -   Fertility
+    -   Migration
+    -   Labour force
+    -   etc
+-   Detailed estimation becomes routine
