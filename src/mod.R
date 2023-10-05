@@ -16,12 +16,15 @@ data <- inner_join(rename(deaths, deaths = count),
            time = ymd(time)) %>%
     filter(time > ymd(start_date))
 
+system.time(
 mod <- mod_pois(deaths ~ age * sex + time,
                 data = data,
                 exposure = exposure) %>%
-    set_prior(age ~ RW2()) %>%
+    set_prior(age ~ RW2(flat = TRUE)) %>%
+    set_prior(age:sex ~ SVD(HMD)) %>%
     set_prior(time ~ RW2()) %>%
     set_season(n = 12, by = age) %>%
     fit()
+)
 
 saveRDS(mod, file = .out)

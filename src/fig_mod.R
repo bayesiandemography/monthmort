@@ -120,14 +120,13 @@ p_age_rates <- lapply(levels_age, plot_age_rates)
 ## Life expectancy ------------------------------------------------------------
 
 p_lifeexp <- aug %>%
-    group_by(sex, time) %>%
-    summarise(lifeexp = lifeexp(.fitted, age = age),
-              .groups = "drop") %>%
-    mutate(draws_ci(lifeexp)) %>%
+    lifeexp(mx = .fitted,
+            by = c(sex, time)) %>%
+    mutate(draws_ci(ex)) %>%
     ggplot(aes(x = time,
-               ymin = lifeexp.lower,
-               y = lifeexp.mid,
-               ymax = lifeexp.upper,
+               ymin = ex.lower,
+               y = ex.mid,
+               ymax = ex.upper,
                fill = sex)) +
     geom_vline(xintercept = as.Date("2020-03-01"),
                linewidth = 0.5,
