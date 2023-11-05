@@ -1,5 +1,6 @@
 
-START_DATE = 2000-01-01
+START_DATE = 2010-02-01
+END_DATE = 2020-02-01
 
 .PHONY: all
 all: out/fig_direct.pdf \
@@ -26,7 +27,7 @@ out/fig_direct.pdf: src/fig_direct.R \
 out/mod.rds: src/mod.R \
   out/deaths.rds \
   out/exposure.rds
-	Rscript $^ $@ --start_date=$(START_DATE)
+	Rscript $^ $@ --start_date=$(START_DATE) --end_date=$(END_DATE)
 
 out/fig_mod.pdf: src/fig_mod.R \
   out/mod.rds
