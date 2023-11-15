@@ -26,7 +26,7 @@ col_fill <- "lightblue2"
 ## Hyper-parameters -----------------------------------------------------------
 
 p_age <- comp %>%
-    filter(component == "par",
+    filter(component == "effect",
            term == "age") %>%
     ggplot(aes(x = age_mid(level),
                y = .fitted.mid)) +
@@ -41,7 +41,7 @@ p_age <- comp %>%
 
 
 p_agesex <- comp %>%
-    filter(component == "par",
+    filter(component == "effect",
            term == "age:sex") %>%
     separate_wider_delim(level,
                          delim = ".",
@@ -60,7 +60,7 @@ p_agesex <- comp %>%
 
 
 p_time <- comp %>%
-    filter(component == "par",
+    filter(component == "effect",
            term == "time") %>%
     ggplot(aes(x = as.Date(level),
                y = .fitted.mid)) +
@@ -78,7 +78,7 @@ p_time <- comp %>%
 
 p_cyclical <- comp %>%
     filter(component == "cyclical",
-           term == "par") %>%
+           term == "effect") %>%
     ggplot(aes(x = as.Date(level),
                y = .fitted.mid)) +
     geom_ribbon(aes(ymin = .fitted.lower,
@@ -95,7 +95,7 @@ p_cyclical <- comp %>%
 
 p_season <- comp %>%
     filter(component == "season",
-           term == "par") %>%
+           term == "effect") %>%
     separate_wider_delim(level,
                          delim = ".",
                          names = c("age", "time")) %>%

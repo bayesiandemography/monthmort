@@ -22,7 +22,7 @@ system.time(
 mod <- mod_pois(deaths ~ age * sex + time,
                 data = data,
                 exposure = exposure) %>%
-    set_prior(age ~ RW2(flat = TRUE)) %>%
+    set_prior(age ~ RW()) %>%
     set_prior(age:sex ~ SVD(HMD)) %>%
     set_prior(time ~ RW2()) %>%
     set_cyclical(n = 3) %>%

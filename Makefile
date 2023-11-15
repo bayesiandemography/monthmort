@@ -33,6 +33,10 @@ out/fig_mod.pdf: src/fig_mod.R \
   out/mod.rds
 	Rscript $^ $@
 
+out/fig_repdata.pdf: src/fig_repdata.R \
+  out/mod.rds
+	Rscript $^ $@
+
 
 ## Clean
 
