@@ -4,7 +4,12 @@ END_DATE = 2020-02-01
 
 .PHONY: all
 all: out/fig_direct.pdf \
-     out/fig_mod.pdf
+     out/fig_mod.pdf \
+     out/fig_repdata.pdf \
+     out/fig_time.pdf \
+     out/fig_season.pdf \
+     out/fig_rates.pdf \
+     out/fig_lifeexp.pdf
 
 out/deaths.rds: src/deaths.R \
   data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2023M5.csv.gz
@@ -36,6 +41,23 @@ out/fig_mod.pdf: src/fig_mod.R \
 out/fig_repdata.pdf: src/fig_repdata.R \
   out/mod.rds
 	Rscript $^ $@
+
+out/fig_time.pdf: src/fig_time.R \
+  out/mod.rds
+	Rscript $^ $@
+
+out/fig_season.pdf: src/fig_season.R \
+  out/mod.rds
+	Rscript $^ $@
+
+out/fig_rates.pdf: src/fig_rates.R \
+  out/mod.rds
+	Rscript $^ $@
+
+out/fig_lifeexp.pdf: src/fig_lifeexp.R \
+  out/mod.rds
+	Rscript $^ $@
+
 
 
 ## Clean
