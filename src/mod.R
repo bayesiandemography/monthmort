@@ -6,27 +6,26 @@ library(lubridate, warn.conflicts = FALSE)
 
 cmd_assign(deaths = "out/deaths.rds",
            exposure = "out/exposure.rds",
-           start_date = "2010-01-01",
+           start_date = "2010-02-01",
            end_date = "2020-02-01",
            .out = "out/mod.rds")
 
 data <- inner_join(rename(deaths, deaths = count),
                    rename(exposure, exposure = count),
-                   by = c("age", "sex", "time")) %>%
+                   by = c("age", "sex", "time")) |>
     mutate(time = paste0(time, "-15"),
-           time = ymd(time)) %>%
+           time = ymd(time)) |>
     filter(time > ymd(start_date),
            time < ymd(end_date))
 
 system.time(
-mod <- mod_pois(deaths ~ age * sex + time,
-                data = data,
-                exposure = exposure) %>%
-    set_prior(age ~ RW()) %>%
-    set_prior(age:sex ~ SVD(HMD)) %>%
-    set_prior(time ~ RW2()) %>%
-    set_cyclical(n = 3) %>%
-    set_season(n = 12, by = age) %>%
+  mod <- mod_pois(deaths ~ age * sex + age * time,
+                  data = data,
+                  exposure = exposure) |>
+    set_prior(age ~ RW2()) |>
+    set_prior(time ~ compose_time(RW2(), cyclical = AR())) |>
+    set_prior(age:sex ~ ERW()) |>
+    set_prior(age:time ~ compose_time(ERW(s = 0.1), seasonal = ESeas(n = 12))) |>
     fit()
 )
 
