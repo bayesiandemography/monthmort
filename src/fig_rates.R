@@ -1,21 +1,20 @@
 
-
 library(bage)
 library(dplyr, warn.conflicts = FALSE)
 library(command)
-library(rvec)
+library(rvec, warn.conflicts = FALSE)
 library(poputils)
 library(tidyr, warn.conflicts = FALSE)
 library(ggplot2)
 library(lubridate)
 
 cmd_assign(mod = "out/mod.rds",
+           col_fill = "steelblue1",
+           col_line = "black",
+           col_point = "red",
            .out = "out/fig_rates.pdf")
 
 aug <- augment(mod)
-
-col_fill <- "#FF7F50"
-col_line <- "#2F4F4F"
 
 data <- aug %>%
     filter(time == max(time)) %>%
@@ -33,7 +32,7 @@ p <- ggplot(data,
     geom_line(col = col_line,
               linewidth = 0.25) +
     geom_point(aes(y = .observed),
-               col = "darkblue",
+               col = col_point,
                size = 0.4) +
     scale_y_log10(labels = function(x) format(x, scientific = FALSE)) +
     ylab("") +

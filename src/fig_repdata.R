@@ -14,16 +14,16 @@ cmd_assign(mod = "out/mod.rds",
 ## Percentage change in age-specific mortality rates
 
 repdata_age <- replicate_data(mod, condition_on = "meanpar") %>%
-    mutate(year = format(time, format = "%Y")) %>%
-    group_by(.replicate, age, year) %>%
-    summarise(deaths = sum(deaths), exposure = sum(exposure),
-              .groups = "drop") %>%
-    filter(year %in% range(year)) %>%
-    mutate(year = ifelse(year == min(year), "first", "last")) %>%
-    mutate(direct = deaths / exposure) %>%
-    select(-deaths, -exposure) %>%
-    pivot_wider(names_from = year, values_from = direct) %>%
-    mutate(pc_change = 100 * (last / first - 1))
+  mutate(year = format(time, format = "%Y")) %>%
+  group_by(.replicate, age, year) %>%
+  summarise(deaths = sum(deaths), exposure = sum(exposure),
+            .groups = "drop") %>%
+  filter(year %in% range(year)) %>%
+  mutate(year = ifelse(year == min(year), "first", "last")) %>%
+  mutate(direct = deaths / exposure) %>%
+  select(-deaths, -exposure) %>%
+  pivot_wider(names_from = year, values_from = direct) %>%
+  mutate(pc_change = 100 * (last / first - 1))
 
 p_age <- ggplot(repdata_age, aes(x = age_mid(age), y = pc_change)) +
     facet_wrap(vars(.replicate)) +
