@@ -2,12 +2,16 @@
 START_DATE = 2010-02-01
 END_DATE = 2020-02-01
 
+COL_FILL = "steelblue1"
+COL_LINE = "black"
+COL_POINT = "red"
+
 .PHONY: all
 all: out/fig_direct.pdf \
      out/fig_mod.pdf \
      out/fig_repdata.pdf \
      out/fig_time.pdf \
-     out/fig_season.pdf \
+     out/fig_agetime.pdf \
      out/fig_rates.pdf \
      out/fig_lifeexp.pdf
 
@@ -44,19 +48,19 @@ out/fig_repdata.pdf: src/fig_repdata.R \
 
 out/fig_time.pdf: src/fig_time.R \
   out/mod.rds
-	Rscript $^ $@
+	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
 
-out/fig_season.pdf: src/fig_season.R \
-  out/mod.rds
-	Rscript $^ $@
+out/fig_agetime.pdf: src/fig_agetime.R \
+  out/mod.rds 
+	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
 
 out/fig_rates.pdf: src/fig_rates.R \
   out/mod.rds
-	Rscript $^ $@
+	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE) --col_point=$(COL_POINT)
 
 out/fig_lifeexp.pdf: src/fig_lifeexp.R \
   out/mod.rds
-	Rscript $^ $@
+	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
 
 
 

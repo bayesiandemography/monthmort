@@ -1,5 +1,4 @@
 
-
 library(bage)
 library(dplyr, warn.conflicts = FALSE)
 library(command)
@@ -10,12 +9,11 @@ library(ggplot2)
 library(lubridate)
 
 cmd_assign(mod = "out/mod.rds",
+           col_fill = "steelblue1",
+           col_line = "black",
            .out = "out/fig_lifeexp.pdf")
 
 aug <- augment(mod)
-
-col_fill <- "#FF7F50"
-col_line <- "#2F4F4F"
 
 data <- aug %>%
     lifeexp(mx = .fitted,
@@ -33,8 +31,7 @@ p <- ggplot(data,
     geom_line(col = col_line,
               linewidth = 0.25) +
     ylab("") +
-    xlab("") +
-    theme(text = element_text(size = 18))
+    xlab("")
 
 graphics.off()
 pdf(file = .out,
