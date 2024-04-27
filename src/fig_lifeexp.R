@@ -2,11 +2,11 @@
 library(bage)
 library(dplyr, warn.conflicts = FALSE)
 library(command)
-library(rvec)
+library(rvec, warn.conflicts = FALSE)
 library(poputils)
 library(tidyr, warn.conflicts = FALSE)
 library(ggplot2)
-library(lubridate)
+library(lubridate, warn.conflicts = FALSE)
 
 cmd_assign(mod = "out/mod.rds",
            col_fill = "steelblue1",

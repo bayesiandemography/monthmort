@@ -15,6 +15,8 @@ all: out/fig_direct.pdf \
      out/fig_rates.pdf \
      out/fig_lifeexp.pdf
 
+## Prepare data
+
 out/deaths.rds: src/deaths.R \
   data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2023M5.csv.gz
 	Rscript $^ $@
@@ -32,6 +34,9 @@ out/fig_direct.pdf: src/fig_direct.R \
   out/deaths.rds \
   out/exposure.rds
 	Rscript $^ $@ --start_date=$(START_DATE)
+
+
+## Fit model
 
 out/mod.rds: src/mod.R \
   out/deaths.rds \
@@ -61,6 +66,27 @@ out/fig_rates.pdf: src/fig_rates.R \
 out/fig_lifeexp.pdf: src/fig_lifeexp.R \
   out/mod.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
+
+
+
+## Forecasts
+
+out/forecast_aug.rds: src/forecast_aug.R \
+  out/mod.rds
+	Rscript $^ $@
+
+out/forecast_comp.rds: src/forecast_comp.R \
+  out/mod.rds
+	Rscript $^ $@
+
+
+out/fig_forecast.pdf: src/fig_forecast.R \
+  out/forecast_aug.rds \
+  out/forecast_comp.rds
+	Rscript $^ $@
+
+
+
 
 
 
