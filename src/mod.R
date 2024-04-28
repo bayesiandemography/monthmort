@@ -10,7 +10,7 @@ cmd_assign(deaths = "out/deaths.rds",
            end_date = "2020-02-01",
            .out = "out/mod.rds")
 
-options(warn = 2)
+## options(warn = 2)
 
 data <- inner_join(rename(deaths, deaths = count),
                    rename(exposure, exposure = count),
@@ -21,14 +21,13 @@ data <- inner_join(rename(deaths, deaths = count),
            time < ymd(end_date))
 
 system.time(
-  mod <- mod_pois(deaths ~ age * sex + age * time,
+  mod <- mod_pois(deaths ~ age:sex + time + age:time,
                   data = data,
                   exposure = exposure) |>
-    set_prior(age ~ RW2()) |>
-    set_prior(time ~ compose_time(Lin(s = 0.01), cyclical = AR())) |>
-    set_prior(age:sex ~ ERW()) |>
-    set_prior(age:time ~ compose_time(ERW(s = 0.01), seasonal = ESeas(n = 12))) |>
-    fit()
+  set_prior(age:sex ~ ERW2()) |>
+  set_prior(time ~ compose_time(Lin(s = 0.01), cyclical = AR())) |>
+  set_prior(age:time ~ compose_time(ERW(s = 0.1), seasonal = ESeas(n = 12))) |>
+  fit()
 )
 
 saveRDS(mod, file = .out)
