@@ -13,7 +13,8 @@ all: out/fig_direct.pdf \
      out/fig_time.pdf \
      out/fig_agetime.pdf \
      out/fig_rates.pdf \
-     out/fig_lifeexp.pdf
+     out/fig_lifeexp.pdf \
+     out/fig_forecast.pdf
 
 ## Prepare data
 
