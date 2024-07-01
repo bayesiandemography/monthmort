@@ -25,21 +25,6 @@ col_fill <- "lightblue2"
 
 ## Hyper-parameters -----------------------------------------------------------
 
-p_age <- comp %>%
-    filter(component == "effect",
-           term == "age") %>%
-    ggplot(aes(x = age_mid(level),
-               y = .fitted.mid)) +
-    geom_ribbon(aes(ymin = .fitted.lower,
-                    ymax = .fitted.upper),
-                fill = col_fill) +
-    geom_line(col = "darkblue",
-              linewidth = 0.5) +
-    xlab("Age") +
-    ylab("") +
-    ggtitle("Age effect")
-
-
 p_agesex <- comp %>%
   filter(component == "effect",
          term == "age:sex") %>%
@@ -114,6 +99,7 @@ p_agetime <- comp %>%
   separate_wider_delim(level,
                        delim = ".",
                        names = c("age", "time")) %>%
+  mutate(age = reformat_age(age)) %>% 
   ggplot(aes(x = as.Date(time),
              y = .fitted.mid)) +
   facet_wrap(vars(age)) +
@@ -126,13 +112,13 @@ p_agetime <- comp %>%
   ylab("") +
   ggtitle("Age:time effect")
 
-
 p_agetime_trend <- comp %>%
   filter(component == "trend",
          term == "age:time") %>%
   separate_wider_delim(level,
                        delim = ".",
                        names = c("age", "time")) %>%
+  mutate(age = reformat_age(age)) %>%
   ggplot(aes(x = as.Date(time),
              y = .fitted.mid)) +
   facet_wrap(vars(age)) +
@@ -226,7 +212,6 @@ pdf(file = .out,
     width = 10,
     height = 10,
     onefile = TRUE)
-plot(p_age)
 plot(p_agesex)
 plot(p_time)
 plot(p_time_trend)
