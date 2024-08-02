@@ -1,5 +1,7 @@
 
 library(bage)
+library(dplyr, warn.conflicts = FALSE)
+library(rvec, warn.conflicts = FALSE)
 library(command)
 
 cmd_assign(mod = "out/mod.rds",
@@ -12,7 +14,8 @@ labels <- seq(from = as.Date("2020-02-15"),
 forecast_comp <- forecast(object = mod,
                           labels = labels,
                           output = "components",
-                          include_est = TRUE)
+                          include_estimates = TRUE) |>
+  mutate(draws_ci(.fitted))
 
 saveRDS(forecast_comp, file = .out)
 
