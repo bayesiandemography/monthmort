@@ -6,23 +6,17 @@ library(rvec, warn.conflicts = FALSE)
 library(poputils)
 library(tidyr, warn.conflicts = FALSE)
 library(ggplot2)
-
+ 
 cmd_assign(forecast_aug = "out/forecast_aug.rds",
            forecast_comp = "out/forecast_comp.rds",
            .out = "out/fig_forecast.pdf")
-
-
-forecast_comp <- forecast_comp %>%
-  mutate(draws_ci(.fitted))
-
-forecast_aug <- forecast_aug %>%
-  mutate(draws_ci(.fitted))
 
 
 ## Settings -------------------------------------------------------------------
 
 col_fill <- "lightblue2"
 date_launch <- as.Date("2020-02-15")
+
 
 ## Hyper-parameters -----------------------------------------------------------
 

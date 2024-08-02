@@ -2,7 +2,7 @@
 library(bage)
 library(dplyr, warn.conflicts = FALSE)
 library(command)
-library(rvec)
+library(rvec, warn.conflicts = FALSE)
 library(poputils)
 library(tidyr, warn.conflicts = FALSE)
 library(ggplot2)
