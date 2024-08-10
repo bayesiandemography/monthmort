@@ -12,7 +12,7 @@ cmd_assign(mod = "out/mod.rds",
 
 ## Extract results ------------------------------------------------------------
 
-comp <- components(mod) %>%
+comp <- components(mod, standardize = "terms") %>%
     mutate(draws_ci(.fitted))
 
 aug <- augment(mod) %>%
