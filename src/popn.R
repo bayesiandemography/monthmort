@@ -25,7 +25,7 @@ popn <- read_csv(p_popn,
                  names_sep = "\\.") %>%
     mutate(age = reformat_age(age),
            age = combine_age(age, to = "lt")) %>%
-    count(age, sex, time, wt = value, name = "count")
+    count(age, sex, time, wt = value, name = "popn")
 
 saveRDS(popn, file = .out)
 

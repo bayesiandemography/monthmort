@@ -1,20 +1,21 @@
 
-START_DATE = 2001-02-01
+START_DATE = 2000-02-01
 END_DATE = 2020-02-01
 
-COL_FILL = "steelblue1"
-COL_LINE = "black"
+COL_FILL = "lightblue"
+COL_LINE = "darkblue"
 COL_POINT = "red"
 
 .PHONY: all
-all: out/fig_direct.pdf \
-     out/fig_mod.pdf \
+all: out/fig_diag_inputs.pdf \
+     out/fig_diag_mod.pdf \
+     out/fig_diag_forecast.pdf \
      out/fig_repdata.pdf \
      out/fig_time.pdf \
      out/fig_agetime.pdf \
      out/fig_rates.pdf \
-     out/fig_lifeexp.pdf \
-     out/fig_forecast.pdf
+     out/fig_lifeexp.pdf
+
 
 ## Prepare data
 
@@ -27,26 +28,51 @@ out/popn.rds: src/popn.R \
 	Rscript $^ $@
 
 out/exposure.rds: src/exposure.R \
-  out/deaths.rds \
   out/popn.rds
 	Rscript $^ $@
 
-out/fig_direct.pdf: src/fig_direct.R \
+out/data.rds: src/data.R \
   out/deaths.rds \
   out/exposure.rds
-	Rscript $^ $@ --start_date=$(START_DATE)
+	Rscript $^ $@
 
 
-## Fit model
+## Fit model and make forecasts
 
 out/mod.rds: src/mod.R \
-  out/deaths.rds \
-  out/exposure.rds
+  out/data.rds
 	Rscript $^ $@ --start_date=$(START_DATE) --end_date=$(END_DATE)
 
-out/fig_mod.pdf: src/fig_mod.R \
+out/forecast_aug.rds: src/forecast_aug.R \
+  out/mod.rds \
+  out/data.rds
+	Rscript $^ $@ --end_date=$(END_DATE)
+
+out/forecast_comp.rds: src/forecast_comp.R \
+  out/mod.rds \
+  out/data.rds
+	Rscript $^ $@ --end_date=$(END_DATE)
+
+
+## Diagnostic plots
+
+out/fig_diag_inputs.pdf: src/fig_diag_inputs.R \
+  out/data.rds
+	Rscript $^ $@ --start_date=$(START_DATE)
+
+out/fig_diag_mod.pdf: src/fig_diag_mod.R \
   out/mod.rds
-	Rscript $^ $@
+	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE) --col_point=$(COL_POINT)
+
+out/fig_diag_forecast.pdf: src/fig_diag_forecast.R \
+  out/forecast_aug.rds \
+  out/forecast_comp.rds
+	Rscript $^ $@ --end_date=$(END_DATE) \
+                      --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE) \
+                      --col_point=$(COL_POINT)
+
+## Plots for paper
 
 out/fig_repdata.pdf: src/fig_repdata.R \
   out/mod.rds
@@ -70,21 +96,6 @@ out/fig_lifeexp.pdf: src/fig_lifeexp.R \
 
 
 
-## Forecasts
-
-out/forecast_aug.rds: src/forecast_aug.R \
-  out/mod.rds
-	Rscript $^ $@
-
-out/forecast_comp.rds: src/forecast_comp.R \
-  out/mod.rds
-	Rscript $^ $@
-
-
-out/fig_forecast.pdf: src/fig_forecast.R \
-  out/forecast_aug.rds \
-  out/forecast_comp.rds
-	Rscript $^ $@
 
 
 

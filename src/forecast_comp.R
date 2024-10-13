@@ -5,14 +5,15 @@ library(rvec, warn.conflicts = FALSE)
 library(command)
 
 cmd_assign(mod = "out/mod.rds",
+           data = "out/data.rds",
+           end_date = "2020-02-01",
            .out = "out/forecast_comp.rds")
 
-labels <- seq(from = as.Date("2020-02-15"),
-              by = "month",
-              to = as.Date("2024-03-15"))
+newdata <- data |>
+  filter(time >= end_date)
 
 forecast_comp <- forecast(object = mod,
-                          labels = labels,
+                          newdata = newdata,
                           output = "components",
                           include_estimates = TRUE) |>
   mutate(draws_ci(.fitted))
