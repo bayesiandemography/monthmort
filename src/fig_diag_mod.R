@@ -8,20 +8,19 @@ library(tidyr, warn.conflicts = FALSE)
 library(ggplot2)
 
 cmd_assign(mod = "out/mod.rds",
-           .out = "out/fig_mod.pdf")
+           col_fill = "lightblue",
+           col_line = "darkblue",
+           col_point = "red",
+           .out = "out/fig_diag_mod.pdf")
 
 ## Extract results ------------------------------------------------------------
 
-comp <- components(mod, standardize = "terms") %>%
+comp <- components(mod, standardize = "none") %>%
     mutate(draws_ci(.fitted))
 
 aug <- augment(mod) %>%
     mutate(draws_ci(.fitted))
 
-
-## Settings -------------------------------------------------------------------
-
-col_fill <- "lightblue2"
 
 ## Hyper-parameters -----------------------------------------------------------
 
@@ -38,7 +37,7 @@ p_agesex <- comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
   xlab("Age") +
   ylab("") +
@@ -53,7 +52,7 @@ p_time <- comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
   scale_x_date(breaks = "1 year") +
   xlab("Time") +
@@ -69,7 +68,7 @@ p_time_trend <- comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
   scale_x_date(breaks = "1 year") +
   xlab("Time") +
@@ -85,7 +84,7 @@ p_time_cyclical <- comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
   scale_x_date(breaks = "1 year") +
   xlab("Time") +
@@ -106,7 +105,7 @@ p_agetime <- comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
   xlab("Time") +
   ylab("") +
@@ -125,7 +124,7 @@ p_agetime_trend <- comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
   xlab("Time") +
   ylab("") +
@@ -144,7 +143,7 @@ p_agetime_seasonal <- comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
   xlab("Time") +
   ylab("") +
@@ -164,10 +163,10 @@ plot_age_rates <- function(level_age) {
         geom_ribbon(aes(ymin = .fitted.lower,
                         ymax = .fitted.upper),
                     fill = col_fill) +
-        geom_line(col = "darkblue",
+        geom_line(col = col_line,
                   linewidth = 0.01) +
         geom_point(aes(y = .observed),
-                   col = "darkblue",
+                   col = col_point,
                    size = 0.5) +
         scale_x_date(breaks = "1 year") +
         scale_y_log10(labels = function(x) format(x, scientific = FALSE)) +

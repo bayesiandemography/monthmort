@@ -26,11 +26,10 @@ mod_est <- mod_pois(deaths ~ age * sex + time,
     set_prior(age:sex ~ SVD(HMD)) %>%
     set_prior(time ~ RW2()) %>%
     set_cyclical(n = 3) %>%
-    set_season(n = 12, by = age)
+  set_season(n = 12, by = age)
+
 
 
 report <- report_sim(mod_est, n_sim = 1)
-
-)
 
 saveRDS(mod, file = .out)

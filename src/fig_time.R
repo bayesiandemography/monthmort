@@ -9,7 +9,7 @@ library(ggplot2)
 library(lubridate, warn.conflicts = FALSE)
 
 cmd_assign(mod = "out/mod.rds",
-           col_fill = "steelblue1",
+           col_fill = "lightblue",
            col_line = "black",
            .out = "out/fig_time.pdf")
 

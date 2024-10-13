@@ -13,7 +13,7 @@ cmd_assign(mod = "out/mod.rds",
 
 ## Percentage change in age-specific mortality rates
 
-repdata_age <- replicate_data(mod, condition_on = "meanpar") %>%
+repdata_age <- replicate_data(mod) %>%
   mutate(year = format(time, format = "%Y")) %>%
   group_by(.replicate, age, year) %>%
   summarise(deaths = sum(deaths), exposure = sum(exposure),
@@ -36,7 +36,7 @@ p_age <- ggplot(repdata_age, aes(x = age_mid(age), y = pc_change)) +
 
 ## Direct estimates of life expectancy
 
-repdata_life <- replicate_data(mod, condition_on = "meanpar") %>%
+repdata_life <- replicate_data(mod) %>%
     mutate(mx = deaths / exposure) %>%
     lifeexp(mx = mx,
             sex = sex,

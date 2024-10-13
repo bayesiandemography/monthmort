@@ -9,7 +9,7 @@ library(ggplot2)
 library(lubridate)
 
 cmd_assign(mod = "out/mod.rds",
-           col_fill = "steelblue1",
+           col_fill = "lightblue",
            col_line = "black",
            col_point = "red",
            .out = "out/fig_rates.pdf")

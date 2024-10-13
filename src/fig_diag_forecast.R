@@ -9,13 +9,14 @@ library(ggplot2)
  
 cmd_assign(forecast_aug = "out/forecast_aug.rds",
            forecast_comp = "out/forecast_comp.rds",
-           .out = "out/fig_forecast.pdf")
+           end_date = "2020-02-01",
+           col_fill = "lightblue",
+           col_line = "darkblue",
+           col_point = "red",
+           .out = "out/fig_diag_forecast.pdf")
 
 
-## Settings -------------------------------------------------------------------
-
-col_fill <- "lightblue2"
-date_launch <- as.Date("2020-02-15")
+end_date <- as.Date(end_date)
 
 
 ## Hyper-parameters -----------------------------------------------------------
@@ -28,9 +29,9 @@ p_time <- forecast_comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
-  geom_vline(xintercept = date_launch,
+  geom_vline(xintercept = end_date,
              linetype = "dashed") +
   scale_x_date(breaks = "1 year") +
   xlab("Time") +
@@ -46,9 +47,9 @@ p_time_trend <- forecast_comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
-  geom_vline(xintercept = date_launch,
+  geom_vline(xintercept = end_date,
              linetype = "dashed") +
   scale_x_date(breaks = "1 year") +
   xlab("Time") +
@@ -64,9 +65,9 @@ p_time_cyclical <- forecast_comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
-  geom_vline(xintercept = date_launch,
+  geom_vline(xintercept = end_date,
              linetype = "dashed") +
   scale_x_date(breaks = "1 year") +
   xlab("Time") +
@@ -87,9 +88,9 @@ p_agetime <- forecast_comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
-  geom_vline(xintercept = date_launch,
+  geom_vline(xintercept = end_date,
              linetype = "dashed") +
   xlab("Time") +
   ylab("") +
@@ -101,15 +102,16 @@ p_agetime_trend <- forecast_comp %>%
   separate_wider_delim(level,
                        delim = ".",
                        names = c("age", "time")) %>%
+  mutate(age = reformat_age(age)) %>%
   ggplot(aes(x = as.Date(time),
              y = .fitted.mid)) +
   facet_wrap(vars(age)) +
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
-  geom_vline(xintercept = date_launch,
+  geom_vline(xintercept = end_date,
              linetype = "dashed") +
   xlab("Time") +
   ylab("") +
@@ -128,9 +130,9 @@ p_agetime_seasonal <- forecast_comp %>%
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
-  geom_line(col = "darkblue",
+  geom_line(col = col_line,
             linewidth = 0.5) +
-  geom_vline(xintercept = date_launch,
+  geom_vline(xintercept = end_date,
              linetype = "dashed") +
   xlab("Time") +
   ylab("") +
@@ -150,12 +152,13 @@ plot_age_rates <- function(level_age) {
     geom_ribbon(aes(ymin = .fitted.lower,
                     ymax = .fitted.upper),
                 fill = col_fill) +
-    geom_line(col = "darkblue",
+    geom_line(col = col_line,
               linewidth = 0.01) +
     geom_point(aes(y = .observed),
-               col = "darkblue",
+               data = mutate(data, .observed = extract_draw(.deaths / exposure)),
+               col = col_point,
                size = 0.5) +
-    geom_vline(xintercept = date_launch,
+    geom_vline(xintercept = end_date,
                linetype = "dashed") +
     scale_x_date(breaks = "1 year") +
     scale_y_log10(labels = function(x) format(x, scientific = FALSE)) +
@@ -184,7 +187,7 @@ p_lifeexp <- forecast_aug %>%
              linetype = "dotted") +
   geom_ribbon(alpha = 0.5) +
   geom_line(linewidth = 0.2) +
-  geom_vline(xintercept = date_launch,
+  geom_vline(xintercept = end_date,
              linetype = "dashed") +
   scale_x_date(breaks = "1 year") +
   xlab("") +
