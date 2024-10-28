@@ -19,7 +19,7 @@ system.time(
                   exposure = exposure) |>
   set_prior(age:sex ~ RW2()) |>
   set_prior(time ~ Lin_AR()) |>
-  set_prior(age:time ~ RW2_Seas(n_seas = 12, s_seas = 0)) |>
+  set_prior(age:time ~ RW2_Seas(n_seas = 12, s_seas = 0, zero_sum = TRUE)) |>
   set_datamod_outcome_rr3() |>
   fit()
 )

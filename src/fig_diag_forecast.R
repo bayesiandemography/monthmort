@@ -57,8 +57,8 @@ p_time_trend <- forecast_comp %>%
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   ggtitle("Time trend")
 
-p_time_cyclical <- forecast_comp %>%
-  filter(component == "cyclical",
+p_time_error <- forecast_comp %>%
+  filter(component == "error",
          term == "time") %>%
   ggplot(aes(x = as.Date(level),
              y = .fitted.mid)) +
@@ -73,7 +73,7 @@ p_time_cyclical <- forecast_comp %>%
   xlab("Time") +
   ylab("") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  ggtitle("Time cyclical")
+  ggtitle("Time error")
 
 p_agetime <- forecast_comp %>%
   filter(component == "effect",
@@ -117,8 +117,8 @@ p_agetime_trend <- forecast_comp %>%
   ylab("") +
   ggtitle("Age:time trend")
 
-p_agetime_seasonal <- forecast_comp %>%
-  filter(component == "seasonal",
+p_agetime_season <- forecast_comp %>%
+  filter(component == "season",
          term == "age:time") %>%
   separate_wider_delim(level,
                        delim = ".",
@@ -136,7 +136,7 @@ p_agetime_seasonal <- forecast_comp %>%
              linetype = "dashed") +
   xlab("Time") +
   ylab("") +
-  ggtitle("Age:time seasonal")
+  ggtitle("Age:time season")
 
 
 
@@ -207,10 +207,10 @@ pdf(file = .out,
     onefile = TRUE)
 plot(p_time)
 plot(p_time_trend)
-plot(p_time_cyclical)
+plot(p_time_error)
 plot(p_agetime)
 plot(p_agetime_trend)
-plot(p_agetime_seasonal)
+plot(p_agetime_season)
 for (p in p_age_rates)
     plot(p)
 plot(p_lifeexp)

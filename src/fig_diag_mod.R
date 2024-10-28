@@ -15,7 +15,7 @@ cmd_assign(mod = "out/mod.rds",
 
 ## Extract results ------------------------------------------------------------
 
-comp <- components(mod, standardize = "none") %>%
+comp <- components(mod) %>%
     mutate(draws_ci(.fitted))
 
 aug <- augment(mod) %>%
@@ -76,8 +76,8 @@ p_time_trend <- comp %>%
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   ggtitle("Time trend")
 
-p_time_cyclical <- comp %>%
-  filter(component == "cyclical",
+p_time_error <- comp %>%
+  filter(component == "error",
          term == "time") %>%
   ggplot(aes(x = as.Date(level),
              y = .fitted.mid)) +
@@ -90,7 +90,7 @@ p_time_cyclical <- comp %>%
   xlab("Time") +
   ylab("") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  ggtitle("Time cyclical")
+  ggtitle("Time error")
 
 p_agetime <- comp %>%
   filter(component == "effect",
@@ -130,8 +130,8 @@ p_agetime_trend <- comp %>%
   ylab("") +
   ggtitle("Age:time trend")
 
-p_agetime_seasonal <- comp %>%
-  filter(component == "seasonal",
+p_agetime_season <- comp %>%
+  filter(component == "season",
          term == "age:time") %>%
   separate_wider_delim(level,
                        delim = ".",
@@ -147,7 +147,7 @@ p_agetime_seasonal <- comp %>%
             linewidth = 0.5) +
   xlab("Time") +
   ylab("") +
-  ggtitle("Age:time seasonal")
+  ggtitle("Age:time season")
 
 
 
@@ -214,10 +214,10 @@ pdf(file = .out,
 plot(p_agesex)
 plot(p_time)
 plot(p_time_trend)
-plot(p_time_cyclical)
+plot(p_time_error)
 plot(p_agetime)
 plot(p_agetime_trend)
-plot(p_agetime_seasonal)
+plot(p_agetime_season)
 for (p in p_age_rates)
     plot(p)
 plot(p_lifeexp)

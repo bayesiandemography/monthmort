@@ -2,7 +2,6 @@
 START_DATE = 2000-02-01
 END_DATE = 2020-02-01
 
-COL_FILL = "lightblue"
 COL_LINE = "darkblue"
 COL_POINT = "red"
 
