@@ -7,15 +7,16 @@ library(command)
 cmd_assign(mod = "out/mod.rds",
            data = "out/data.rds",
            end_date = "2020-02-01",
-           .out = "out/forecast_aug.rds")
+           .out = "out/comp.rds")
 
 newdata <- data |>
   filter(time >= end_date)
 
-forecast_aug <- forecast(object = mod,
-                         newdata = newdata,
-                         include_estimates = TRUE) |>
+comp <- forecast(object = mod,
+                 newdata = newdata,
+                 output = "components",
+                 include_estimates = TRUE) |>
   mutate(draws_ci(.fitted))
 
-saveRDS(forecast_aug, file = .out)
+saveRDS(comp, file = .out)
 

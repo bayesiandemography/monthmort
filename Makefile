@@ -1,14 +1,13 @@
 
-START_DATE = 2000-02-01
-END_DATE = 2020-02-01
+START_DATE = 2003-02-01
+END_DATE = 2023-02-01
 
 COL_LINE = "darkblue"
+COL_FILL = "steelblue1"
 COL_POINT = "red"
 
 .PHONY: all
-all: out/fig_diag_inputs.pdf \
-     out/fig_diag_mod.pdf \
-     out/fig_diag_forecast.pdf \
+all: out/fig_diag.pdf \
      out/fig_repdata.pdf \
      out/fig_time.pdf \
      out/fig_agetime.pdf \
@@ -42,12 +41,12 @@ out/mod.rds: src/mod.R \
   out/data.rds
 	Rscript $^ $@ --start_date=$(START_DATE) --end_date=$(END_DATE)
 
-out/forecast_aug.rds: src/forecast_aug.R \
+out/aug.rds: src/aug.R \
   out/mod.rds \
   out/data.rds
 	Rscript $^ $@ --end_date=$(END_DATE)
 
-out/forecast_comp.rds: src/forecast_comp.R \
+out/comp.rds: src/comp.R \
   out/mod.rds \
   out/data.rds
 	Rscript $^ $@ --end_date=$(END_DATE)
@@ -55,20 +54,12 @@ out/forecast_comp.rds: src/forecast_comp.R \
 
 ## Diagnostic plots
 
-out/fig_diag_inputs.pdf: src/fig_diag_inputs.R \
-  out/data.rds
-	Rscript $^ $@ --start_date=$(START_DATE)
-
-out/fig_diag_mod.pdf: src/fig_diag_mod.R \
-  out/mod.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE) --col_point=$(COL_POINT)
-
-out/fig_diag_forecast.pdf: src/fig_diag_forecast.R \
-  out/forecast_aug.rds \
-  out/forecast_comp.rds
+out/fig_diag.pdf: src/fig_diag.R \
+  out/aug.rds \
+  out/comp.rds
 	Rscript $^ $@ --end_date=$(END_DATE) \
-                      --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE) \
+                      --col_fill=$(COL_FILL) \
                       --col_point=$(COL_POINT)
 
 ## Plots for paper
