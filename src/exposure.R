@@ -1,11 +1,13 @@
 
-library(readr)
-library(dplyr, warn.conflicts = FALSE)
-library(tidyr)
-library(zoo, warn.conflicts = FALSE)
-library(lubridate, warn.conflicts = FALSE)
-library(poputils)
-library(command)
+suppressPackageStartupMessages({
+  library(readr)
+  library(dplyr)
+  library(tidyr)
+  library(zoo)
+  library(lubridate)
+  library(poputils)
+  library(command)
+})
 
 cmd_assign(popn = "out/popn.rds",
            .out = "out/exposure.rds")

@@ -1,18 +1,12 @@
 
-START_DATE = 2003-02-01
-END_DATE = 2023-02-01
-
 COL_LINE = "darkblue"
-COL_FILL = "steelblue1"
+COL_FILL = "lightblue"
 COL_POINT = "red"
 
 .PHONY: all
-all: out/fig_diag.pdf \
-     out/fig_repdata.pdf \
-     out/fig_time.pdf \
-     out/fig_agetime.pdf \
-     out/fig_rates.pdf \
-     out/fig_lifeexp.pdf
+all: out/fig_diag_excess.pdf \
+     out/fig_diag_analysis.pdf \
+     out/forecast.rds
 
 
 ## Prepare data
@@ -35,11 +29,46 @@ out/data.rds: src/data.R \
 	Rscript $^ $@
 
 
-## Fit model and make forecasts
+## Fit models and derive values from them
 
-out/mod.rds: src/mod.R \
+out/mod_excess.rds: src/mod.R \
   out/data.rds
-	Rscript $^ $@ --start_date=$(START_DATE) --end_date=$(END_DATE)
+	Rscript $^ $@ --start_date=1998-01-01 --end_date=2020-02-01
+
+out/mod_analysis.rds: src/mod.R \
+  out/data.rds
+	Rscript $^ $@ --start_date=1998-01-01 --end_date=2023-06-01
+
+out/aug_excess.rds: src/aug.R \
+  out/mod_excess.rds
+	Rscript $^ $@
+
+out/aug_analysis.rds: src/aug.R \
+  out/mod_analysis.rds
+	Rscript $^ $@
+
+out/forecast.rds: src/forecast.R \
+  out/mod_excess.rds \
+  out/data.rds \
+  out/aug_excess.rds
+	Rscript $^ $@
+
+
+## Diagnostic plots for models
+
+out/fig_diag_excess.pdf: src/fig_diag.R \
+  out/aug_excess.rds
+	Rscript $^ $@ --col_line=$(COL_LINE) \
+                      --col_fill=$(COL_FILL) \
+                      --col_point=$(COL_POINT)
+
+out/fig_diag_analysis.pdf: src/fig_diag.R \
+  out/aug_analysis.rds
+	Rscript $^ $@ --col_line=$(COL_LINE) \
+                      --col_fill=$(COL_FILL) \
+                      --col_point=$(COL_POINT)
+
+
 
 out/aug.rds: src/aug.R \
   out/mod.rds \

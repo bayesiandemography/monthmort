@@ -1,21 +1,16 @@
 
-library(bage)
-library(dplyr, warn.conflicts = FALSE)
-library(rvec, warn.conflicts = FALSE)
-library(command)
+suppressPackageStartupMessages({
+  library(bage)
+  library(dplyr)
+  library(command)
+})
 
-cmd_assign(mod = "out/mod.rds",
-           data = "out/data.rds",
-           end_date = "2020-02-01",
-           .out = "out/aug.rds")
+cmd_assign(mod = "out/mod_excess.rds",
+           .out = "out/aug_excess.rds")
 
-newdata <- data |>
-  filter(time >= end_date)
-
-aug <- forecast(object = mod,
-                newdata = newdata,
-                include_estimates = TRUE) |>
-  mutate(draws_ci(.fitted))
+aug <- mod |>
+  augment() |>
+  select(-.expected)
 
 saveRDS(aug, file = .out)
 

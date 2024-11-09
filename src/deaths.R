@@ -1,10 +1,12 @@
 
-library(readr)
-library(dplyr, warn.conflicts = FALSE)
-library(tidyr)
-library(poputils)
-library(lubridate)
-library(command)
+suppressPackageStartupMessages({
+  library(readr)
+  library(dplyr)
+  library(tidyr)
+  library(poputils)
+  library(lubridate)
+  library(command)
+})
 
 cmd_assign(.deaths = "data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2023M5.csv.gz",
            .out = "out/deaths.rds")
