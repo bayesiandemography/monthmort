@@ -1,8 +1,8 @@
 
-library(bage)
-library(dplyr, warn.conflicts = FALSE)
-library(command)
-library(lubridate, warn.conflicts = FALSE)
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(command)
+})
 
 cmd_assign(deaths = "out/deaths.rds",
            exposure = "out/exposure.rds",

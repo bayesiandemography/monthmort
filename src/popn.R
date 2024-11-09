@@ -1,9 +1,11 @@
 
-library(readr)
-library(dplyr, warn.conflicts = FALSE)
-library(tidyr)
-library(poputils)
-library(command)
+suppressPackageStartupMessages({
+  library(readr)
+  library(dplyr)
+  library(tidyr)
+  library(poputils)
+  library(command)
+})
 
 cmd_assign(p_popn = "data/DPE403901_20230817_110132_82.csv.gz",
            .out = "out/popn.rds")
@@ -19,12 +21,12 @@ popn <- read_csv(p_popn,
                  skip = 4,
                  n_max = 130,  ## NEED TO UPDATE THIS IF USING NEW DATA
                  col_names = col_names,
-                 col_types = col_types) %>%
+                 col_types = col_types) |>
     pivot_longer(cols = -time,
                  names_to = c("sex", "age"),
-                 names_sep = "\\.") %>%
+                 names_sep = "\\.") |>
     mutate(age = reformat_age(age),
-           age = combine_age(age, to = "lt")) %>%
+           age = combine_age(age, to = "lt")) |>
     count(age, sex, time, wt = value, name = "popn")
 
 saveRDS(popn, file = .out)
