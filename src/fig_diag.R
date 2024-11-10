@@ -7,11 +7,11 @@ suppressPackageStartupMessages({
   library(ggplot2)
 })
 
-cmd_assign(aug = "out/aug_excess.rds",
+cmd_assign(aug = "out/aug_precovid.rds",
            col_line = "darkblue",
            col_fill = "lightblue",
            col_point = "red",
-           .out = "out/fig_diag_excess.pdf")
+           .out = "out/fig_diag_precovid.pdf")
 
 
 ## Mortality rates - maximum detail -------------------------------------------

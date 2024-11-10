@@ -5,12 +5,10 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(mod = "out/mod_excess.rds",
+cmd_assign(mod = "out/mod_precovid.rds",
            data = "out/data.rds",
-           aug = "out/aug_excess.rds",
+           aug = "out/aug_precovid.rds",
            .out = "out/aug.rds")
-
-set.seed(0)
 
 date_final_estimate <- aug |>
   pull(time) |>
