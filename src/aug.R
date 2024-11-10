@@ -5,8 +5,8 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(mod = "out/mod_excess.rds",
-           .out = "out/aug_excess.rds")
+cmd_assign(mod = "out/mod_precovid.rds",
+           .out = "out/aug_precovid.rds")
 
 aug <- mod |>
   augment() |>
