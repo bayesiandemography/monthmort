@@ -9,26 +9,28 @@ suppressPackageStartupMessages({
 
 cmd_assign(data = "out/data.rds",
            forecast = "out/forecast.rds",
+           end_date = "2024-01-01",
            col_fill = "lightblue",
            col_line = "darkblue",
            col_point = "red",
            .out = "out/fig_excess_age.pdf")
 
+end_date <- as.Date(end_date)
+
 expected <- forecast |>
   count(age, time, wt = .deaths, name = "expected")
 
 observed <- data |>
-  filter(time %in% expected$time) |>
   count(age, time, wt = deaths, name = "observed")
 
 data <- inner_join(expected, observed, by = c("age", "time")) |>
+  filter(time <= end_date) |>
   mutate(excess = observed - expected) |>
   mutate(age = (age_lower(age) %/% 10) * 10,
          age = ifelse(age < 90, paste(age, age + 9, sep = "-"), paste0(age, "+"))) |>
   mutate(year = format(time, "%Y")) |>
   count(age, year, wt = excess, name = "excess") |>
   group_by(age) |>
-  mutate(excess = cumsum(excess)) |>
   ungroup() |>
   expand_from_rvec()
   
