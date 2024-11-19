@@ -36,7 +36,6 @@ expected <- expected |>
 p_observed <- ggplot(observed, aes(x = time)) +
   geom_line(aes(y = observed),
             col = col_line) +
-  geom_hline(yintercept = 0) +
   ylim(-1000, 4000) +
   ylab("Deaths per month") +
   xlab("") +
@@ -53,7 +52,6 @@ p_expected <- ggplot(expected, aes(x = time)) +
               fill = col_fill) +
   geom_line(aes(y = expected.mid),
             col = col_line) +
-  geom_hline(yintercept = 0) +
   ylim(-1000, 4000) +
   ylab("Deaths per month") +
   xlab("") +
@@ -79,12 +77,12 @@ p_excess <- ggplot(excess, aes(x = time)) +
 
 
 p <- p_observed + minus + p_expected + equals + p_excess +
-  plot_layout(nrow = 1, widths = c(1, 0.2, 1, 0.2, 1))
+  plot_layout(ncol = 1, heights = c(1, 0.4, 1, 0.4, 1))
 
 graphics.off()
 pdf(file = .out,
-    width = 8,
-    height = 2.5)
+    width = 4,
+    height = 10)
 plot(p)
 dev.off()        
 

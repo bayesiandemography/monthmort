@@ -50,7 +50,7 @@ p <- ggplot(data, aes(x = year, y = excess)) +
 
 graphics.off()
 pdf(file = .out,
-    w = 5,
-    h = 6.5)
+    w = 4,
+    h = 5)
 plot(p)
 dev.off()
