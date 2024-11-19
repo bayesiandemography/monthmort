@@ -10,13 +10,16 @@ suppressPackageStartupMessages({
 
 cmd_assign(data = "out/data.rds",
            forecast = "out/forecast.rds",
+           end_date = "2024-06-01",
            col_fill = "lightblue",
            col_line = "darkblue",
            col_point = "red",
            .out = "out/fig_calc_excess.pdf")
 
+end_date <- as.Date(end_date)
 
 expected <- forecast |>
+  filter(time <= end_date) |>
   count(time, wt = .deaths, name = "expected")
 
 observed <- data |>

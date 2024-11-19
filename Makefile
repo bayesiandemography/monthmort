@@ -6,17 +6,18 @@ COL_POINT = "red"
 .PHONY: all
 all: out/fig_diag_precovid.pdf \
      out/fig_diag_all.pdf \
-     out/fig_diag_forecast.pdf
+     out/fig_diag_forecast.pdf \
+     kathmandu/kathmandu.pdf
 
 
 ## Prepare data
 
 out/deaths.rds: src/deaths.R \
-  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2023M5.csv.gz
+  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2024M6.csv.gz
 	Rscript $^ $@
 
 out/popn.rds: src/popn.R \
-  data/DPE403901_20230817_110132_82.csv.gz
+  data/DPE403901_20241119_124334_98.csv.gz
 	Rscript $^ $@
 
 out/exposure.rds: src/exposure.R \
@@ -37,7 +38,7 @@ out/mod_precovid.rds: src/mod.R \
 
 out/mod_all.rds: src/mod.R \
   out/data.rds
-	Rscript $^ $@ --start_date=1998-01-01 --end_date=2023-06-01
+	Rscript $^ $@ --start_date=1998-01-01 --end_date=2024-06-01
 
 out/aug_precovid.rds: src/aug.R \
   out/mod_precovid.rds
@@ -99,14 +100,16 @@ kathmandu/fig_forecasted_rates.pdf: kathmandu/fig_forecasted_rates.R \
 kathmandu/fig_calc_excess.pdf: kathmandu/fig_calc_excess.R \
   out/data.rds \
   out/forecast.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) \
+	Rscript $^ $@ --end_date=2024-06-01 \
+                      --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE) \
                       --col_point=$(COL_POINT)
 
 kathmandu/fig_excess_age.pdf: kathmandu/fig_excess_age.R \
   out/data.rds \
   out/forecast.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) \
+	Rscript $^ $@ --end_date=2024-01-01 \
+                      --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE) \
                       --col_point=$(COL_POINT)
 
