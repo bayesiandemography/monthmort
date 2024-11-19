@@ -39,7 +39,7 @@ p <- ggplot(data, aes(x = time)) +
 graphics.off()
 pdf(file = .out,
     width = 4,
-    height = 3.5)
+    height = 4.5)
 plot(p)
 dev.off()        
 
