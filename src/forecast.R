@@ -17,6 +17,8 @@ date_final_estimate <- aug |>
 newdata <- data |>
   filter(time > date_final_estimate)
 
+set.seed(0)
+
 forecast <- mod |>
   forecast(newdata = newdata)
 
