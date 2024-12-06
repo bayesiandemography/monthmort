@@ -17,3 +17,4 @@
 *.o
 *.so
 *.png
+out/*.pdf

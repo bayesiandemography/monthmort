@@ -15,8 +15,8 @@ expected <- forecast |>
 observed <- data |>
   select(age, sex, time, observed = deaths)
 
-excess <- inner_join(expected, observed, by = "time")) |>
+excess <- inner_join(expected, observed, by = c("age", "sex", "time")) |>
   mutate(excess = observed - expected)
 
-saveRDS(excess_deaths, file = .out)
+saveRDS(excess, file = .out)
 
