@@ -5,9 +5,11 @@ COL_POINT = "red"
 
 .PHONY: all
 all: out/fig_diag_precovid.pdf \
-     out/fig_diag_all.pdf \
      out/fig_diag_forecast.pdf \
-     kathmandu/kathmandu.pdf
+     out/fig_excess_pc.pdf \
+     out/fig_diff_lifeexp.pdf \
+     kathmandu/kathmandu.pdf \
+     out/fig_time_effect.pdf
 
 
 ## Prepare data
@@ -52,6 +54,10 @@ out/forecast.rds: src/forecast.R \
   out/mod_precovid.rds \
   out/data.rds \
   out/aug_precovid.rds
+	Rscript $^ $@
+
+out/comp_all.rds: src/comp.R \
+  out/mod_all.rds
 	Rscript $^ $@
 
 
@@ -129,8 +135,24 @@ kathmandu/kathmandu.pdf: kathmandu/kathmandu.tex \
 
 
 
-
 ## Plots for paper
+
+out/fig_excess_pc.pdf: src/fig_excess_pc.R \
+  out/excess_deaths.rds
+	Rscript $^ $@ --end_date=2024-06-01 \
+                      --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
+
+
+out/fig_diff_lifeexp.pdf: src/fig_diff_lifeexp.R \
+  out/excess_deaths.rds
+	Rscript $^ $@ --end_date=2024-06-01 \
+                      --col_line=$(COL_LINE)
+
+out/fig_time_effect.pdf: src/fig_time_effect.R \
+  out/comp_all.rds
+	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
+
 
 out/fig_repdata.pdf: src/fig_repdata.R \
   out/mod.rds
@@ -151,13 +173,6 @@ out/fig_rates.pdf: src/fig_rates.R \
 out/fig_lifeexp.pdf: src/fig_lifeexp.R \
   out/mod.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
-
-
-
-
-
-
-
 
 
 ## Clean
