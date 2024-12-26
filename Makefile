@@ -5,11 +5,11 @@ COL_POINT = "red"
 
 .PHONY: all
 all: out/fig_diag_precovid.pdf \
-     out/fig_diag_all.pdf \
      out/fig_diag_forecast.pdf \
      out/fig_excess_pc.pdf \
      out/fig_diff_lifeexp.pdf \
-     kathmandu/kathmandu.pdf
+     kathmandu/kathmandu.pdf \
+     out/fig_time_effect.pdf
 
 
 ## Prepare data
@@ -54,6 +54,10 @@ out/forecast.rds: src/forecast.R \
   out/mod_precovid.rds \
   out/data.rds \
   out/aug_precovid.rds
+	Rscript $^ $@
+
+out/comp_all.rds: src/comp.R \
+  out/mod_all.rds
 	Rscript $^ $@
 
 
@@ -144,6 +148,10 @@ out/fig_diff_lifeexp.pdf: src/fig_diff_lifeexp.R \
   out/excess_deaths.rds
 	Rscript $^ $@ --end_date=2024-06-01 \
                       --col_line=$(COL_LINE)
+
+out/fig_time_effect.pdf: src/fig_time_effect.R \
+  out/comp_all.rds
+	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
 
 
 out/fig_repdata.pdf: src/fig_repdata.R \
