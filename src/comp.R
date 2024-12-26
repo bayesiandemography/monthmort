@@ -1,22 +1,14 @@
 
-library(bage)
-library(dplyr, warn.conflicts = FALSE)
-library(rvec, warn.conflicts = FALSE)
-library(command)
+suppressPackageStartupMessages({
+  library(bage)
+  library(dplyr)
+  library(command)
+})
 
-cmd_assign(mod = "out/mod.rds",
-           data = "out/data.rds",
-           end_date = "2020-02-01",
-           .out = "out/comp.rds")
+cmd_assign(mod = "out/mod_all.rds",
+           .out = "out/comp_all.rds")
 
-newdata <- data |>
-  filter(time >= end_date)
-
-comp <- forecast(object = mod,
-                 newdata = newdata,
-                 output = "components",
-                 include_estimates = TRUE) |>
-  mutate(draws_ci(.fitted))
-
+comp <- mod |>
+  components()
+  
 saveRDS(comp, file = .out)
-
