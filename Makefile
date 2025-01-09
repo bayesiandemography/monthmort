@@ -1,15 +1,18 @@
 
+START_DATE = "1998-01-01"
+END_DATE = "2020-01-31"
+
 COL_LINE = "darkblue"
 COL_FILL = "lightblue"
 COL_POINT = "red"
 
 .PHONY: all
-all: out/fig_diag_precovid.pdf \
-     out/fig_diag_forecast.pdf \
-     out/fig_excess_pc.pdf \
-     out/fig_diff_lifeexp.pdf \
-     kathmandu/kathmandu.pdf \
-     out/fig_time_effect.pdf
+all: out/fig_diag_mod.pdf \
+     out/fig_diag_heldback.pdf \
+     out/fig_paper_heldback.pdf \
+     out/fig_paper_time.pdf \
+     out/fig_paper_rates.pdf \
+     out/fig_paper_calc_excess.pdf
 
 
 ## Prepare data
@@ -32,147 +35,80 @@ out/data.rds: src/data.R \
 	Rscript $^ $@
 
 
-## Fit models and derive values from them
+## Fit model and derive values
 
-out/mod_precovid.rds: src/mod.R \
+out/mod.rds: src/mod.R \
   out/data.rds
-	Rscript $^ $@ --start_date=1998-01-01 --end_date=2020-02-01
+	Rscript $^ $@ --start_date=$(START_DATE) --end_date=$(END_DATE)
 
-out/mod_all.rds: src/mod.R \
+out/aug.rds: src/aug.R \
+  out/mod.rds \
   out/data.rds
-	Rscript $^ $@ --start_date=1998-01-01 --end_date=2024-06-01
+	Rscript $^ $@ --end_date=$(END_DATE)
 
-out/aug_precovid.rds: src/aug.R \
-  out/mod_precovid.rds
-	Rscript $^ $@
+out/comp.rds: src/comp.R \
+  out/mod.rds \
+  out/data.rds
+	Rscript $^ $@ --end_date=$(END_DATE)
 
-out/aug_all.rds: src/aug.R \
-  out/mod_all.rds
-	Rscript $^ $@
+out/excess.rds: src/excess.R \
+  out/aug.rds \
+  out/data.rds
+	Rscript $^ $@ --end_date=$(END_DATE)
 
-out/forecast.rds: src/forecast.R \
-  out/mod_precovid.rds \
-  out/data.rds \
-  out/aug_precovid.rds
-	Rscript $^ $@
+out/heldback.rds: src/heldback.R \
+  out/data.rds
+	Rscript $^ $@ --start_date=$(START_DATE) \
+                      --end_date_first=2007-01-31 \
+                      --end_date_last=2016-01-31 \
+                      --years_forecast=4
 
-out/comp_all.rds: src/comp.R \
-  out/mod_all.rds
-	Rscript $^ $@
+## Figures for diagnostics (not included in paper)
 
-
-## Diagnostic plots
-
-out/fig_diag_precovid.pdf: src/fig_diag.R \
-  out/aug_precovid.rds
-	Rscript $^ $@ --col_line=$(COL_LINE) \
+out/fig_diag_mod.pdf: src/fig_diag_mod.R \
+  out/aug.rds \
+  out/comp.rds
+	Rscript $^ $@ --end_date=$(END_DATE) \
+                      --col_line=$(COL_LINE) \
                       --col_fill=$(COL_FILL) \
                       --col_point=$(COL_POINT)
 
-out/fig_diag_all.pdf: src/fig_diag.R \
-  out/aug_all.rds
-	Rscript $^ $@ --col_line=$(COL_LINE) \
+out/fig_diag_heldback.pdf: src/fig_diag_heldback.R \
+  out/heldback.rds
+	Rscript $^ $@ --col_line=grey70 \
+                      --col_point=blue
+
+
+## Figures for main part of paper
+
+out/fig_paper_heldback.pdf: src/fig_paper_heldback.R \
+  out/heldback.rds
+	Rscript $^ $@ --col_line=darkorange \
+                      --col_point=blue
+
+out/fig_paper_time.pdf: src/fig_paper_time.R \
+  out/comp.rds
+	Rscript $^ $@ --end_date=$(END_DATE) \
                       --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
+
+out/fig_paper_rates.pdf: src/fig_paper_rates.R \
+  out/aug.rds
+	Rscript $^ $@ --end_date=$(END_DATE) \
+                      --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE) \
                       --col_point=$(COL_POINT)
 
-out/fig_diag_forecast.pdf: src/fig_diag_forecast.R \
-  out/forecast.rds \
-  out/aug_precovid.rds
-	Rscript $^ $@ --col_line=$(COL_LINE) \
-                      --col_fill=$(COL_FILL) \
-                      --col_point=$(COL_POINT)
 
-
-## Excess deaths
-
-out/excess_deaths.rds: src/excess_deaths.R \
-  out/forecast.rds \
-  out/data.rds
-	Rscript $^ $@
-
-
-## Kathmandu poster
-
-kathmandu/dag.pdf: kathmandu/dag.tex
-	cd kathmandu; R -e 'tinytex::latexmk("dag.tex")' --quiet
-
-kathmandu/fig_forecasted_rates.pdf: kathmandu/fig_forecasted_rates.R \
-  out/aug_precovid.rds \
-  out/forecast.rds
+out/fig_paper_calc_excess.pdf: src/fig_paper_calc_excess.R \
+  out/excess.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
-                      --col_line=$(COL_LINE) \
-                      --col_point=$(COL_POINT)
-
-kathmandu/fig_calc_excess.pdf: kathmandu/fig_calc_excess.R \
-  out/data.rds \
-  out/forecast.rds
-	Rscript $^ $@ --end_date=2024-06-01 \
-                      --col_fill=$(COL_FILL) \
-                      --col_line=$(COL_LINE) \
-                      --col_point=$(COL_POINT)
-
-kathmandu/fig_excess_age.pdf: kathmandu/fig_excess_age.R \
-  out/data.rds \
-  out/forecast.rds
-	Rscript $^ $@ --end_date=2024-01-01 \
-                      --col_fill=$(COL_FILL) \
-                      --col_line=$(COL_LINE) \
-                      --col_point=$(COL_POINT)
-
-kathmandu/fig_lifeexp.pdf: kathmandu/fig_lifeexp.R \
-  out/aug_all.rds
-	Rscript $^ $@
-
-
-kathmandu/kathmandu.pdf: kathmandu/kathmandu.tex \
-  kathmandu/dag.pdf \
-  kathmandu/fig_forecasted_rates.pdf \
-  kathmandu/fig_calc_excess.pdf \
-  kathmandu/fig_excess_age.pdf \
-  kathmandu/fig_lifeexp.pdf
-	cd kathmandu; R -e 'tinytex::latexmk("kathmandu.tex")' --quiet
-
-
-
-
-## Plots for paper
-
-out/fig_excess_pc.pdf: src/fig_excess_pc.R \
-  out/excess_deaths.rds
-	Rscript $^ $@ --end_date=2024-06-01 \
-                      --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
 
-out/fig_diff_lifeexp.pdf: src/fig_diff_lifeexp.R \
-  out/excess_deaths.rds
-	Rscript $^ $@ --end_date=2024-06-01 \
-                      --col_line=$(COL_LINE)
-
-out/fig_time_effect.pdf: src/fig_time_effect.R \
-  out/comp_all.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
+## Figures for supplementary material for paper
 
 
-out/fig_repdata.pdf: src/fig_repdata.R \
-  out/mod.rds
-	Rscript $^ $@
-
-out/fig_time.pdf: src/fig_time.R \
-  out/mod.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
-
-out/fig_agetime.pdf: src/fig_agetime.R \
-  out/mod.rds 
-	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
-
-out/fig_rates.pdf: src/fig_rates.R \
-  out/mod.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE) --col_point=$(COL_POINT)
-
-out/fig_lifeexp.pdf: src/fig_lifeexp.R \
-  out/mod.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) --col_line=$(COL_LINE)
 
 
 ## Clean
