@@ -8,7 +8,7 @@ library(tidyr, warn.conflicts = FALSE)
 library(ggplot2)
 library(lubridate, warn.conflicts = FALSE)
 
-cmd_assign(mod = "out/mod.rds",
+cmd_assign(mod = "out/mod_precovid.rds",
            col_fill = "lightblue",
            col_line = "black",
            .out = "out/fig_agetime.pdf")

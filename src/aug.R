@@ -2,17 +2,20 @@
 suppressPackageStartupMessages({
   library(bage)
   library(dplyr)
+  library(lubridate)
   library(command)
 })
 
-cmd_assign(mod = "out/mod_precovid.rds",
-           .out = "out/aug_precovid.rds")
+cmd_assign(mod = "out/mod.rds",
+           data = "out/data.rds",
+           end_date = "2020-01-31",
+           .out = "out/aug.rds")
 
-set.seed(0)
+newdata <- data |>
+  filter(time > ymd(end_date))
 
 aug <- mod |>
-  augment() |>
-  select(-.expected)
+  forecast(newdata = newdata,
+           include_estimates = TRUE)
 
 saveRDS(aug, file = .out)
-

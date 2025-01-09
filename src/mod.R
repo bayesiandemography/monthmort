@@ -8,12 +8,12 @@ suppressPackageStartupMessages({
 
 cmd_assign(data = "out/data.rds",
            start_date = "1998-01-01",
-           end_date = "2020-02-01",
+           end_date = "2020-01-31",
            .out = "out/mod_precovid.rds")
 
 data <- data |>
-  filter(time > ymd(start_date),
-         time < ymd(end_date))
+  filter(time >= ymd(start_date),
+         time <= ymd(end_date))
 
 mod <- mod_pois(deaths ~ age:sex + age:time + sex:time + time,
                 data = data,
