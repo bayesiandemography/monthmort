@@ -17,5 +17,4 @@ Estimates constructed using package
 - `data` All input data
 - `src` All code
 - `out` Intermediate and final results
-- `panz` Presentation for Population Association of New Zealand
-  conference
+- `old_files` Earlier presentations and analyses
