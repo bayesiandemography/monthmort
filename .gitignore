@@ -17,5 +17,4 @@
 *.o
 *.so
 *.png
-out/*.pdf
 kathmandu/*.pdf
