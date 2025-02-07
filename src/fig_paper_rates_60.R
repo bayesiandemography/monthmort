@@ -25,10 +25,10 @@ data_plot <- data |>
   mutate(sex = factor(sex, levels = c("Male", "Female")))
            
 
-p <- ggplot(data_plot, aes(x = time, y = rate, linetype = sex)) +
+p <- ggplot(data_plot, aes(x = time, y = rate, color = sex)) +
   geom_vline(xintercept = 2013, color = "grey60") +
   geom_line() +
-  scale_linetype_manual(values = c("solid", "dashed")) +
+  scale_color_manual(values = c("darkorange", "darkgreen")) +
   ylim(0, NA) +
   ylab("") +
   xlab("") +
