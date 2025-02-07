@@ -10,12 +10,15 @@ COL_POINT = "red"
 all: out/fig_diag_mod.pdf \
      out/fig_diag_heldback.pdf \
      out/fig_paper_heldback.pdf \
+     out/fig_paper_rates_60.pdf \
      out/fig_paper_time.pdf \
      out/fig_paper_rates.pdf \
      out/fig_paper_calc_excess.pdf \
+     out/fig_paper_calc_excess_panel.pdf \
+     out/fig_paper_cumulative_excess.pdf \
      out/fig_paper_diff_lifeexp.pdf \
-     out/fig_paper_cyclical_all.pdf \
-     out/fig_paper_lifeexp.pdf
+     out/fig_paper_lifeexp.pdf \
+     out/fig_paper_cyclical_all.pdf
 
 
 ## Prepare data
@@ -105,6 +108,10 @@ out/fig_paper_heldback.pdf: src/fig_paper_heldback.R \
 	Rscript $^ $@ --col_line=darkorange \
                       --col_point=blue
 
+out/fig_paper_rates_60.pdf: src/fig_paper_rates_60.R \
+  out/data.rds
+	Rscript $^ $@ --end_date=2019-12-31
+
 out/fig_paper_time.pdf: src/fig_paper_time.R \
   out/comp.rds
 	Rscript $^ $@ --end_date=$(END_DATE) \
@@ -122,6 +129,15 @@ out/fig_paper_calc_excess.pdf: src/fig_paper_calc_excess.R \
   out/excess.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
+
+out/fig_paper_calc_excess_panel.pdf: src/fig_paper_calc_excess_panel.R \
+  out/excess.rds
+	Rscript $^ $@ --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
+
+out/fig_paper_cumulative_excess.pdf: src/fig_paper_cumulative_excess.R \
+  out/excess.rds
+	Rscript $^ $@ --col_line=$(COL_LINE)
 
 out/fig_paper_diff_lifeexp.pdf: src/fig_paper_diff_lifeexp.R \
   out/excess.rds
