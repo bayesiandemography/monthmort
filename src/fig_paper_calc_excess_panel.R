@@ -17,17 +17,17 @@ excess <- excess |>
   filter(time < as.Date("2024-06-01")) ## TEMPORARY FIX - DEATHS MISSING FOR LAST MONTH
 
 data <- excess |>
-  filter(age_lower(age) >= 60) |>
   mutate(age = age_lower(age),
          age = 10 * (age %/% 10),
-         age = case_when(age < 90 ~ paste(age, age + 9, sep = "-"),
+         age = case_when(age < 50 ~ "0-49",
+                         age >= 50 & age < 90 ~ paste(age, age + 9, sep = "-"),
                          age >= 90 ~ "90+"),
          age = paste("Age", age)) |>
   count(age, time, wt = excess, name = "excess") |>
   mutate(draws_ci(excess))
 
 p <- ggplot(data, aes(x = time)) +
-  facet_wrap(vars(age), nrow = 1) +
+  facet_wrap(vars(age)) +
   geom_ribbon(aes(ymin = excess.lower,
                   ymax = excess.upper),
               fill = col_fill) +
@@ -41,7 +41,7 @@ p <- ggplot(data, aes(x = time)) +
 graphics.off()
 pdf(file = .out,
     width = 6,
-    height = 3)
+    height = 4)
 plot(p)
 dev.off()        
 

@@ -137,7 +137,8 @@ out/fig_paper_calc_excess_panel.pdf: src/fig_paper_calc_excess_panel.R \
 
 out/fig_paper_cumulative_excess.pdf: src/fig_paper_cumulative_excess.R \
   out/excess.rds
-	Rscript $^ $@ --col_line=$(COL_LINE)
+	Rscript $^ $@ --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
 
 out/fig_paper_diff_lifeexp.pdf: src/fig_paper_diff_lifeexp.R \
   out/excess.rds
