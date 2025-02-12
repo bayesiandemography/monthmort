@@ -8,6 +8,7 @@ COL_POINT = "red"
 
 .PHONY: all
 all: out/fig_diag_mod.pdf \
+     out/fig_diag_mod_all.pdf \
      out/fig_diag_heldback.pdf \
      out/fig_paper_heldback.pdf \
      out/fig_paper_rates_60.pdf \
@@ -91,6 +92,14 @@ out/fig_diag_mod.pdf: src/fig_diag_mod.R \
   out/aug.rds \
   out/comp.rds
 	Rscript $^ $@ --end_date=$(END_DATE) \
+                      --col_line=$(COL_LINE) \
+                      --col_fill=$(COL_FILL) \
+                      --col_point=$(COL_POINT)
+
+out/fig_diag_mod_all.pdf: src/fig_diag_mod.R \
+  out/aug_all.rds \
+  out/comp_all.rds
+	Rscript $^ $@ --end_date=$(END_DATE_ALL) \
                       --col_line=$(COL_LINE) \
                       --col_fill=$(COL_FILL) \
                       --col_point=$(COL_POINT)
