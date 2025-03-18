@@ -7,7 +7,7 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(p_popn = "data/DPE403901_20241119_124334_98.csv.gz",
+cmd_assign(.popn = "data/DPE403901_20250318_012204_94.csv.gz",
            .out = "out/popn.rds")
 
 age_labels <- age_labels(type = "single", max = 95)
@@ -17,9 +17,9 @@ col_names <- c("time",
 col_types <- paste(rep(c("c", "i"), times = c(1, 2 * length(age_labels))),
                    collapse = "")
 
-popn <- read_csv(p_popn,
+popn <- read_csv(.popn,
                  skip = 4,
-                 n_max = 134,  ## NEED TO UPDATE THIS IF USING NEW DATA
+                 n_max = 136,  ## NEED TO UPDATE THIS IF USING NEW DATA
                  col_names = col_names,
                  col_types = col_types) |>
   pivot_longer(cols = -time,
