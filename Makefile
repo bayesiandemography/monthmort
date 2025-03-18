@@ -29,7 +29,7 @@ out/deaths.rds: src/deaths.R \
 	Rscript $^ $@
 
 out/popn.rds: src/popn.R \
-  data/DPE403901_20241119_124334_98.csv.gz
+  data/DPE403901_20250318_012204_94.csv.gz
 	Rscript $^ $@
 
 out/exposure.rds: src/exposure.R \
