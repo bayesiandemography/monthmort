@@ -13,9 +13,6 @@ cmd_assign(excess = "out/excess.rds",
            col_line = "darkblue",
            .out = "out/fig_paper_cumulative_excess.pdf")
 
-excess <- excess |>
-  filter(time < as.Date("2024-06-01")) ## TEMPORARY FIX - DEATHS MISSING FOR LAST MONTH
-
 data <- excess |>
   mutate(age = age_lower(age),
          age = 10 * (age %/% 10),

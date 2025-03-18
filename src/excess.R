@@ -9,12 +9,14 @@ suppressPackageStartupMessages({
 cmd_assign(aug = "out/aug.rds",
            data = "out/data.rds",
            end_date = "2020-01-31",
+           end_date_all = "2024-11-30",
            .out = "out/excess.rds")
 
 end_date <- ymd(end_date)
 
 expected <- aug |>
-  filter(time > end_date) |>
+  filter(time > end_date,
+         time <= end_date_all) |>
   select(age, sex, time, expected = deaths, exposure)
 
 observed <- data |>
