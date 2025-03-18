@@ -23,7 +23,7 @@ mod <- mod_pois(deaths ~ age:sex + age:time + sex:time + time,
   set_prior(sex:time ~ RW2(sd = 0, con = "by")) |>
   set_prior(time ~ Lin_AR()) |>
   set_datamod_outcome_rr3() |>
-  fit()
+  fit(quiet = FALSE)
 
 print(mod)
 

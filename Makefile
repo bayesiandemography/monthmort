@@ -1,6 +1,6 @@
 START_DATE = "1998-01-01"
 END_DATE = "2020-01-31"
-END_DATE_ALL = "2024-05-31"
+END_DATE_ALL = "2024-11-30"
 
 COL_LINE = "darkblue"
 COL_FILL = "lightblue"
@@ -25,7 +25,7 @@ all: out/fig_diag_mod.pdf \
 ## Prepare data
 
 out/deaths.rds: src/deaths.R \
-  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2024M6.csv.gz
+  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2024M12.csv.gz
 	Rscript $^ $@
 
 out/popn.rds: src/popn.R \
@@ -61,14 +61,16 @@ out/comp.rds: src/comp.R \
 out/excess.rds: src/excess.R \
   out/aug.rds \
   out/data.rds
-	Rscript $^ $@ --end_date=$(END_DATE)
+	Rscript $^ $@ --end_date=$(END_DATE) \
+                      --end_date_all=$(END_DATE_ALL)
+
 
 out/heldback.rds: src/heldback.R \
   out/data.rds
 	Rscript $^ $@ --start_date=$(START_DATE) \
                       --end_date_first=2007-01-31 \
-                      --end_date_last=2016-01-31 \
-                      --years_forecast=4
+                      --end_date_last=2015-01-31 \
+                      --years_forecast=5
 
 out/mod_all.rds: src/mod.R \
   out/data.rds

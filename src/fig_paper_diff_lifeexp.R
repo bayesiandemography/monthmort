@@ -14,7 +14,6 @@ cmd_assign(excess = "out/excess.rds",
            .out = "out/fig_paper_diff_lifeexp.pdf")
 
 excess <- excess |>
-  filter(time < as.Date("2024-06-01")) |> ## TEMPORARY FIX - DEATHS MISSING FOR LAST MONTH
   group_by(age, time) |>
   summarise(expected = sum(expected),
             exposure = sum(exposure),
