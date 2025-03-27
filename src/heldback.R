@@ -9,8 +9,8 @@ suppressPackageStartupMessages({
 cmd_assign(data = "out/data.rds",
            start_date = "1998-01-01",
            end_date_first = "2007-01-31",
-           end_date_last = "2016-01-31",
-           years_forecast = 4,
+           end_date_last = "2015-01-31",
+           years_forecast = 5,
            .out = "out/heldback.rds")
 
 start_date <- ymd(start_date)
@@ -32,7 +32,7 @@ for (i in seq_along(end_dates)) {
            time <= ymd(end_date))
   ## obtain data for forecasting
   labels_forecast <- seq(from = end_date %m+% days(15),
-                         to = rollback(end_date %m+% years(4)) + days(15),
+                         to = rollback(end_date %m+% years(years_forecast)) + days(15),
                          by = "month")
   newdata <- data |>
     filter(time %in% labels_forecast)
