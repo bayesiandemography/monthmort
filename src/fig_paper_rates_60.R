@@ -7,11 +7,11 @@ suppressPackageStartupMessages({
 })
 
 
-cmd_assign(data = "out/data.rds",
-           end_date = "2019-12-31",
+cmd_assign(.data = "out/data.rds",
+           end_date = as.Date("2019-12-31"),
            .out = "out/fig_paper_rates_60.pdf")
 
-end_date <- ymd(end_date)
+data <- readRDS(.data)
 
 data_plot <- data |>
   filter(time <= end_date) |>

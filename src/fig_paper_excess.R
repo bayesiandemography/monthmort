@@ -7,13 +7,13 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(excess_deaths = "out/excess_deaths.rds",
-           end_date = "2024-06-01",
+cmd_assign(.excess_deaths = "out/excess_deaths.rds",
+           end_date = as.Date("2024-06-01"),
            col_fill = "lightblue",
            col_line = "darkblue",
            .out = "out/fig_excess_pc.pdf")
 
-end_date <- as.Date(end_date)
+excess_deaths <- readRDS(.excess_deaths)
 
 data <- excess_deaths |>
   filter(age_lower(age) >= 50) |>

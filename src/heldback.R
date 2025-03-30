@@ -2,20 +2,19 @@
 suppressPackageStartupMessages({
   library(bage)
   library(dplyr)
-  library(command)
   library(lubridate)
+  library(command)
 })
 
-cmd_assign(data = "out/data.rds",
-           start_date = "1998-01-01",
-           end_date_first = "2007-01-31",
-           end_date_last = "2015-01-31",
-           years_forecast = 5,
+cmd_assign(.data = "out/data.rds",
+           start_date = as.Date("1998-01-01"),
+           end_date_first = as.Date("2007-01-31"),
+           end_date_last = as.Date("2015-01-31"),
+           years_forecast = 5L,
            .out = "out/heldback.rds")
 
-start_date <- ymd(start_date)
-end_date_first <- ymd(end_date_first)
-end_date_last <- ymd(end_date_last)
+data <- readRDS(.data)
+
 end_dates <- seq(from = end_date_first, to = end_date_last, by = "1 year")
 heldback <- lapply(end_dates, function(x) NULL)
 names(heldback) <- year(end_dates)
@@ -28,8 +27,8 @@ for (i in seq_along(end_dates)) {
       "\n")
   ## obtained data for fitting model
   data_fit <- data |>
-    filter(time >= ymd(start_date),
-           time <= ymd(end_date))
+    filter(time >= start_date,
+           time <= end_date)
   ## obtain data for forecasting
   labels_forecast <- seq(from = end_date %m+% days(15),
                          to = rollback(end_date %m+% years(years_forecast)) + days(15),
@@ -45,7 +44,7 @@ for (i in seq_along(end_dates)) {
     set_prior(sex:time ~ RW2(sd = 0, con = "by")) |>
     set_prior(time ~ Lin_AR()) |>
     set_datamod_outcome_rr3() |>
-    fit()
+    fit(quiet = FALSE)
   print(mod)
   ## do forecast
   cat("Doing forecast for period",

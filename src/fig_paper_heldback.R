@@ -7,10 +7,12 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(heldback = "out/heldback.rds",
+cmd_assign(.heldback = "out/heldback.rds",
            col_line = "darkorange",
            col_point = "darkblue",
            .out = "out/fig_paper_heldback.pdf")
+
+heldback <- readRDS(.heldback)
 
 data_all <- heldback |>
   group_by(end_year) |>

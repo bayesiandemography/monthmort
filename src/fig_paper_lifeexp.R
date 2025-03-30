@@ -4,15 +4,14 @@ suppressPackageStartupMessages({
   library(dplyr)
   library(command)
   library(poputils)
-  library(lubridate)
   library(ggplot2)
 })
 
-cmd_assign(aug = "out/aug_all.rds",
-           end_date = "2020-01-31",
+cmd_assign(.aug = "out/aug_all.rds",
+           end_date = as.Date("2020-01-31"),
            .out = "out/fig_paper_lifeexp.pdf")
 
-end_date <- ymd(end_date)
+aug <- readRDS(.aug)
 
 data <- aug |>
   lifeexp(mx = .fitted,

@@ -9,8 +9,10 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(popn = "out/popn.rds",
+cmd_assign(.popn = "out/popn.rds",
            .out = "out/exposure.rds")
+
+popn <- readRDS(.popn)
 
 exposure <- popn %>%
   mutate(time = sub("Q1$", "-03-31", time),

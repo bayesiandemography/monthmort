@@ -2,19 +2,19 @@
 suppressPackageStartupMessages({
   library(bage)
   library(dplyr)
+  library(lubridate)
   library(command)
   library(poputils)
-  library(lubridate)
   library(ggplot2)
 })
 
-cmd_assign(comp = "out/comp_all.rds",
-           end_date = "2020-01-31",
+cmd_assign(.comp = "out/comp_all.rds",
+           end_date = as.Date("2020-01-31"),
            col_fill = "lightblue",
            col_line = "darkblue",
            .out = "out/fig_paper_cyclical_all.pdf")
 
-end_date <- ymd(end_date)
+comp <- readRDS(.comp)
 
 data <- comp |>
   filter(term == "time", component == "error") |>
