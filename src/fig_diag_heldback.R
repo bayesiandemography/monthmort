@@ -7,10 +7,12 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(heldback = "out/heldback.rds",
+cmd_assign(.heldback = "out/heldback.rds",
            col_line = "darkorange",
            col_point = "blue",
            .out = "out/fig_diag_heldback.pdf")
+
+heldback <- readRDS(.heldback)
 
 graphics.off()
 pdf(file = .out,

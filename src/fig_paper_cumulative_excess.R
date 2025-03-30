@@ -8,10 +8,12 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(excess = "out/excess.rds",
+cmd_assign(.excess = "out/excess.rds",
            col_fill = "lightblue",
            col_line = "darkblue",
            .out = "out/fig_paper_cumulative_excess.pdf")
+
+excess <- readRDS(.excess)
 
 data <- excess |>
   mutate(age = age_lower(age),

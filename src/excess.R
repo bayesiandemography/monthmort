@@ -2,17 +2,17 @@
 suppressPackageStartupMessages({
   library(dplyr)
   library(rvec)
-  library(lubridate)
   library(command)
 })
 
-cmd_assign(aug = "out/aug.rds",
-           data = "out/data.rds",
-           end_date = "2020-01-31",
-           end_date_all = "2024-11-30",
+cmd_assign(.aug = "out/aug.rds",
+           .data = "out/data.rds",
+           end_date = as.Date("2020-01-31"),
+           end_date_all = as.Date("2024-11-30"),
            .out = "out/excess.rds")
 
-end_date <- ymd(end_date)
+aug <- readRDS(.aug)
+data <- readRDS(.data)
 
 expected <- aug |>
   filter(time > end_date,

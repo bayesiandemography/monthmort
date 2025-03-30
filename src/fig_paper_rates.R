@@ -2,20 +2,19 @@
 suppressPackageStartupMessages({
   library(dplyr)
   library(rvec)
-  library(lubridate)
   library(ggplot2)
   library(command)
 })
 
 
-cmd_assign(aug = "out/aug.rds",
-           end_date = "2020-01-31",
+cmd_assign(.aug = "out/aug.rds",
+           end_date = as.Date("2020-01-31"),
            col_fill = "lightblue",
            col_line = "darkblue",
            col_point = "red",
            .out = "out/fig_paper_rates.pdf")
 
-end_date <- ymd(end_date)
+aug <- readRDS(.aug)
 
 ages_show <- c("40-44", "75-79", "90-94")
 

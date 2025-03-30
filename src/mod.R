@@ -3,17 +3,18 @@ suppressPackageStartupMessages({
   library(bage)
   library(dplyr)
   library(command)
-  library(lubridate)
 })
 
-cmd_assign(data = "out/data.rds",
-           start_date = "1998-01-01",
-           end_date = "2020-01-31",
+cmd_assign(.data = "out/data.rds",
+           start_date = as.Date("1998-01-01"),
+           end_date = as.Date("2020-01-31"),
            .out = "out/mod.rds")
 
+data <- readRDS(.data)
+
 data <- data |>
-  filter(time >= ymd(start_date),
-         time <= ymd(end_date))
+  filter(time >= start_date,
+         time <= end_date)
 
 mod <- mod_pois(deaths ~ age:sex + age:time + sex:time + time,
                 data = data,

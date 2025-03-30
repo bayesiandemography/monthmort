@@ -3,17 +3,18 @@ suppressPackageStartupMessages({
   library(dplyr)
   library(rvec)
   library(poputils)
-  library(lubridate)
   library(ggplot2)
   library(patchwork)
   library(grid)
   library(command)
 })
 
-cmd_assign(excess = "out/excess.rds",
+cmd_assign(.excess = "out/excess.rds",
            col_fill = "lightblue",
            col_line = "darkblue",
            .out = "out/fig_paper_calc_excess.pdf")
+
+excess <- readRDS(.excess)
 
 excess_ag <- excess |>
   mutate(age = age_lower(age),
