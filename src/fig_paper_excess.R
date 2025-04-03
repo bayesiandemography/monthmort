@@ -9,8 +9,8 @@ suppressPackageStartupMessages({
 
 cmd_assign(.excess_deaths = "out/excess_deaths.rds",
            end_date = as.Date("2024-06-01"),
-           col_fill = "lightblue",
-           col_line = "darkblue",
+           col_fill = "#A6CEE3",
+           col_line = "#1F4E79",
            .out = "out/fig_excess_pc.pdf")
 
 excess_deaths <- readRDS(.excess_deaths)

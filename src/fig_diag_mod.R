@@ -12,8 +12,8 @@ suppressPackageStartupMessages({
 cmd_assign(.aug = "out/aug.rds",
            .comp = "out/comp.rds",
            end_date = as.Date("2020-01-31"),
-           col_line = "darkblue",
-           col_fill = "lightblue",
+           col_line = "#1F4E79",
+           col_fill = "#A6CEE3",
            col_point = "red",
            .out = "out/fig_diag_mod.pdf")
 

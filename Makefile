@@ -1,19 +1,24 @@
-START_DATE = "1998-01-01"
-END_DATE = "2020-01-31"
-END_DATE_ALL = "2024-11-30"
+START_DATE = 1998-01-01
+END_DATE = 2020-01-31
+END_DATE_ALL = 2024-11-30
 
-COL_LINE = "darkblue"
-COL_FILL = "lightblue"
-COL_POINT = "red"
+COL_FILL = \#A6CEE3
+COL_LINE = \#1F4E79
+COL_POINT = \#D73027
+COL_FILL_1 = \#A6D854
+COL_LINE_1 = \#228B22
+COL_FILL_2 = \#CC79A7
+COL_LINE_2 = \#7E1E9C
 
 .PHONY: all
 all: out/fig_diag_mod.pdf \
      out/fig_diag_mod_all.pdf \
      out/fig_diag_heldback.pdf \
      out/fig_paper_heldback.pdf \
-     out/fig_paper_rates_60.pdf \
      out/fig_paper_time.pdf \
+     out/fig_paper_season.pdf \
      out/fig_paper_rates.pdf \
+     out/fig_paper_calc_excess_all.pdf \
      out/fig_paper_calc_excess.pdf \
      out/fig_paper_calc_excess_panel.pdf \
      out/fig_paper_cumulative_excess.pdf \
@@ -39,6 +44,9 @@ out/exposure.rds: src/exposure.R \
 out/data.rds: src/data.R \
   out/deaths.rds \
   out/exposure.rds
+	Rscript $^ $@
+
+out/example_ages.rds: src/example_ages.R
 	Rscript $^ $@
 
 
@@ -114,14 +122,11 @@ out/fig_diag_heldback.pdf: src/fig_diag_heldback.R \
 
 ## Figures for main part of paper
 
+
 out/fig_paper_heldback.pdf: src/fig_paper_heldback.R \
   out/heldback.rds
 	Rscript $^ $@ --col_line=darkorange \
                       --col_point=blue
-
-out/fig_paper_rates_60.pdf: src/fig_paper_rates_60.R \
-  out/data.rds
-	Rscript $^ $@ --end_date=2019-12-31
 
 out/fig_paper_time.pdf: src/fig_paper_time.R \
   out/comp.rds
@@ -129,14 +134,33 @@ out/fig_paper_time.pdf: src/fig_paper_time.R \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
+out/fig_paper_agesextime.pdf: src/fig_paper_agesextime.R \
+  out/comp.rds \
+  out/example_ages.rds
+	Rscript $^ $@ --col_fill_1=$(COL_FILL_1) \
+                      --col_line_1=$(COL_LINE_1) \
+                      --col_fill_2=$(COL_FILL_2) \
+                      --col_line_2=$(COL_LINE_2)
+
+out/fig_paper_season.pdf: src/fig_paper_season.R \
+  out/comp.rds
+	Rscript $^ $@ --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
+
 out/fig_paper_rates.pdf: src/fig_paper_rates.R \
-  out/aug.rds
+  out/aug.rds \
+  out/example_ages.rds
 	Rscript $^ $@ --end_date=$(END_DATE) \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE) \
                       --col_point=$(COL_POINT)
 
 out/fig_paper_calc_excess.pdf: src/fig_paper_calc_excess.R \
+  out/excess.rds
+	Rscript $^ $@ --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
+
+out/fig_paper_calc_excess_all.pdf: src/fig_paper_calc_excess_all.R \
   out/excess.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
