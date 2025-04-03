@@ -10,8 +10,8 @@ suppressPackageStartupMessages({
 
 cmd_assign(.comp = "out/comp_all.rds",
            end_date = as.Date("2020-01-31"),
-           col_fill = "lightblue",
-           col_line = "darkblue",
+           col_fill = "#A6CEE3",
+           col_line = "#1F4E79",
            .out = "out/fig_paper_cyclical_all.pdf")
 
 comp <- readRDS(.comp)

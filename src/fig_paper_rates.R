@@ -8,18 +8,18 @@ suppressPackageStartupMessages({
 
 
 cmd_assign(.aug = "out/aug.rds",
+           .example_ages = "out/example_ages.rds",
            end_date = as.Date("2020-01-31"),
-           col_fill = "lightblue",
-           col_line = "darkblue",
+           col_fill = "#A6CEE3",
+           col_line = "#1F4E79",
            col_point = "red",
            .out = "out/fig_paper_rates.pdf")
 
 aug <- readRDS(.aug)
-
-ages_show <- c("40-44", "75-79", "90-94")
+example_ages <- readRDS(.example_ages)
 
 data <- aug |>
-  filter(age %in% ages_show) |>
+  filter(age %in% example_ages) |>
   mutate(age = paste("Age", age)) |>
   mutate(draws_ci(.fitted))
 
@@ -45,7 +45,7 @@ p <- ggplot(data, aes(x = time)) +
 graphics.off()
 pdf(file = .out,
     width = 7,
-    height = 5)
+    height = 7)
 plot(p)
 dev.off()        
 
