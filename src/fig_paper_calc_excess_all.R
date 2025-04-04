@@ -21,6 +21,9 @@ excess_ag <- excess |>
   summarise(expected = sum(expected),
             observed = sum(observed),
             excess = sum(excess)) |>
+  mutate(expected = expected / 1000,
+         observed = observed / 1000,
+         excess = excess / 1000) |>
   mutate(draws_ci(expected)) |>
   mutate(draws_ci(excess))
 
@@ -28,8 +31,8 @@ p_observed <- ggplot(excess_ag, aes(x = time)) +
   geom_line(aes(y = observed),
             col = col_line) +
   geom_hline(yintercept = 0, linewidth = 0.25) +
-  scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
-  ylim(-750, 4250) +
+  scale_x_date(date_breaks = "2 year", date_labels = "%Y") +
+  ylim(-0.75, 4.25) +
   ylab("") +
   xlab("") +
   theme(text = element_text(size = 10)) +
@@ -45,8 +48,8 @@ p_expected <- ggplot(excess_ag, aes(x = time)) +
   geom_line(aes(y = expected.mid),
             col = col_line) +
   geom_hline(yintercept = 0, linewidth = 0.25) +
-  scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
-  ylim(-750, 4250) +
+  scale_x_date(date_breaks = "2 year", date_labels = "%Y") +
+  ylim(-0.75, 4.25) +
   ylab("") +
   xlab("") +
   theme(text = element_text(size = 10)) +
@@ -63,8 +66,8 @@ p_excess <- ggplot(excess_ag, aes(x = time)) +
   geom_line(aes(y = excess.mid),
             col = col_line) +
   geom_hline(yintercept = 0, linewidth = 0.25) +
-  scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
-  ylim(-750, 4250) +
+  scale_x_date(date_breaks = "2 year", date_labels = "%Y") +
+  ylim(-0.75, 4.25) +
   ylab("") +
   xlab("") +
   theme(text = element_text(size = 10)) +
@@ -72,12 +75,12 @@ p_excess <- ggplot(excess_ag, aes(x = time)) +
 
 
 p <- p_observed + minus + p_expected + equals + p_excess +
-  plot_layout(ncol = 1, heights = c(1, 0.08, 1, 0.08, 1))
+  plot_layout(nrow = 1, widths = c(1, 0.06, 1, 0.06, 1))
 
 graphics.off()
 pdf(file = .out,
-    width = 2.8,
-    height = 7)
+    width = 6,
+    height = 2.2)
 plot(p)
 dev.off()        
 

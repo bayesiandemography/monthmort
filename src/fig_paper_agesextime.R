@@ -72,7 +72,7 @@ p <- ggplot(age_sex_time, aes(x = time)) +
   scale_color_manual(values = c(col_line_1, col_line_2)) +
   xlab("") +
   ylab("") +
-  theme(legend.title = element_blank())
+  theme(legend.position = "none")
 
 
 graphics.off()
