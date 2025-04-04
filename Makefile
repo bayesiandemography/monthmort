@@ -16,6 +16,7 @@ all: out/fig_diag_mod.pdf \
      out/fig_diag_heldback.pdf \
      out/fig_paper_heldback.pdf \
      out/fig_paper_time.pdf \
+     out/fig_paper_agesextime.pdf \
      out/fig_paper_season.pdf \
      out/fig_paper_rates.pdf \
      out/fig_paper_calc_excess_all.pdf \
