@@ -44,7 +44,8 @@ for (i in seq_along(end_dates)) {
     set_prior(sex:time ~ RW2(sd = 0, con = "by")) |>
     set_prior(time ~ Lin_AR()) |>
     set_datamod_outcome_rr3() |>
-    fit(quiet = FALSE)
+    set_n_draw(n_draw = 2000) |>
+    fit()
   print(mod)
   ## do forecast
   cat("Doing forecast for period",

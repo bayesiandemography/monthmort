@@ -12,20 +12,16 @@ COL_LINE_2 = \#7E1E9C
 
 .PHONY: all
 all: out/fig_diag_mod.pdf \
-     out/fig_diag_mod_all.pdf \
      out/fig_diag_heldback.pdf \
      out/fig_paper_heldback.pdf \
      out/fig_paper_time.pdf \
      out/fig_paper_agesextime.pdf \
+     out/fig_paper_agesextime_supp.pdf \
      out/fig_paper_season.pdf \
+     out/fig_paper_season_supp.pdf \
      out/fig_paper_rates.pdf \
-     out/fig_paper_calc_excess_all.pdf \
-     out/fig_paper_calc_excess.pdf \
-     out/fig_paper_calc_excess_panel.pdf \
-     out/fig_paper_cumulative_excess.pdf \
-     out/fig_paper_diff_lifeexp.pdf \
-     out/fig_paper_lifeexp.pdf \
-     out/fig_paper_cyclical_all.pdf
+     out/fig_paper_excess.pdf \
+     out/fig_paper_excess_age.pdf
 
 
 ## Prepare data
@@ -73,28 +69,12 @@ out/excess.rds: src/excess.R \
 	Rscript $^ $@ --end_date=$(END_DATE) \
                       --end_date_all=$(END_DATE_ALL)
 
-
 out/heldback.rds: src/heldback.R \
   out/data.rds
 	Rscript $^ $@ --start_date=$(START_DATE) \
                       --end_date_first=2007-01-31 \
                       --end_date_last=2015-01-31 \
                       --years_forecast=5
-
-out/mod_all.rds: src/mod.R \
-  out/data.rds
-	Rscript $^ $@ --start_date=$(START_DATE) \
-                      --end_date=$(END_DATE_ALL)
-
-out/aug_all.rds: src/aug.R \
-  out/mod_all.rds \
-  out/data.rds
-	Rscript $^ $@ --end_date=$(END_DATE_ALL)
-
-out/comp_all.rds: src/comp.R \
-  out/mod_all.rds \
-  out/data.rds
-	Rscript $^ $@ --end_date=$(END_DATE_ALL)
 
 
 ## Figures for diagnostics (not included in paper)
@@ -107,14 +87,6 @@ out/fig_diag_mod.pdf: src/fig_diag_mod.R \
                       --col_fill=$(COL_FILL) \
                       --col_point=$(COL_POINT)
 
-out/fig_diag_mod_all.pdf: src/fig_diag_mod.R \
-  out/aug_all.rds \
-  out/comp_all.rds
-	Rscript $^ $@ --end_date=$(END_DATE_ALL) \
-                      --col_line=$(COL_LINE) \
-                      --col_fill=$(COL_FILL) \
-                      --col_point=$(COL_POINT)
-
 out/fig_diag_heldback.pdf: src/fig_diag_heldback.R \
   out/heldback.rds
 	Rscript $^ $@ --col_line=grey70 \
@@ -122,12 +94,6 @@ out/fig_diag_heldback.pdf: src/fig_diag_heldback.R \
 
 
 ## Figures for main part of paper
-
-
-out/fig_paper_heldback.pdf: src/fig_paper_heldback.R \
-  out/heldback.rds
-	Rscript $^ $@ --col_line=darkorange \
-                      --col_point=blue
 
 out/fig_paper_time.pdf: src/fig_paper_time.R \
   out/comp.rds
@@ -138,14 +104,31 @@ out/fig_paper_time.pdf: src/fig_paper_time.R \
 out/fig_paper_agesextime.pdf: src/fig_paper_agesextime.R \
   out/comp.rds \
   out/example_ages.rds
-	Rscript $^ $@ --col_fill_1=$(COL_FILL_1) \
+	Rscript $^ $@ --use_example_ages=TRUE \
+                      --col_fill_1=$(COL_FILL_1) \
+                      --col_line_1=$(COL_LINE_1) \
+                      --col_fill_2=$(COL_FILL_2) \
+                      --col_line_2=$(COL_LINE_2)
+
+out/fig_paper_agesextime_supp.pdf: src/fig_paper_agesextime.R \
+  out/comp.rds \
+  out/example_ages.rds
+	Rscript $^ $@ --use_example_ages=FALSE \
+                      --col_fill_1=$(COL_FILL_1) \
                       --col_line_1=$(COL_LINE_1) \
                       --col_fill_2=$(COL_FILL_2) \
                       --col_line_2=$(COL_LINE_2)
 
 out/fig_paper_season.pdf: src/fig_paper_season.R \
   out/comp.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) \
+	Rscript $^ $@ --use_example_ages=TRUE \
+                      --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
+
+out/fig_paper_season_supp.pdf: src/fig_paper_season.R \
+  out/comp.rds
+	Rscript $^ $@ --use_example_ages=FALSE \
+                      --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
 out/fig_paper_rates.pdf: src/fig_paper_rates.R \
@@ -156,45 +139,23 @@ out/fig_paper_rates.pdf: src/fig_paper_rates.R \
                       --col_line=$(COL_LINE) \
                       --col_point=$(COL_POINT)
 
-out/fig_paper_calc_excess.pdf: src/fig_paper_calc_excess.R \
+out/fig_paper_heldback.pdf: src/fig_paper_heldback.R \
+  out/heldback.rds
+	Rscript $^ $@ --col_line=darkorange \
+                      --col_point=blue
+
+out/fig_paper_excess.pdf: src/fig_paper_excess.R \
   out/excess.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_paper_calc_excess_all.pdf: src/fig_paper_calc_excess_all.R \
+out/fig_paper_excess_age.pdf: src/fig_paper_excess_age.R \
   out/excess.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_paper_calc_excess_panel.pdf: src/fig_paper_calc_excess_panel.R \
-  out/excess.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) \
-                      --col_line=$(COL_LINE)
 
-out/fig_paper_cumulative_excess.pdf: src/fig_paper_cumulative_excess.R \
-  out/excess.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) \
-                      --col_line=$(COL_LINE)
-
-out/fig_paper_diff_lifeexp.pdf: src/fig_paper_diff_lifeexp.R \
-  out/excess.rds
-	Rscript $^ $@ --col_fill=$(COL_FILL) \
-                      --col_line=$(COL_LINE)
-
-out/fig_paper_cyclical_all.pdf: src/fig_paper_cyclical_all.R \
-  out/comp_all.rds
-	Rscript $^ $@ --end_date=$(END_DATE) \
-                      --col_fill=$(COL_FILL) \
-                      --col_line=$(COL_LINE)
-
-out/fig_paper_lifeexp.pdf: src/fig_paper_lifeexp.R \
-  out/aug_all.rds
-	Rscript $^ $@ --end_date=$(END_DATE)
-
-
-## Figures for supplementary material for paper
-
-
+## Copy to directory for paper
 
 .PHONY: copy
 copy:

@@ -1,52 +1,51 @@
 
 suppressPackageStartupMessages({
   library(dplyr)
+  library(tidyr)
   library(rvec)
-  library(poputils)
   library(ggplot2)
+  library(patchwork)
+  library(grid)
   library(command)
 })
 
-cmd_assign(.excess_deaths = "out/excess_deaths.rds",
-           end_date = as.Date("2024-06-01"),
+cmd_assign(.excess = "out/excess.rds",
            col_fill = "#A6CEE3",
            col_line = "#1F4E79",
-           .out = "out/fig_excess_pc.pdf")
+           .out = "out/fig_paper_calc_excess_all.pdf")
 
-excess_deaths <- readRDS(.excess_deaths)
+excess <- readRDS(.excess)
 
-data <- excess_deaths |>
-  filter(age_lower(age) >= 50) |>
-  mutate(age = (age_lower(age) %/% 10) * 10,
-         age = ifelse(age < 90, paste(age, age + 9, sep = "-"), paste0(age, "+"))) |>
-  group_by(age, time) |>
+data <- excess |>
+  group_by(time) |>
   summarise(expected = sum(expected),
             observed = sum(observed),
-            exposure = sum(exposure),
-            .groups = "drop") |>
-  mutate(excess = 100 * (observed - expected) / expected) |>
-  mutate(draws_ci(excess)) |>
-  filter(time <= end_date)
-
+            excess = sum(excess)) |>
+  pivot_longer(c(expected, observed, excess), names_to = "series") |>
+  mutate(series = factor(series,
+                         levels = c("observed", "expected", "excess"),
+                         labels = c("Observed", "Expected", "Excess"))) |>
+  mutate(value = value / 1000) |>
+  mutate(draws_ci(value))
 
 p <- ggplot(data, aes(x = time)) +
-  facet_wrap(vars(age), ncol = 2) +
-  geom_hline(yintercept = 0,
-             linewidth = 0.25) +
-  geom_pointrange(aes(ymin = excess.lower,
-                      y = excess.mid,
-                      ymax = excess.upper),
-                  linewidth = 0.15,
-                  fatten = 0.5,
-                  col = col_line) +
-  ylim(-55, 55) +
-  ylab("") + 
+  facet_wrap(vars(series)) +
+  geom_ribbon(aes(ymin = value.lower,
+                  ymax = value.upper),
+              fill = col_fill) +
+  geom_line(aes(y = value.mid),
+            col = col_line) +
+  geom_hline(yintercept = 0, linewidth = 0.25) +
+  scale_x_date(date_breaks = "2 year", date_labels = "%Y") +
+  ylim(-0.75, 4.25) +
+  ylab("Deaths (000)") +
   xlab("")
-
 
 graphics.off()
 pdf(file = .out,
-    w = 7,
-    h = 8)
+    width = 6,
+    height = 3)
 plot(p)
-dev.off()
+dev.off()        
+
+

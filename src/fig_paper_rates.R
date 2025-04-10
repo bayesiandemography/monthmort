@@ -20,7 +20,8 @@ example_ages <- readRDS(.example_ages)
 
 data <- aug |>
   filter(age %in% example_ages) |>
-  mutate(age = paste("Age", age)) |>
+  mutate(age = paste("Age", age),
+         age = factor(age, levels = unique(age))) |>
   mutate(draws_ci(.fitted))
 
 p <- ggplot(data, aes(x = time)) +
@@ -44,7 +45,7 @@ p <- ggplot(data, aes(x = time)) +
 
 graphics.off()
 pdf(file = .out,
-    width = 7,
+    width = 6,
     height = 7)
 plot(p)
 dev.off()        
