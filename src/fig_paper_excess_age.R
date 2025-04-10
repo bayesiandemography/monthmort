@@ -2,8 +2,8 @@
 suppressPackageStartupMessages({
   library(dplyr)
   library(rvec)
-  library(lubridate)
   library(poputils)
+  library(lubridate)
   library(ggplot2)
   library(command)
 })
@@ -11,7 +11,7 @@ suppressPackageStartupMessages({
 cmd_assign(.excess = "out/excess.rds",
            col_fill = "#A6CEE3",
            col_line = "#1F4E79",
-           .out = "out/fig_paper_cumulative_excess.pdf")
+           .out = "out/fig_paper_excess_age.pdf")
 
 excess <- readRDS(.excess)
 
@@ -23,30 +23,24 @@ data <- excess |>
                          age >= 90 ~ "90+"),
          age = paste("Age", age)) |>
   count(age, time, wt = excess, name = "excess") |>
-  group_by(age) |>
-  mutate(cumexcess = cumsum(excess)) |>
-  ungroup() |>
-  mutate(draws_ci(cumexcess))
+  mutate(excess = excess / 1000) |>
+  mutate(draws_ci(excess))
 
 p <- ggplot(data, aes(x = time)) +
   facet_wrap(vars(age)) +
-  geom_ribbon(aes(ymax = cumexcess.upper,
-                  ymin = cumexcess.lower),
+  geom_ribbon(aes(ymin = excess.lower,
+                  ymax = excess.upper),
               fill = col_fill) +
-  geom_line(aes(y = cumexcess.mid),
-           col = col_line) +
-  geom_hline(yintercept = 0,
-             color = "grey20",
-             linewidth = 0.2) +
-  ylab("") +
-  xlab("") +
-  theme(legend.position = "none")
-
+  geom_line(aes(y = excess.mid),
+            col = col_line) +
+  geom_hline(yintercept = 0, linewidth = 0.25) +
+  ylab("Deaths (000)") +
+  xlab("")
 
 graphics.off()
 pdf(file = .out,
     width = 6,
-    height = 4)
+    height = 5)
 plot(p)
 dev.off()        
 
