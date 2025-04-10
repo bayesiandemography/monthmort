@@ -16,12 +16,14 @@ all: out/fig_diag_mod.pdf \
      out/fig_paper_heldback.pdf \
      out/fig_paper_time.pdf \
      out/fig_paper_agesextime.pdf \
-     out/fig_paper_agesextime_supp.pdf \
      out/fig_paper_season.pdf \
-     out/fig_paper_season_supp.pdf \
      out/fig_paper_rates.pdf \
      out/fig_paper_excess.pdf \
-     out/fig_paper_excess_age.pdf
+     out/fig_paper_excess_age.pdf \
+     out/fig_paper_agesextime_supp.pdf \
+     out/fig_paper_season_supp.pdf \
+     out/fig_paper_repdata_lifeexp.pdf \
+     out/fig_paper_repdata_month.pdf
 
 
 ## Prepare data
@@ -110,24 +112,9 @@ out/fig_paper_agesextime.pdf: src/fig_paper_agesextime.R \
                       --col_fill_2=$(COL_FILL_2) \
                       --col_line_2=$(COL_LINE_2)
 
-out/fig_paper_agesextime_supp.pdf: src/fig_paper_agesextime.R \
-  out/comp.rds \
-  out/example_ages.rds
-	Rscript $^ $@ --use_example_ages=FALSE \
-                      --col_fill_1=$(COL_FILL_1) \
-                      --col_line_1=$(COL_LINE_1) \
-                      --col_fill_2=$(COL_FILL_2) \
-                      --col_line_2=$(COL_LINE_2)
-
 out/fig_paper_season.pdf: src/fig_paper_season.R \
   out/comp.rds
 	Rscript $^ $@ --use_example_ages=TRUE \
-                      --col_fill=$(COL_FILL) \
-                      --col_line=$(COL_LINE)
-
-out/fig_paper_season_supp.pdf: src/fig_paper_season.R \
-  out/comp.rds
-	Rscript $^ $@ --use_example_ages=FALSE \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
@@ -153,6 +140,33 @@ out/fig_paper_excess_age.pdf: src/fig_paper_excess_age.R \
   out/excess.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
+
+
+## Figures for supplementary part of paper
+
+out/fig_paper_season_supp.pdf: src/fig_paper_season.R \
+  out/comp.rds
+	Rscript $^ $@ --use_example_ages=FALSE \
+                      --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
+
+out/fig_paper_agesextime_supp.pdf: src/fig_paper_agesextime.R \
+  out/comp.rds \
+  out/example_ages.rds
+	Rscript $^ $@ --use_example_ages=FALSE \
+                      --col_fill_1=$(COL_FILL_1) \
+                      --col_line_1=$(COL_LINE_1) \
+                      --col_fill_2=$(COL_FILL_2) \
+                      --col_line_2=$(COL_LINE_2)
+
+out/fig_paper_repdata_lifeexp.pdf: src/fig_paper_repdata_lifeexp.R \
+  out/mod.rds
+	Rscript $^ $@ --col_line_1=$(COL_LINE_1) \
+                      --col_line_2=$(COL_LINE_2)
+
+out/fig_paper_repdata_month.pdf: src/fig_paper_repdata_month.R \
+  out/mod.rds
+	Rscript $^ $@
 
 
 ## Copy to directory for paper
