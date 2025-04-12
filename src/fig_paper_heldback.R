@@ -58,7 +58,7 @@ p <- ggplot(data, aes(x = forecast_period)) +
 
 graphics.off()
 pdf(file = .out,
-    width = 7.5,
+    width = 6,
     height = 6)
 plot(p)
 dev.off()

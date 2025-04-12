@@ -25,8 +25,8 @@ data <- replicate_data(mod) |>
           by = c(.replicate, time))
 
 p <- ggplot(data, aes(x = time, y = ex, col = sex)) +
-  facet_wrap(vars(.replicate)) +
-  geom_line(linewidth = 0.5) +
+  facet_wrap(vars(.replicate), ncol = 4) +
+  geom_line(linewidth = 0.3) +
   scale_color_manual(values = c(col_line_1, col_line_2)) +
   scale_x_date(breaks = seq(from = as.Date("2000-01-01"),
                             to = as.Date("2020-01-01"),
@@ -43,6 +43,6 @@ p <- ggplot(data, aes(x = time, y = ex, col = sex)) +
 graphics.off()
 pdf(file = .out,
     width = 6,
-    height = 6.5)
+    height = 7.5)
 plot(p)
 dev.off()        

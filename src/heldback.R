@@ -15,6 +15,8 @@ cmd_assign(.data = "out/data.rds",
 
 data <- readRDS(.data)
 
+options(width = 100) ## for printing of model output
+
 end_dates <- seq(from = end_date_first, to = end_date_last, by = "1 year")
 heldback <- lapply(end_dates, function(x) NULL)
 names(heldback) <- year(end_dates)
