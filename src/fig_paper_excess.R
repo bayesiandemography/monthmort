@@ -4,8 +4,6 @@ suppressPackageStartupMessages({
   library(tidyr)
   library(rvec)
   library(ggplot2)
-  library(patchwork)
-  library(grid)
   library(command)
 })
 
@@ -36,7 +34,6 @@ p <- ggplot(data, aes(x = time)) +
   geom_line(aes(y = value.mid),
             col = col_line) +
   geom_hline(yintercept = 0, linewidth = 0.25) +
-  scale_x_date(date_breaks = "2 year", date_labels = "%Y") +
   ylim(-0.75, 4.25) +
   ylab("Deaths (000)") +
   xlab("")

@@ -43,10 +43,13 @@ p <- ggplot(season, aes(x = time)) +
   geom_line(aes(y = .fitted.mid),
             color = col_line,
             linewidth = 0.2) +
-  scale_x_continuous(breaks = 1:12, labels = month.abb) +
+  scale_x_continuous(breaks = 1:12,
+                     labels = month.abb) +
   xlab("") +
   ylab("") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  theme(axis.text.x = element_text(size = 8, angle = 90, hjust = 1),
+        axis.text.y = element_text(size = 8),
+        axis.ticks.x = element_blank())
 
 if (use_example_ages) {
   p <- p + facet_wrap(vars(age), nrow = 1)
@@ -55,6 +58,6 @@ if (use_example_ages) {
 graphics.off()
 pdf(file = .out,
     width = 6,
-    height = if (use_example_ages) 2.2 else 7.5)
+    height = if (use_example_ages) 2.7 else 7.5)
 plot(p)
 dev.off()
