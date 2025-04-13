@@ -36,7 +36,7 @@ p <- ggplot(data, aes(x = time)) +
 graphics.off()
 pdf(file = .out,
     width = 6,
-    height = 6.5)
+    height = 7.5)
 plot(p)
 dev.off()        
 
