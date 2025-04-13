@@ -22,6 +22,8 @@ all: out/fig_diag_mod.pdf \
      out/fig_paper_excess_age.pdf \
      out/fig_paper_agesextime_supp.pdf \
      out/fig_paper_season_supp.pdf \
+     out/fig_paper_excess_agesex_female.pdf \
+     out/fig_paper_excess_agesex_male.pdf \
      out/fig_paper_repdata_lifeexp.pdf \
      out/fig_paper_repdata_month.pdf
 
@@ -158,6 +160,18 @@ out/fig_paper_agesextime_supp.pdf: src/fig_paper_agesextime.R \
                       --col_line_1=$(COL_LINE_1) \
                       --col_fill_2=$(COL_FILL_2) \
                       --col_line_2=$(COL_LINE_2)
+
+out/fig_paper_excess_agesex_female.pdf: src/fig_paper_excess_agesex.R \
+  out/excess.rds
+	Rscript $^ $@ --sex=Female \
+                      --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
+
+out/fig_paper_excess_agesex_male.pdf: src/fig_paper_excess_agesex.R \
+  out/excess.rds
+	Rscript $^ $@ --sex=Male \
+                      --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
 
 out/fig_paper_repdata_lifeexp.pdf: src/fig_paper_repdata_lifeexp.R \
   out/mod.rds
