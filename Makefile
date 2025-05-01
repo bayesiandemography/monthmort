@@ -108,7 +108,8 @@ out/fig_paper_time.pdf: src/fig_paper_time.R \
 out/fig_paper_agesextime.pdf: src/fig_paper_agesextime.R \
   out/comp.rds \
   out/example_ages.rds
-	Rscript $^ $@ --use_example_ages=TRUE \
+	Rscript $^ $@ --end_date=$(END_DATE) \
+                      --use_example_ages=TRUE \
                       --col_fill_1=$(COL_FILL_1) \
                       --col_line_1=$(COL_LINE_1) \
                       --col_fill_2=$(COL_FILL_2) \
@@ -155,7 +156,8 @@ out/fig_paper_season_supp.pdf: src/fig_paper_season.R \
 out/fig_paper_agesextime_supp.pdf: src/fig_paper_agesextime.R \
   out/comp.rds \
   out/example_ages.rds
-	Rscript $^ $@ --use_example_ages=FALSE \
+	Rscript $^ $@ --end_date=$(END_DATE) \
+                      --use_example_ages=FALSE \
                       --col_fill_1=$(COL_FILL_1) \
                       --col_line_1=$(COL_LINE_1) \
                       --col_fill_2=$(COL_FILL_2) \
