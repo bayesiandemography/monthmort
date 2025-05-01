@@ -34,7 +34,7 @@ p <- ggplot(time, aes(x = time)) +
             linewidth = 0.2) +
   geom_vline(xintercept = end_date,
              linewidth = 0.25,
-             linetype = "dotted") +
+             linetype = "dashed") +
   scale_x_date(breaks = seq(from = as.Date("2000-01-01"),
                             to = as.Date("2025-01-01"),
                             by = "5 years"),

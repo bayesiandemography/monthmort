@@ -11,6 +11,7 @@ suppressPackageStartupMessages({
 
 cmd_assign(.comp = "out/comp.rds",
            .example_ages = "out/example_ages.rds",
+           end_date = as.Date("2020-01-31"),
            use_example_ages = TRUE,
            col_fill_1 = "#A6D854",
            col_line_1 = "#228B22",
@@ -76,6 +77,9 @@ p <- ggplot(age_sex_time, aes(x = time)) +
   geom_line(aes(y = .fitted.mid,
                 col = sex),
             linewidth = 0.2) +
+  geom_vline(xintercept = end_date,
+             linetype = "dashed",
+             linewidth = 0.25) +
   scale_fill_manual(values = c(col_fill_1, col_fill_2)) +
   scale_color_manual(values = c(col_line_1, col_line_2)) +
   xlab("") +
