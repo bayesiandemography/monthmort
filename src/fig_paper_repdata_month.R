@@ -25,7 +25,7 @@ data <- replicate_data(mod) |>
 
 p <- ggplot(data, aes(x = month, y = deaths, group = year)) +
   facet_wrap(vars(.replicate), ncol = 4) +
-  geom_line(alpha = 0.4) +
+  geom_line(alpha = 0.4, linewidth = 0.2) +
   scale_x_continuous(breaks = 1:12, labels = month.abb) +
   xlab("Month") +
   ylab("Deaths (000)") +
