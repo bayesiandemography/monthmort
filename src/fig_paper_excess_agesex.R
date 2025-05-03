@@ -30,6 +30,7 @@ p <- ggplot(data, aes(x = time)) +
             color = col_line,
             linewidth = 0.25) +
   geom_hline(yintercept = 0, linewidth = 0.25) +
+  ylim(-0.105, 0.156) + ## taken from results for females
   ylab("Deaths (000)") +
   xlab("")
 
