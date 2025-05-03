@@ -22,10 +22,11 @@ heldback <- lapply(end_dates, function(x) NULL)
 names(heldback) <- year(end_dates)
 for (i in seq_along(end_dates)) {
   end_date <- end_dates[[i]]
-  cat("Fitting model to data for period",
-      format(start_date, "%Y-%m-%d"),
+  cat("\n-------------------------------------------------------------------------------\n",
+      "Fitting model to data for period",
+      format(start_date, "%Y-%m"),
       "to",
-      format(end_date, "%Y-%m-%d"),
+      format(end_date, "%Y-%m"),
       "\n")
   ## obtained data for fitting model
   data_fit <- data |>
@@ -51,9 +52,9 @@ for (i in seq_along(end_dates)) {
   print(mod)
   ## do forecast
   cat("Doing forecast for period",
-      format(head(labels_forecast, 1L), "%Y-%m-%d"),
+      format(head(labels_forecast, 1L), "%Y-%m"),
       "to",
-      format(tail(labels_forecast, 1L), "%Y-%m-%d"),
+      format(tail(labels_forecast, 1L), "%Y-%m"),
       "\n")
   forecast <- mod |>
     forecast(newdata = newdata)

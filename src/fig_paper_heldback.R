@@ -38,7 +38,7 @@ data_age <- heldback |>
 data <- bind_rows(data_all, data_age) |>
   mutate(age = factor(age, levels = unique(age))) |>
   mutate(end_year = as.integer(end_year),
-         forecast_period = paste(end_year, end_year + 4, sep = "-"))
+         forecast_period = paste(end_year, end_year + 5, sep = "-"))
 
 p <- ggplot(data, aes(x = forecast_period)) +
   facet_wrap(vars(age), scale = "free_y", nrow = 2) +
