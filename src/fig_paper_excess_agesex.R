@@ -22,7 +22,7 @@ data <- excess |>
   mutate(draws_ci(excess))
 
 p <- ggplot(data, aes(x = time)) +
-  facet_wrap(vars(age)) +
+  facet_wrap(vars(age), ncol = 7) +
   geom_ribbon(aes(ymin = excess.lower,
                   ymax = excess.upper),
               fill = col_fill) +
@@ -32,12 +32,14 @@ p <- ggplot(data, aes(x = time)) +
   geom_hline(yintercept = 0, linewidth = 0.25) +
   ylim(-0.105, 0.156) + ## taken from results for females
   ylab("Deaths (000)") +
-  xlab("")
+  xlab("") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
 
 graphics.off()
 pdf(file = .out,
     width = 6,
-    height = 7.5)
+    height = 8)
 plot(p)
 dev.off()        
 
