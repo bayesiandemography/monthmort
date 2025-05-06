@@ -69,7 +69,6 @@ age_sex_time <- age_sex_time |>
          age = factor(age, levels = unique(age)))
 
 p <- ggplot(age_sex_time, aes(x = time)) +
-  facet_wrap(vars(age)) +
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper,
                   fill = sex),
@@ -87,12 +86,17 @@ p <- ggplot(age_sex_time, aes(x = time)) +
   theme(legend.position = "top",
         legend.title = element_blank())
 
-if (use_example_ages)
+if (use_example_ages) {
   p <- p + facet_wrap(vars(age), nrow = 1)
+} else {
+  p <- p +
+    facet_wrap(vars(age), ncol = 7) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+}
 
 graphics.off()
 pdf(file = .out,
     width = 6,
-    height = if (use_example_ages) 3 else 7.5)
+    height = if (use_example_ages) 3 else 8)
 plot(p)
 dev.off()
