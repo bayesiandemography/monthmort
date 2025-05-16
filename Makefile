@@ -1,6 +1,7 @@
 START_DATE = 1998-01-01
 END_DATE = 2020-01-31
-END_DATE_ALL = 2024-11-30
+END_DATE_ALL = 2025-02-28
+N_MAX_POPN = 137
 
 COL_FILL = \#A6CEE3
 COL_LINE = \#1F4E79
@@ -33,12 +34,12 @@ all: out/fig_diag_mod.pdf \
 ## Prepare data
 
 out/deaths.rds: src/deaths.R \
-  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2024M12.csv.gz
+  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M2.csv.gz
 	Rscript $^ $@
 
 out/popn.rds: src/popn.R \
-  data/DPE403901_20250318_012204_94.csv.gz
-	Rscript $^ $@
+  data/DPE403901_20250516_063419_2.csv.gz
+	Rscript $^ $@ --n_max_popn=$(N_MAX_POPN)
 
 out/exposure.rds: src/exposure.R \
   out/popn.rds
@@ -78,7 +79,7 @@ out/excess.rds: src/excess.R \
 out/heldback.rds: src/heldback.R \
   out/data.rds
 	Rscript $^ $@ --start_date=$(START_DATE) \
-                      --end_date_first=2007-01-31 \
+                      --end_date_first=2008-01-31 \
                       --end_date_last=2015-01-31 \
                       --years_forecast=5
 

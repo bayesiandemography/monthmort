@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(.deaths = "data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2024M12.csv.gz",
+cmd_assign(.deaths = "data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M2.csv.gz",
            .out = "out/deaths.rds")
 
 deaths <- read_csv(.deaths, col_types = "ii-cci") |>
