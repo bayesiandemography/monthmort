@@ -38,7 +38,11 @@ p <- ggplot(data, aes(x = time)) +
   geom_vline(xintercept = end_date,
              linetype = "dashed",
              linewidth = 0.25) +
-  scale_x_date(date_minor_breaks = "1 year") +
+  scale_x_date(breaks = seq.Date(from = as.Date("2000-01-01"),
+                                 to = as.Date("2025-01-01"),
+                                 by = "5 year"),
+               date_minor_breaks = "1 year",
+               date_labels = "%Y") +
   scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
   ylab("") +
   xlab("")
