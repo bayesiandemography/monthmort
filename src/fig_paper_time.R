@@ -24,6 +24,10 @@ time <- comp |>
                             levels = c("effect", "trend", "error"),
                             labels = c("Effect", "Trend", "Cyclical")))
 
+hline_df <- data.frame(component = factor(c("Effect", "Trend" ,"Cyclical"),
+                                          levels = c("Effect", "Trend", "Cyclical")),
+                       yintercept = c(NA, NA, 0))
+
 p <- ggplot(time, aes(x = time)) +
   facet_wrap(vars(component), ncol = 1) +
   geom_ribbon(aes(ymin = .fitted.lower,
@@ -40,7 +44,11 @@ p <- ggplot(time, aes(x = time)) +
                             by = "5 years"),
                date_minor_breaks = "1 year",
                date_labels = "%Y") +
-  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  geom_hline(data = hline_df,
+             aes(yintercept = yintercept),
+             linewidth = 0.2) +
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE),
+                     limits = c(-0.4, 0.4)) +
   xlab("") +
   ylab("")
 
@@ -48,6 +56,6 @@ p <- ggplot(time, aes(x = time)) +
 graphics.off()
 pdf(file = .out,
     width = 5,
-    height = 6)
+    height = 6.5)
 plot(p)
 dev.off()

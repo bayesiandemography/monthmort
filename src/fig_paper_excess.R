@@ -33,7 +33,8 @@ p <- ggplot(data, aes(x = time)) +
               fill = col_fill) +
   geom_line(aes(y = value.mid),
             col = col_line) +
-  geom_hline(yintercept = 0, linewidth = 0.25) +
+  geom_hline(yintercept = 0,
+             linewidth = 0.25) +
   ylim(-0.75, 4.25) +
   ylab("Deaths (000)") +
   xlab("")
