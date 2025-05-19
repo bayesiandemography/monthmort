@@ -5,6 +5,6 @@ suppressPackageStartupMessages({
 
 cmd_assign(.out = "out/example_ages.rds")
 
-example_ages <- c("10-14", "40-44", "65-69", "90-94")
+example_ages <- c("10-14", "35-39", "60-64", "95+")
 
 saveRDS(example_ages, file = .out)
