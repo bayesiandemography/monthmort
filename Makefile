@@ -119,7 +119,8 @@ out/fig_paper_agesextime.pdf: src/fig_paper_agesextime.R \
                       --col_line_2=$(COL_LINE_2)
 
 out/fig_paper_season.pdf: src/fig_paper_season.R \
-  out/comp.rds
+  out/comp.rds \
+  out/example_ages.rds
 	Rscript $^ $@ --use_example_ages=TRUE \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
@@ -151,7 +152,8 @@ out/fig_paper_excess_age.pdf: src/fig_paper_excess_age.R \
 ## Figures for supplementary part of paper
 
 out/fig_paper_season_supp.pdf: src/fig_paper_season.R \
-  out/comp.rds
+  out/comp.rds \
+  out/example_ages.rds
 	Rscript $^ $@ --use_example_ages=FALSE \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
