@@ -10,12 +10,14 @@ suppressPackageStartupMessages({
 })
 
 cmd_assign(.comp = "out/comp.rds",
+           .example_ages = "out/example_ages.rds",
            use_example_ages = TRUE,
            col_fill = "#A6CEE3",
            col_line = "#1F4E79",
            .out = "out/fig_paper_season.pdf")
 
 comp <- readRDS(.comp)
+example_ages <- readRDS(.example_ages)
 
 season <- comp |>
   filter(component == "season") |>
@@ -27,7 +29,7 @@ season <- comp |>
 
 if (use_example_ages) {
   season <- season |>
-    filter(age %in% c("10-14", "40-44", "70-74", "90-94"))
+    filter(age %in% example_ages)
 }
 
 season <- season |>
