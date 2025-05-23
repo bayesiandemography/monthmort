@@ -255,7 +255,6 @@ p_time <- p_time_effect / p_time_trend / p_time_error
 
 ## Print in one document ------------------------------------------------------
 
-graphics.off()
 pdf(file = .out,
     width = 10,
     height = 10,

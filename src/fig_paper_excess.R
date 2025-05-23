@@ -39,7 +39,6 @@ p <- ggplot(data, aes(x = time)) +
   ylab("Deaths (000)") +
   xlab("")
 
-graphics.off()
 pdf(file = .out,
     width = 6,
     height = 3)

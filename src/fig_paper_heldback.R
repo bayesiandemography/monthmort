@@ -55,8 +55,6 @@ p <- ggplot(data, aes(x = forecast_period)) +
   ylab("Deaths (000)") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))  
 
-
-graphics.off()
 pdf(file = .out,
     width = 6,
     height = 6)
