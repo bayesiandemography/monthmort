@@ -58,8 +58,6 @@ if (use_example_ages) {
   p <- p + facet_wrap(vars(age), ncol = 7)
 }
 
-
-graphics.off()
 pdf(file = .out,
     width = 6,
     height = if (use_example_ages) 2.7 else 8)

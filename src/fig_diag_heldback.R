@@ -14,7 +14,6 @@ cmd_assign(.heldback = "out/heldback.rds",
 
 heldback <- readRDS(.heldback)
 
-graphics.off()
 pdf(file = .out,
     width = 10,
     height = 10,

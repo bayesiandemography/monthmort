@@ -14,13 +14,14 @@ COL_LINE_2 = \#7E1E9C
 .PHONY: all
 all: out/fig_diag_mod.pdf \
      out/fig_diag_heldback.pdf \
-     out/fig_paper_heldback.pdf \
+     out/fig_paper_popn_change.pdf \
      out/fig_paper_time.pdf \
      out/fig_paper_agesextime.pdf \
      out/fig_paper_season.pdf \
      out/fig_paper_rates.pdf \
+     out/fig_paper_heldback.pdf \
      out/fig_paper_excess.pdf \
-     out/fig_paper_excess_age.pdf \
+     out/fig_paper_excess_ag.pdf \
      out/fig_paper_agesextime_supp.pdf \
      out/fig_paper_season_supp.pdf \
      out/fig_paper_rates_all_female.pdf \
@@ -54,6 +55,13 @@ out/example_ages.rds: src/example_ages.R
 	Rscript $^ $@
 
 
+## Population change
+
+out/popn_change.rds: src/popn_change.R \
+  out/data.rds
+	Rscript $^ $@ --end_date=$(END_DATE)
+
+
 ## Fit model and derive values
 
 out/mod.rds: src/mod.R \
@@ -75,6 +83,17 @@ out/excess.rds: src/excess.R \
   out/data.rds
 	Rscript $^ $@ --end_date=$(END_DATE) \
                       --end_date_all=$(END_DATE_ALL)
+
+
+## Model checks
+
+out/repdata_lifeexp.rds: src/repdata_lifeexp.R \
+  out/mod.rds
+	Rscript $^ $@
+
+out/repdata_month.rds: src/repdata_month.R \
+  out/mod.rds
+	Rscript $^ $@
 
 out/heldback.rds: src/heldback.R \
   out/data.rds
@@ -101,6 +120,10 @@ out/fig_diag_heldback.pdf: src/fig_diag_heldback.R \
 
 
 ## Figures for main part of paper
+
+out/fig_paper_popn_change.pdf: src/fig_paper_popn_change.R \
+  out/popn_change.rds
+	Rscript $^ $@ --end_date=$(END_DATE)
 
 out/fig_paper_time.pdf: src/fig_paper_time.R \
   out/comp.rds
@@ -143,7 +166,7 @@ out/fig_paper_excess.pdf: src/fig_paper_excess.R \
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_paper_excess_age.pdf: src/fig_paper_excess_age.R \
+out/fig_paper_excess_ag.pdf: src/fig_paper_excess_ag.R \
   out/excess.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
@@ -197,12 +220,12 @@ out/fig_paper_excess_agesex_male.pdf: src/fig_paper_excess_agesex.R \
                       --col_line=$(COL_LINE)
 
 out/fig_paper_repdata_lifeexp.pdf: src/fig_paper_repdata_lifeexp.R \
-  out/mod.rds
+  out/repdata_lifeexp.rds
 	Rscript $^ $@ --col_line_1=$(COL_LINE_1) \
                       --col_line_2=$(COL_LINE_2)
 
 out/fig_paper_repdata_month.pdf: src/fig_paper_repdata_month.R \
-  out/mod.rds
+  out/repdata_month.rds
 	Rscript $^ $@
 
 

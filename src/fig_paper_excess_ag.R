@@ -11,7 +11,7 @@ suppressPackageStartupMessages({
 cmd_assign(.excess = "out/excess.rds",
            col_fill = "#A6CEE3",
            col_line = "#1F4E79",
-           .out = "out/fig_paper_excess_age.pdf")
+           .out = "out/fig_paper_excess_ag.pdf")
 
 excess <- readRDS(.excess)
 
@@ -22,12 +22,12 @@ data <- excess |>
                          age >= 50 & age < 90 ~ paste(age, age + 9, sep = "-"),
                          age >= 90 ~ "90+"),
          age = paste("Age", age)) |>
-  count(age, time, wt = excess, name = "excess") |>
+  count(age, sex, time, wt = excess, name = "excess") |>
   mutate(excess = excess / 1000) |>
   mutate(draws_ci(excess))
 
 p <- ggplot(data, aes(x = time)) +
-  facet_wrap(vars(age)) +
+  facet_grid(vars(sex), vars(age)) +
   geom_ribbon(aes(ymin = excess.lower,
                   ymax = excess.upper),
               fill = col_fill) +
@@ -35,9 +35,9 @@ p <- ggplot(data, aes(x = time)) +
             col = col_line) +
   geom_hline(yintercept = 0, linewidth = 0.25) +
   ylab("Deaths (000)") +
-  xlab("")
+  xlab("") +
+  theme(text = element_text(size = 10))
 
-graphics.off()
 pdf(file = .out,
     width = 6,
     height = 5)
