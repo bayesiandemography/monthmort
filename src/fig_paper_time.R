@@ -52,8 +52,6 @@ p <- ggplot(time, aes(x = time)) +
   xlab("") +
   ylab("")
 
-
-graphics.off()
 pdf(file = .out,
     width = 5,
     height = 6.5)

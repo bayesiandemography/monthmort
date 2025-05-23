@@ -94,7 +94,6 @@ if (use_example_ages) {
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 }
 
-graphics.off()
 pdf(file = .out,
     width = 6,
     height = if (use_example_ages) 3 else 8)
