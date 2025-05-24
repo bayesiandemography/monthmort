@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
 cmd_assign(.repdata_lifeexp = "out/repdata_lifeexp.rds",
            col_line_1 = "#228B22",
            col_line_2 = "#7E1E9C",
-           .out = "out/fig_paper_repdata_lifeexp.pdf")
+           .out = "out/fig_repdata_lifeexp.pdf")
 
 repdata_lifeexp <- readRDS(.repdata_lifeexp)
 

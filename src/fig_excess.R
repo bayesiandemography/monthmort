@@ -10,7 +10,7 @@ suppressPackageStartupMessages({
 cmd_assign(.excess = "out/excess.rds",
            col_fill = "#A6CEE3",
            col_line = "#1F4E79",
-           .out = "out/fig_paper_calc_excess_all.pdf")
+           .out = "out/fig_calc_excess_all.pdf")
 
 excess <- readRDS(.excess)
 
