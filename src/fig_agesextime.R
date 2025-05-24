@@ -17,7 +17,7 @@ cmd_assign(.comp = "out/comp.rds",
            col_line_1 = "#228B22",
            col_fill_2 = "#CC79A7",
            col_line_2 = "#7E1E9C",
-           .out = "out/fig_paper_agesextime.pdf")
+           .out = "out/fig_agesextime.pdf")
 
 comp <- readRDS(.comp)
 example_ages <- readRDS(.example_ages)

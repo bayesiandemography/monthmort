@@ -11,7 +11,7 @@ cmd_assign(.comp = "out/comp.rds",
            end_date = as.Date("2020-01-31"),
            col_fill = "#A6CEE3",
            col_line = "#1F4E79",
-           .out = "out/fig_paper_time.pdf")
+           .out = "out/fig_time.pdf")
 
 comp <- readRDS(.comp)
 

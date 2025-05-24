@@ -6,7 +6,7 @@ suppressPackageStartupMessages({
 })
 
 cmd_assign(.repdata_month = "out/repdata_month.rds",
-           .out = "out/fig_paper_repdata_month.pdf")
+           .out = "out/fig_repdata_month.pdf")
 
 repdata_month <- readRDS(.repdata_month)
 

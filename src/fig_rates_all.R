@@ -13,7 +13,7 @@ cmd_assign(.aug = "out/aug.rds",
            col_fill = "#A6CEE3",
            col_line = "#1F4E79",
            col_point = "red",
-           .out = "out/fig_paper_rates.pdf")
+           .out = "out/fig_rates.pdf")
 
 aug <- readRDS(.aug)
 

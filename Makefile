@@ -12,24 +12,22 @@ COL_FILL_2 = \#CC79A7
 COL_LINE_2 = \#7E1E9C
 
 .PHONY: all
-all: out/fig_diag_mod.pdf \
-     out/fig_diag_heldback.pdf \
-     out/fig_paper_pc_change.pdf \
-     out/fig_paper_time.pdf \
-     out/fig_paper_agesextime.pdf \
-     out/fig_paper_season.pdf \
-     out/fig_paper_rates.pdf \
-     out/fig_paper_heldback.pdf \
-     out/fig_paper_excess.pdf \
-     out/fig_paper_excess_ag.pdf \
-     out/fig_paper_agesextime_supp.pdf \
-     out/fig_paper_season_supp.pdf \
-     out/fig_paper_rates_all_female.pdf \
-     out/fig_paper_rates_all_male.pdf \
-     out/fig_paper_excess_agesex_female.pdf \
-     out/fig_paper_excess_agesex_male.pdf \
-     out/fig_paper_repdata_lifeexp.pdf \
-     out/fig_paper_repdata_month.pdf
+all: out/fig_pc_change.pdf \
+     out/fig_time.pdf \
+     out/fig_agesextime.pdf \
+     out/fig_season.pdf \
+     out/fig_rates.pdf \
+     out/fig_heldback.pdf \
+     out/fig_excess.pdf \
+     out/fig_excess_ag.pdf \
+     out/fig_agesextime_supp.pdf \
+     out/fig_season_supp.pdf \
+     out/fig_rates_all_female.pdf \
+     out/fig_rates_all_male.pdf \
+     out/fig_excess_agesex_female.pdf \
+     out/fig_excess_agesex_male.pdf \
+     out/fig_repdata_lifeexp.pdf \
+     out/fig_repdata_month.pdf
 
 
 ## Prepare data
@@ -105,35 +103,19 @@ out/heldback.rds: src/heldback.R \
                       --years_forecast=5
 
 
-## Figures for diagnostics (not included in paper)
-
-out/fig_diag_mod.pdf: src/fig_diag_mod.R \
-  out/aug.rds \
-  out/comp.rds
-	Rscript $^ $@ --end_date=$(END_DATE) \
-                      --col_line=$(COL_LINE) \
-                      --col_fill=$(COL_FILL) \
-                      --col_point=$(COL_POINT)
-
-out/fig_diag_heldback.pdf: src/fig_diag_heldback.R \
-  out/heldback.rds
-	Rscript $^ $@ --col_line=grey70 \
-                      --col_point=blue
-
-
 ## Figures for main part of paper
 
-out/fig_paper_pc_change.pdf: src/fig_paper_pc_change.R \
+out/fig_pc_change.pdf: src/fig_pc_change.R \
   out/pc_change.rds
 	Rscript $^ $@
 
-out/fig_paper_time.pdf: src/fig_paper_time.R \
+out/fig_time.pdf: src/fig_time.R \
   out/comp.rds
 	Rscript $^ $@ --end_date=$(END_DATE) \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_paper_agesextime.pdf: src/fig_paper_agesextime.R \
+out/fig_agesextime.pdf: src/fig_agesextime.R \
   out/comp.rds \
   out/example_ages.rds
 	Rscript $^ $@ --end_date=$(END_DATE) \
@@ -143,14 +125,14 @@ out/fig_paper_agesextime.pdf: src/fig_paper_agesextime.R \
                       --col_fill_2=$(COL_FILL_2) \
                       --col_line_2=$(COL_LINE_2)
 
-out/fig_paper_season.pdf: src/fig_paper_season.R \
+out/fig_season.pdf: src/fig_season.R \
   out/comp.rds \
   out/example_ages.rds
 	Rscript $^ $@ --use_example_ages=TRUE \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_paper_rates.pdf: src/fig_paper_rates.R \
+out/fig_rates.pdf: src/fig_rates.R \
   out/aug.rds \
   out/example_ages.rds
 	Rscript $^ $@ --end_date=$(END_DATE) \
@@ -158,17 +140,17 @@ out/fig_paper_rates.pdf: src/fig_paper_rates.R \
                       --col_line=$(COL_LINE) \
                       --col_point=$(COL_POINT)
 
-out/fig_paper_heldback.pdf: src/fig_paper_heldback.R \
+out/fig_heldback.pdf: src/fig_heldback.R \
   out/heldback.rds
 	Rscript $^ $@ --col_line=darkorange \
                       --col_point=blue
 
-out/fig_paper_excess.pdf: src/fig_paper_excess.R \
+out/fig_excess.pdf: src/fig_excess.R \
   out/excess.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_paper_excess_ag.pdf: src/fig_paper_excess_ag.R \
+out/fig_excess_ag.pdf: src/fig_excess_ag.R \
   out/excess.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
@@ -176,14 +158,14 @@ out/fig_paper_excess_ag.pdf: src/fig_paper_excess_ag.R \
 
 ## Figures for supplementary part of paper
 
-out/fig_paper_season_supp.pdf: src/fig_paper_season.R \
+out/fig_season_supp.pdf: src/fig_season.R \
   out/comp.rds \
   out/example_ages.rds
 	Rscript $^ $@ --use_example_ages=FALSE \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_paper_agesextime_supp.pdf: src/fig_paper_agesextime.R \
+out/fig_agesextime_supp.pdf: src/fig_agesextime.R \
   out/comp.rds \
   out/example_ages.rds
 	Rscript $^ $@ --end_date=$(END_DATE) \
@@ -193,7 +175,7 @@ out/fig_paper_agesextime_supp.pdf: src/fig_paper_agesextime.R \
                       --col_fill_2=$(COL_FILL_2) \
                       --col_line_2=$(COL_LINE_2)
 
-out/fig_paper_rates_all_female.pdf: src/fig_paper_rates_all.R \
+out/fig_rates_all_female.pdf: src/fig_rates_all.R \
   out/aug.rds
 	Rscript $^ $@ --sex=Female \
                       --end_date=$(END_DATE) \
@@ -201,7 +183,7 @@ out/fig_paper_rates_all_female.pdf: src/fig_paper_rates_all.R \
                       --col_line=$(COL_LINE) \
                       --col_point=$(COL_POINT)
 
-out/fig_paper_rates_all_male.pdf: src/fig_paper_rates_all.R \
+out/fig_rates_all_male.pdf: src/fig_rates_all.R \
   out/aug.rds
 	Rscript $^ $@ --sex=Male \
                       --end_date=$(END_DATE) \
@@ -209,24 +191,24 @@ out/fig_paper_rates_all_male.pdf: src/fig_paper_rates_all.R \
                       --col_line=$(COL_LINE) \
                       --col_point=$(COL_POINT)
 
-out/fig_paper_excess_agesex_female.pdf: src/fig_paper_excess_agesex.R \
+out/fig_excess_agesex_female.pdf: src/fig_excess_agesex.R \
   out/excess.rds
 	Rscript $^ $@ --sex=Female \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_paper_excess_agesex_male.pdf: src/fig_paper_excess_agesex.R \
+out/fig_excess_agesex_male.pdf: src/fig_excess_agesex.R \
   out/excess.rds
 	Rscript $^ $@ --sex=Male \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_paper_repdata_lifeexp.pdf: src/fig_paper_repdata_lifeexp.R \
+out/fig_repdata_lifeexp.pdf: src/fig_repdata_lifeexp.R \
   out/repdata_lifeexp.rds
 	Rscript $^ $@ --col_line_1=$(COL_LINE_1) \
                       --col_line_2=$(COL_LINE_2)
 
-out/fig_paper_repdata_month.pdf: src/fig_paper_repdata_month.R \
+out/fig_repdata_month.pdf: src/fig_repdata_month.R \
   out/repdata_month.rds
 	Rscript $^ $@
 
@@ -235,7 +217,7 @@ out/fig_paper_repdata_month.pdf: src/fig_paper_repdata_month.R \
 
 .PHONY: copy
 copy:
-	cp out/fig_paper*.pdf ../monthmort_paper/figures
+	cp out/fig*.pdf ../monthmort_paper/figures
 
 
 ## Clean
