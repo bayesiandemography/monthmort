@@ -14,7 +14,7 @@ COL_LINE_2 = \#7E1E9C
 .PHONY: all
 all: out/fig_diag_mod.pdf \
      out/fig_diag_heldback.pdf \
-     out/fig_paper_popn_change.pdf \
+     out/fig_paper_pc_change.pdf \
      out/fig_paper_time.pdf \
      out/fig_paper_agesextime.pdf \
      out/fig_paper_season.pdf \
@@ -55,11 +55,13 @@ out/example_ages.rds: src/example_ages.R
 	Rscript $^ $@
 
 
-## Population change
+## Change in rates, exposure, deaths
 
-out/popn_change.rds: src/popn_change.R \
+out/pc_change.rds: src/pc_change.R \
   out/data.rds
-	Rscript $^ $@ --end_date=$(END_DATE)
+	Rscript $^ $@ --age_min=50 \
+                      --date_start=2015-01-01 \
+                      --date_end=2019-12-31
 
 
 ## Fit model and derive values
@@ -121,9 +123,9 @@ out/fig_diag_heldback.pdf: src/fig_diag_heldback.R \
 
 ## Figures for main part of paper
 
-out/fig_paper_popn_change.pdf: src/fig_paper_popn_change.R \
-  out/popn_change.rds
-	Rscript $^ $@ --end_date=$(END_DATE)
+out/fig_paper_pc_change.pdf: src/fig_paper_pc_change.R \
+  out/pc_change.rds
+	Rscript $^ $@
 
 out/fig_paper_time.pdf: src/fig_paper_time.R \
   out/comp.rds
