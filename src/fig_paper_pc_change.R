@@ -4,23 +4,22 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(.popn_change = "out/popn_change.rds",
-           end_date = as.Date("2020-01-31"),
-           .out = "out/fig_paper_popn_change.pdf")
+cmd_assign(.pc_change = "out/pc_change.rds",
+           .out = "out/fig_paper_pc_change.pdf")
 
-popn_change <- readRDS(.popn_change)
+pc_change <- readRDS(.pc_change)
 
-p <- ggplot(popn_change, aes(x = 0, xend = popn_change, y = age)) +
-  facet_wrap(vars(sex)) +
+p <- ggplot(pc_change, aes(x = 0, xend = pc_change, y = age)) +
+  facet_grid(vars(sex), vars(series)) +
   geom_segment(linewidth = 0.3,
                arrow = arrow(length = unit(0.15,"cm"))) +
   xlab("Percent") +
+  xlim(-50, 50) +
   ylab("") +
   theme(text = element_text(size = 10))
 
-
 pdf(file = .out,
-    width = 4.5,
+    width = 6,
     height = 3)
 plot(p)
 dev.off()        
