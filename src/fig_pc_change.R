@@ -5,7 +5,7 @@ suppressPackageStartupMessages({
 })
 
 cmd_assign(.pc_change = "out/pc_change.rds",
-           .out = "out/fig_paper_pc_change.pdf")
+           .out = "out/fig_pc_change.pdf")
 
 pc_change <- readRDS(.pc_change)
 
