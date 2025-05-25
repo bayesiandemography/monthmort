@@ -14,12 +14,11 @@ p <- ggplot(pc_change, aes(x = 0, xend = pc_change, y = age)) +
   geom_segment(linewidth = 0.3,
                arrow = arrow(length = unit(0.15,"cm"))) +
   xlab("Percent") +
-  xlim(-50, 50) +
   ylab("") +
   theme(text = element_text(size = 10))
 
 pdf(file = .out,
-    width = 6,
+    width = 5,
     height = 3)
 plot(p)
 dev.off()        
