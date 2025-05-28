@@ -12,7 +12,8 @@ COL_FILL_2 = \#CC79A7
 COL_LINE_2 = \#7E1E9C
 
 .PHONY: all
-all: out/fig_pc_change.pdf \
+all: out/fig_data_deaths_expose.pdf \
+     out/fig_data_monthly.pdf \
      out/fig_time.pdf \
      out/fig_agesextime.pdf \
      out/fig_season.pdf \
@@ -53,13 +54,16 @@ out/example_ages.rds: src/example_ages.R
 	Rscript $^ $@
 
 
-## Change in rates, exposure, deaths
+## Plots of raw data
 
-out/pc_change.rds: src/pc_change.R \
+out/data_deaths_expose.rds: src/data_deaths_expose.R \
   out/data.rds
-	Rscript $^ $@ --age_min=50 \
-                      --date_start=2015-01-01 \
-                      --date_end=2019-12-31
+	Rscript $^ $@ 
+
+out/data_monthly.rds: src/data_monthly.R \
+  out/data.rds \
+  out/example_ages.rds
+	Rscript $^ $@ 
 
 
 ## Fit model and derive values
@@ -105,8 +109,12 @@ out/heldback.rds: src/heldback.R \
 
 ## Figures for main part of paper
 
-out/fig_pc_change.pdf: src/fig_pc_change.R \
-  out/pc_change.rds
+out/fig_data_deaths_expose.pdf: src/fig_data_deaths_expose.R \
+  out/data_deaths_expose.rds
+	Rscript $^ $@
+
+out/fig_data_monthly.pdf: src/fig_data_monthly.R \
+  out/data_monthly.rds
 	Rscript $^ $@
 
 out/fig_time.pdf: src/fig_time.R \
