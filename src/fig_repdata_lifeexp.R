@@ -6,11 +6,17 @@ suppressPackageStartupMessages({
 })
 
 cmd_assign(.repdata_lifeexp = "out/repdata_lifeexp.rds",
+           use_all = FALSE,
            col_line_1 = "#228B22",
            col_line_2 = "#7E1E9C",
            .out = "out/fig_repdata_lifeexp.pdf")
 
 repdata_lifeexp <- readRDS(.repdata_lifeexp)
+
+if (!use_all) {
+  repdata_lifeexp <- repdata_lifeexp |>
+    filter(.replicate %in% unique(.replicate)[1:8])
+}
 
 p <- ggplot(repdata_lifeexp, aes(x = time, y = ex, col = sex)) +
   facet_wrap(vars(.replicate), ncol = 4) +
@@ -29,6 +35,6 @@ p <- ggplot(repdata_lifeexp, aes(x = time, y = ex, col = sex)) +
 
 pdf(file = .out,
     width = 6,
-    height = 7.5)
+    height = if (use_all) 7.5 else 4)
 plot(p)
 dev.off()        

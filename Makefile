@@ -18,6 +18,8 @@ all: out/fig_data_deaths_expose.pdf \
      out/fig_agesextime.pdf \
      out/fig_season.pdf \
      out/fig_rates.pdf \
+     out/fig_repdata_lifeexp.pdf \
+     out/fig_repdata_month.pdf \
      out/fig_heldback.pdf \
      out/fig_excess.pdf \
      out/fig_excess_ag.pdf \
@@ -27,8 +29,8 @@ all: out/fig_data_deaths_expose.pdf \
      out/fig_rates_all_male.pdf \
      out/fig_excess_agesex_female.pdf \
      out/fig_excess_agesex_male.pdf \
-     out/fig_repdata_lifeexp.pdf \
-     out/fig_repdata_month.pdf
+     out/fig_repdata_lifeexp_supp.pdf \
+     out/fig_repdata_month_supp.pdf
 
 
 ## Prepare data
@@ -148,6 +150,17 @@ out/fig_rates.pdf: src/fig_rates.R \
                       --col_line=$(COL_LINE) \
                       --col_point=$(COL_POINT)
 
+out/fig_repdata_lifeexp.pdf: src/fig_repdata_lifeexp.R \
+  out/repdata_lifeexp.rds
+	Rscript $^ $@ --use_all=FALSE \
+                      --col_line_1=$(COL_LINE_1) \
+                      --col_line_2=$(COL_LINE_2)
+
+out/fig_repdata_month.pdf: src/fig_repdata_month.R \
+  out/repdata_month.rds
+	Rscript $^ $@  --use_all=FALSE
+
+
 out/fig_heldback.pdf: src/fig_heldback.R \
   out/heldback.rds
 	Rscript $^ $@ --col_line=darkorange \
@@ -211,14 +224,15 @@ out/fig_excess_agesex_male.pdf: src/fig_excess_agesex.R \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_repdata_lifeexp.pdf: src/fig_repdata_lifeexp.R \
+out/fig_repdata_lifeexp_supp.pdf: src/fig_repdata_lifeexp.R \
   out/repdata_lifeexp.rds
-	Rscript $^ $@ --col_line_1=$(COL_LINE_1) \
+	Rscript $^ $@ --use_all=TRUE \
+                      --col_line_1=$(COL_LINE_1) \
                       --col_line_2=$(COL_LINE_2)
 
-out/fig_repdata_month.pdf: src/fig_repdata_month.R \
+out/fig_repdata_month_supp.pdf: src/fig_repdata_month.R \
   out/repdata_month.rds
-	Rscript $^ $@
+	Rscript $^ $@ --use_all=TRUE
 
 
 ## Copy to directory for paper
