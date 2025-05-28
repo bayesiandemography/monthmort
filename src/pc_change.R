@@ -32,8 +32,16 @@ pc_change <- data |>
   mutate(pc_change = 100 * (end - start) / start) |>
   select(-start, -end) |>
   mutate(series = factor(series,
-                         levels = c("rate", "exposure", "deaths"),
-                         labels = c("Rate", "Exposure", "Deaths")))
+                         levels = c("deaths", "exposure", "rate"),
+                         labels = c("Deaths", "Exposure", "Deaths / Exposure")))
 
 saveRDS(pc_change, file = .out)
+
+
+
+
+
+
+
+
 
