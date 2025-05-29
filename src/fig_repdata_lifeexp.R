@@ -24,14 +24,13 @@ p <- ggplot(repdata_lifeexp, aes(x = time, y = ex, col = sex)) +
   scale_color_manual(values = c(col_line_1, col_line_2)) +
   scale_x_date(breaks = seq(from = as.Date("2000-01-01"),
                             to = as.Date("2020-01-01"),
-                            by = "5 years"),
+                            by = "10 years"),
                date_minor_breaks = "1 year",
                date_labels = "%Y") +
   xlab("Time") +
   ylab("Years") +
   theme(legend.position = "top",
-        legend.title = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1))
+        legend.title = element_blank())
 
 pdf(file = .out,
     width = 6,
