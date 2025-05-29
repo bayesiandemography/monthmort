@@ -65,14 +65,16 @@ out/data_deaths_expose.rds: src/data_deaths_expose.R \
 out/data_monthly.rds: src/data_monthly.R \
   out/data.rds \
   out/example_ages.rds
-	Rscript $^ $@ 
+	Rscript $^ $@ --start_date=$(START_DATE) \
+                      --end_date=$(END_DATE)
 
 
 ## Fit model and derive values
 
 out/mod.rds: src/mod.R \
   out/data.rds
-	Rscript $^ $@ --start_date=$(START_DATE) --end_date=$(END_DATE)
+	Rscript $^ $@ --start_date=$(START_DATE)
+                      --end_date=$(END_DATE)
 
 out/aug.rds: src/aug.R \
   out/mod.rds \
