@@ -31,7 +31,11 @@ data_deaths_expose <- data |>
   group_by(series) |>
   nest() |>
   mutate(data = lapply(data, make_age_mid)) |>
-  unnest(data)
+  unnest(data) |>
+  mutate(series = factor(series,
+                         levels = c("deaths", "exposure", "log_rate"),
+                         labels = c("Deaths", "Exposure", "Log Rate"))) |>
+  mutate(time = strftime(time, format = "%Y-%b"))
 
 saveRDS(data_deaths_expose, file = .out)
 

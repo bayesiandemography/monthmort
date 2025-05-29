@@ -16,7 +16,8 @@ p <- ggplot(data_deaths_expose,
   geom_line() +
   scale_color_manual(values = c("#63a3cc", "#08306b")) +
   xlab("Age") +
-  ylab("")
+  ylab("") +
+  theme(legend.title = element_blank())
 
 pdf(file = .out,
     width = 5,
