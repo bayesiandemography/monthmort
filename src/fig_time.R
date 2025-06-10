@@ -22,10 +22,10 @@ time <- comp |>
   mutate(draws_ci(.fitted)) |>
   mutate(component = factor(component,
                             levels = c("effect", "trend", "error"),
-                            labels = c("Effect", "Trend", "Cyclical")))
+                            labels = c("Effect", "Trend", "Residual")))
 
-hline_df <- data.frame(component = factor(c("Effect", "Trend" ,"Cyclical"),
-                                          levels = c("Effect", "Trend", "Cyclical")),
+hline_df <- data.frame(component = factor(c("Effect", "Trend" ,"Residual"),
+                                          levels = c("Effect", "Trend", "Residual")),
                        yintercept = c(NA, NA, 0))
 
 p <- ggplot(time, aes(x = time)) +
