@@ -73,7 +73,7 @@ out/data_monthly.rds: src/data_monthly.R \
 
 out/mod.rds: src/mod.R \
   out/data.rds
-	Rscript $^ $@ --start_date=$(START_DATE)
+	Rscript $^ $@ --start_date=$(START_DATE) \
                       --end_date=$(END_DATE)
 
 out/aug.rds: src/aug.R \
