@@ -43,7 +43,8 @@ p <- ggplot(data, aes(x = time)) +
                                  by = "5 year"),
                date_minor_breaks = "1 year",
                date_labels = "%Y") +
-  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE),
+                     limits = c(0, NA)) +
   ylab("") +
   xlab("")
 

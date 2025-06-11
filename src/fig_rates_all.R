@@ -41,7 +41,8 @@ p <- ggplot(data, aes(x = time)) +
              linetype = "dashed",
              linewidth = 0.25) +
   scale_x_date(date_minor_breaks = "1 year") +
-  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE),
+                     limits = c(0, NA)) +
   ylab("") +
   xlab("")
 
