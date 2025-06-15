@@ -23,7 +23,6 @@ data <- excess |>
                          age >= 90 ~ "90+"),
          age = paste("Age", age)) |>
   count(age, sex, time, wt = excess, name = "excess") |>
-  mutate(excess = excess / 1000) |>
   mutate(draws_ci(excess))
 
 p <- ggplot(data, aes(x = time)) +
@@ -34,7 +33,7 @@ p <- ggplot(data, aes(x = time)) +
   geom_line(aes(y = excess.mid),
             col = col_line) +
   geom_hline(yintercept = 0, linewidth = 0.25) +
-  ylab("Deaths (000)") +
+  ylab("Deaths") +
   xlab("") +
   theme(text = element_text(size = 10))
 
