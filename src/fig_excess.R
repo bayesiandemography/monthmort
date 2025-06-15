@@ -23,7 +23,6 @@ data <- excess |>
   mutate(series = factor(series,
                          levels = c("observed", "expected", "excess"),
                          labels = c("Observed", "Expected", "Excess"))) |>
-  mutate(value = value / 1000) |>
   mutate(draws_ci(value))
 
 p <- ggplot(data, aes(x = time)) +
@@ -35,8 +34,8 @@ p <- ggplot(data, aes(x = time)) +
             col = col_line) +
   geom_hline(yintercept = 0,
              linewidth = 0.25) +
-  ylim(-0.75, 4.25) +
-  ylab("Deaths (000)") +
+  ylim(-750, 4250) +
+  ylab("Deaths") +
   xlab("")
 
 pdf(file = .out,
