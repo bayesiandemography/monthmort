@@ -18,7 +18,6 @@ excess <- readRDS(.excess)
 
 data <- excess |>
   filter(sex == !!sex) |>
-  mutate(excess = excess / 1000) |>
   mutate(draws_ci(excess))
 
 p <- ggplot(data, aes(x = time)) +
@@ -30,8 +29,8 @@ p <- ggplot(data, aes(x = time)) +
             color = col_line,
             linewidth = 0.25) +
   geom_hline(yintercept = 0, linewidth = 0.25) +
-  ylim(-0.105, 0.156) + ## taken from results for females
-  ylab("Deaths (000)") +
+  ylim(-105, 156) + ## taken from results for females
+  ylab("Deaths") +
   xlab("") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
