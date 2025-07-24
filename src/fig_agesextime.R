@@ -10,9 +10,7 @@ suppressPackageStartupMessages({
 })
 
 cmd_assign(.comp = "out/comp.rds",
-           .example_ages = "out/example_ages.rds",
            end_date = as.Date("2020-01-31"),
-           use_example_ages = TRUE,
            col_fill_1 = "#A6D854",
            col_line_1 = "#228B22",
            col_fill_2 = "#CC79A7",
@@ -20,7 +18,6 @@ cmd_assign(.comp = "out/comp.rds",
            .out = "out/fig_agesextime.pdf")
 
 comp <- readRDS(.comp)
-example_ages <- readRDS(.example_ages)
 
 intercept <-  comp |>
   filter(term == "(Intercept)") |>
@@ -54,11 +51,6 @@ age_sex_time <- age_sex |>
   inner_join(age_time_trend, by = c("age", "time")) |>
   inner_join(time_trend, by = "time")
 
-if (use_example_ages) {
-  age_sex_time <- age_sex_time |>
-    filter(age %in% example_ages)
-} 
-
 age_sex_time <- age_sex_time |>
   mutate(age = factor(age, levels = unique(age))) |>
   mutate(.fitted = intercept + age_sex + sex_time + age_time_trend + time_trend) |>
@@ -69,6 +61,7 @@ age_sex_time <- age_sex_time |>
          age = factor(age, levels = unique(age)))
 
 p <- ggplot(age_sex_time, aes(x = time)) +
+  facet_wrap(vars(age), ncol = 7) +
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper,
                   fill = sex),
@@ -84,18 +77,11 @@ p <- ggplot(age_sex_time, aes(x = time)) +
   xlab("") +
   ylab("") +
   theme(legend.position = "top",
-        legend.title = element_blank())
-
-if (use_example_ages) {
-  p <- p + facet_wrap(vars(age), nrow = 1)
-} else {
-  p <- p +
-    facet_wrap(vars(age), ncol = 7) +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-}
+        legend.title = element_blank(),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
 pdf(file = .out,
     width = 6,
-    height = if (use_example_ages) 3 else 8)
+    height = 8)
 plot(p)
 dev.off()

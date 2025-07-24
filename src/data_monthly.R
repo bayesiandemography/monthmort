@@ -17,6 +17,9 @@ example_ages_short <- example_ages[c(1, 3, 5)]
 
 data_monthly <- data |>
   filter(age %in% example_ages_short) |>
+  mutate(age = factor(age,
+                      levels = unique(age),
+                      labels = paste("Age", unique(age)))) |>
   filter(time >= start_date,
          time <= end_date)
 
