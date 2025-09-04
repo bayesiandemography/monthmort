@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
 })
 
 cmd_assign(.popn = "data/DPE403901_20250516_063419_2.csv.gz",
-           n_max_popn = 136,
+           n_max_popn = 137,
            .out = "out/popn.rds")
 
 age_labels <- age_labels(type = "single", max = 95)
