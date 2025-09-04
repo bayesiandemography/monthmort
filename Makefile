@@ -40,7 +40,7 @@ out/deaths.rds: src/deaths.R \
 	Rscript $^ $@
 
 out/popn.rds: src/popn.R \
-  data/DPE403901_20250516_063419_2.csv.gz
+  data/DPE403901_20250904_045728_88.csv.gz
 	Rscript $^ $@ --n_max_popn=$(N_MAX_POPN)
 
 out/exposure.rds: src/exposure.R \
