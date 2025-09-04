@@ -25,7 +25,7 @@ p <- ggplot(data, aes(x = time)) +
                      limits = c(0, 1),
                      expand = c(0, 0)) +
   xlab("") +
-  ylab("") +
+  ylab("Probability") +
   theme(text = element_text(size = 10))
 
 pdf(file = .out,
