@@ -6,18 +6,18 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(.excess_age = "out/excess_age.rds",
+cmd_assign(.excess_ag = "out/excess_ag.rds",
            col_fill = "#A6CEE3",
            col_line = "#1F4E79",
-           .out = "out/fig_excess_age_val.pdf")
+           .out = "out/fig_excess_ag.pdf")
 
-excess_age <- readRDS(.excess_age)
+excess_ag <- readRDS(.excess_ag)
 
-data <- excess_age |>
+data <- excess_ag |>
   mutate(draws_ci(excess))
 
 p <- ggplot(data, aes(x = time)) +
-  facet_wrap(vars(age), nrow = 1) +
+  facet_grid(vars(sex), vars(age)) +
   geom_ribbon(aes(ymin = excess.lower,
                   ymax = excess.upper),
               fill = col_fill) +
@@ -32,7 +32,7 @@ p <- ggplot(data, aes(x = time)) +
 
 pdf(file = .out,
     width = 6,
-    height = 2)
+    height = 3.5)
 plot(p)
 dev.off()        
 

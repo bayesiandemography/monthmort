@@ -22,8 +22,7 @@ all: out/fig_data_deaths_expose.pdf \
      out/fig_repdata_month.pdf \
      out/fig_heldback.pdf \
      out/fig_excess.pdf \
-     out/fig_excess_age_val.pdf \
-     out/fig_excess_age_prob.pdf \
+     out/fig_excess_ag.pdf \
      out/fig_season_supp.pdf \
      out/fig_rates_all_female.pdf \
      out/fig_rates_all_male.pdf \
@@ -92,7 +91,7 @@ out/excess.rds: src/excess.R \
 	Rscript $^ $@ --end_date=$(END_DATE) \
                       --end_date_all=$(END_DATE_ALL)
 
-out/excess_age.rds: src/excess_age.R \
+out/excess_ag.rds: src/excess_ag.R \
   out/excess.rds
 	Rscript $^ $@
 
@@ -175,14 +174,10 @@ out/fig_excess.pdf: src/fig_excess.R \
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_excess_age_val.pdf: src/fig_excess_age_val.R \
-  out/excess_age.rds
+out/fig_excess_ag.pdf: src/fig_excess_ag.R \
+  out/excess_ag.rds
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
-
-out/fig_excess_age_prob.pdf: src/fig_excess_age_prob.R \
-  out/excess_age.rds
-	Rscript $^ $@
 
 
 ## Figures for supplementary part of paper
