@@ -46,7 +46,7 @@ for (i in seq_along(end_dates)) {
     set_prior(age:time ~ RW2_Seas(n_seas = 12, sd = 0, con = "by")) |>
     set_prior(sex:time ~ RW2(sd = 0, con = "by")) |>
     set_prior(time ~ Lin_AR()) |>
-    set_datamod_outcome_rr3() |>
+    set_confidential_rr3() |>
     set_n_draw(n_draw = 2000) |>
     fit()
   print(mod)

@@ -1,7 +1,15 @@
 START_DATE = 1998-01-01
 END_DATE = 2020-01-31
-END_DATE_ALL = 2025-02-28
-N_MAX_POPN = 137
+POPN = NEW
+ifeq ($(POPN),NEW)
+  FN_POPN = DPE403901_20250904_045728_88
+  END_DATE_ALL = 2025-02-28
+  N_MAX_POPN = 137
+else
+  FN_POPN = DPE403901_20250318_012204_94
+  END_DATE_ALL = 2024-12-31
+  N_MAX_POPN = 136
+endif
 
 COL_FILL = \#A6CEE3
 COL_LINE = \#1F4E79
@@ -29,7 +37,8 @@ all: out/fig_data_deaths_expose.pdf \
      out/fig_excess_agesex_female.pdf \
      out/fig_excess_agesex_male.pdf \
      out/fig_repdata_lifeexp_supp.pdf \
-     out/fig_repdata_month_supp.pdf
+     out/fig_repdata_month_supp.pdf \
+     out/tab_excess_total.csv
 
 
 ## Prepare data
@@ -39,7 +48,7 @@ out/deaths.rds: src/deaths.R \
 	Rscript $^ $@
 
 out/popn.rds: src/popn.R \
-  data/DPE403901_20250904_045728_88.csv.gz
+  data/$(FN_POPN).csv.gz
 	Rscript $^ $@ --n_max_popn=$(N_MAX_POPN)
 
 out/exposure.rds: src/exposure.R \
@@ -226,6 +235,10 @@ out/fig_repdata_lifeexp_supp.pdf: src/fig_repdata_lifeexp.R \
 out/fig_repdata_month_supp.pdf: src/fig_repdata_month.R \
   out/repdata_month.rds
 	Rscript $^ $@ --use_all=TRUE
+
+out/tab_excess_total.csv: src/tab_excess_total.R \
+  out/excess.rds
+	Rscript $^ $@
 
 
 ## Copy to directory for paper
