@@ -44,7 +44,7 @@ all: out/fig_data_deaths_expose.pdf \
 ## Prepare data
 
 out/deaths.rds: src/deaths.R \
-  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M2.csv.gz
+  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M6.csv.gz
 	Rscript $^ $@
 
 out/popn.rds: src/popn.R \
