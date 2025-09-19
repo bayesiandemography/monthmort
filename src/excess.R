@@ -17,7 +17,7 @@ data <- readRDS(.data)
 expected <- aug |>
   filter(time > end_date,
          time <= end_date_all) |>
-  select(age, sex, time, expected = deaths, exposure)
+  select(age, sex, time, expected = .deaths, exposure)
 
 observed <- data |>
   select(age, sex, time, observed = deaths)

@@ -9,25 +9,38 @@ suppressPackageStartupMessages({
 })
 
 cmd_assign(.excess = "out/excess.rds",
-           .out = "out/tab_excess_total.csv")
+           .out = "out/tab_excess.rds")
 
 excess <- readRDS(.excess)
 
 make_str <- function(x) {
-  sprintf("%1.0f (%1.0f, %1.0f)",
-          draws_median(x),
-          draws_quantile(x, 0.025)[[1]],
-          draws_quantile(x, 0.975)[[1]])
+  nm <- deparse(substitute(x))
+  ans <- data.frame(pt = formatC(draws_median(x),
+                                 digits = 0,
+                                 big.mark = ",",
+                                 format = "f"),
+                    ci = sprintf("(%s, %s)",
+                                 formatC(draws_quantile(x, 0.025)[[1]],
+                                         digits = 0,
+                                         big.mark = ",",
+                                         format = "f"),
+                                 formatC(draws_quantile(x, 0.975)[[1]],
+                                         digits = 0,
+                                         big.mark = ",",
+                                         format = "f")))
+  names(ans) <- paste(nm, names(ans), sep = ".")
+  ans
 }
 
-tab_excess_total <- excess |>
+tab_excess <- excess |>
   filter(time < as.Date("2025-01-01")) |>
-  mutate(year = year(time)) |>
-  count(year, wt = excess, name = "annual") |>
-  mutate(cumulative = cumsum(annual)) |>
-  mutate(annual = make_str(annual),
-         cumulative = make_str(cumulative))
+  mutate(Year = year(time)) |>
+  mutate(Year <= 2024) |>
+  count(Year, wt = excess, name = "Annual") |>
+  mutate(Cumulative = cumsum(Annual)) |>
+  mutate(make_str(Annual)) |>
+  mutate(make_str(Cumulative)) |>
+  select(-c(Annual, Cumulative))
 
-
-write_csv(tab_excess_total, file = .out)
+saveRDS(tab_excess, file = .out)
 
