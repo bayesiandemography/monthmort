@@ -10,6 +10,7 @@ suppressPackageStartupMessages({
 })
 
 cmd_assign(.popn = "out/popn.rds",
+           end_date_all = as.Date("2025-02-28"),
            .out = "out/exposure.rds")
 
 popn <- readRDS(.popn)
@@ -37,7 +38,8 @@ exposure <- popn %>%
   mutate(time = format(time, "%Y-%m"),
          time = paste0(time, "-15"),
          time = ymd(time)) |>
-  filter(!is.na(exposure))
+  filter(!is.na(exposure)) |>
+  filter(time <= end_date_all)
 
 saveRDS(exposure, file = .out)
 

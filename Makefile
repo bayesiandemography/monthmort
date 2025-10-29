@@ -26,8 +26,6 @@ all: out/fig_data_deaths_expose.pdf \
      out/fig_agesextime.pdf \
      out/fig_season.pdf \
      out/fig_rates.pdf \
-     out/fig_repdata_lifeexp.pdf \
-     out/fig_repdata_month.pdf \
      out/fig_heldback.pdf \
      out/fig_excess.pdf \
      out/fig_excess_ag.pdf \
@@ -36,24 +34,25 @@ all: out/fig_data_deaths_expose.pdf \
      out/fig_rates_all_male.pdf \
      out/fig_excess_agesex_female.pdf \
      out/fig_excess_agesex_male.pdf \
-     out/fig_repdata_lifeexp_supp.pdf \
-     out/fig_repdata_month_supp.pdf \
-     out/tab_excess_total.csv
+     out/fig_repdata_lifeexp.pdf \
+     out/fig_repdata_month.pdf \
+     out/tab_excess.tex
 
 
 ## Prepare data
 
 out/deaths.rds: src/deaths.R \
   data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M6.csv.gz
-	Rscript $^ $@
+	Rscript $^ $@ --end_date_all=$(END_DATE_ALL)
 
 out/popn.rds: src/popn.R \
   data/$(FN_POPN).csv.gz
 	Rscript $^ $@ --n_max_popn=$(N_MAX_POPN)
 
+
 out/exposure.rds: src/exposure.R \
   out/popn.rds
-	Rscript $^ $@
+	Rscript $^ $@ --end_date_all=$(END_DATE_ALL)
 
 out/data.rds: src/data.R \
   out/deaths.rds \
@@ -97,8 +96,7 @@ out/comp.rds: src/comp.R \
 out/excess.rds: src/excess.R \
   out/aug.rds \
   out/data.rds
-	Rscript $^ $@ --end_date=$(END_DATE) \
-                      --end_date_all=$(END_DATE_ALL)
+	Rscript $^ $@ --end_date=$(END_DATE)
 
 out/excess_ag.rds: src/excess_ag.R \
   out/excess.rds
@@ -162,17 +160,6 @@ out/fig_rates.pdf: src/fig_rates.R \
                       --col_line=$(COL_LINE) \
                       --col_point=$(COL_POINT)
 
-out/fig_repdata_lifeexp.pdf: src/fig_repdata_lifeexp.R \
-  out/repdata_lifeexp.rds
-	Rscript $^ $@ --use_all=FALSE \
-                      --col_line_1=$(COL_LINE_1) \
-                      --col_line_2=$(COL_LINE_2)
-
-out/fig_repdata_month.pdf: src/fig_repdata_month.R \
-  out/repdata_month.rds
-	Rscript $^ $@  --use_all=FALSE
-
-
 out/fig_heldback.pdf: src/fig_heldback.R \
   out/heldback.rds
 	Rscript $^ $@ --col_line=darkorange \
@@ -226,17 +213,16 @@ out/fig_excess_agesex_male.pdf: src/fig_excess_agesex.R \
                       --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
-out/fig_repdata_lifeexp_supp.pdf: src/fig_repdata_lifeexp.R \
+out/fig_repdata_lifeexp.pdf: src/fig_repdata_lifeexp.R \
   out/repdata_lifeexp.rds
-	Rscript $^ $@ --use_all=TRUE \
-                      --col_line_1=$(COL_LINE_1) \
+	Rscript $^ $@ --col_line_1=$(COL_LINE_1) \
                       --col_line_2=$(COL_LINE_2)
 
-out/fig_repdata_month_supp.pdf: src/fig_repdata_month.R \
+out/fig_repdata_month.pdf: src/fig_repdata_month.R \
   out/repdata_month.rds
-	Rscript $^ $@ --use_all=TRUE
+	Rscript $^ $@
 
-out/tab_excess_total.csv: src/tab_excess_total.R \
+out/tab_excess.tex: src/tab_excess.R \
   out/excess.rds
 	Rscript $^ $@
 
@@ -246,7 +232,7 @@ out/tab_excess_total.csv: src/tab_excess_total.R \
 .PHONY: copy
 copy:
 	cp out/fig*.pdf ../monthmort_paper/figures
-
+	cp out/tab*.tex ../monthmort_paper/tables
 
 ## Clean
 

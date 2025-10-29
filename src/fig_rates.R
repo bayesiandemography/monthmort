@@ -50,7 +50,7 @@ p <- ggplot(data, aes(x = time)) +
 
 pdf(file = .out,
     width = 6,
-    height = 7.5)
+    height = 7)
 plot(p)
 dev.off()        
 

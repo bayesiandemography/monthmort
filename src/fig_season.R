@@ -60,6 +60,6 @@ if (use_example_ages) {
 
 pdf(file = .out,
     width = 6,
-    height = if (use_example_ages) 2.7 else 8)
+    height = if (use_example_ages) 2.7 else 7)
 plot(p)
 dev.off()

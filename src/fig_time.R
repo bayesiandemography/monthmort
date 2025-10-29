@@ -29,7 +29,7 @@ hline_df <- data.frame(component = factor(c("Effect", "Trend" ,"Residual"),
                        yintercept = c(NA, NA, 0))
 
 p <- ggplot(time, aes(x = time)) +
-  facet_wrap(vars(component), ncol = 1) +
+  facet_wrap(vars(component), nrow = 1) +
   geom_ribbon(aes(ymin = .fitted.lower,
                   ymax = .fitted.upper),
               fill = col_fill) +
@@ -48,12 +48,12 @@ p <- ggplot(time, aes(x = time)) +
              aes(yintercept = yintercept),
              linewidth = 0.2) +
   scale_y_continuous(labels = function(x) format(x, scientific = FALSE),
-                     limits = c(-0.4, 0.4)) +
+                     limits = c(-0.46, 0.46)) +
   xlab("") +
   ylab("")
 
 pdf(file = .out,
-    width = 5,
-    height = 6.5)
+    width = 6.5,
+    height = 3.5)
 plot(p)
 dev.off()

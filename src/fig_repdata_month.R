@@ -6,15 +6,9 @@ suppressPackageStartupMessages({
 })
 
 cmd_assign(.repdata_month = "out/repdata_month.rds",
-           use_all = FALSE,
            .out = "out/fig_repdata_month.pdf")
 
 repdata_month <- readRDS(.repdata_month)
-
-if (!use_all) {
-  repdata_month <- repdata_month |>
-    filter(.replicate %in% unique(.replicate)[1:8])
-}
 
 p <- ggplot(repdata_month, aes(x = month, y = deaths, group = year)) +
   facet_wrap(vars(.replicate), ncol = 4) +
@@ -30,6 +24,6 @@ p <- ggplot(repdata_month, aes(x = month, y = deaths, group = year)) +
 
 pdf(file = .out,
     width = 6,
-    height = if (use_all) 7.5 else 4)
+    height = 7)
 plot(p)
 dev.off()        

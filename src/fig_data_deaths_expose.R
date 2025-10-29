@@ -19,6 +19,7 @@ p_deaths <- data_deaths_expose |>
   scale_color_manual(values = c("#63a3cc", "#08306b")) +
   xlab("Age") +
   ylab("") +
+  scale_x_continuous(breaks = seq(0, 100, 20)) +
   theme(legend.position = "none",
         text = element_text(size = 10))
 
@@ -30,6 +31,7 @@ p_expose <- data_deaths_expose |>
   scale_color_manual(values = c("#63a3cc", "#08306b")) +
   xlab("Age") +
   ylab("") +
+  scale_x_continuous(breaks = seq(0, 100, 20)) +
   theme(legend.position = "top",
         legend.title = element_blank(),
         text = element_text(size = 10))
@@ -42,6 +44,7 @@ p_lograte <- data_deaths_expose |>
   scale_color_manual(values = c("#63a3cc", "#08306b")) +
   xlab("Age") +
   ylab("") +
+  scale_x_continuous(breaks = seq(0, 100, 20)) +
   theme(legend.position = "none",
         text = element_text(size = 10))
 
