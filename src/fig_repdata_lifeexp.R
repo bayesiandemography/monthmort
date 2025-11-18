@@ -28,6 +28,6 @@ p <- ggplot(repdata_lifeexp, aes(x = time, y = ex, col = sex)) +
 
 pdf(file = .out,
     width = 6,
-    height = 7)
+    height = 6.5)
 plot(p)
 dev.off()        

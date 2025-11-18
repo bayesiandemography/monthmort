@@ -24,6 +24,6 @@ p <- ggplot(repdata_month, aes(x = month, y = deaths, group = year)) +
 
 pdf(file = .out,
     width = 6,
-    height = 7)
+    height = 6.5)
 plot(p)
 dev.off()        
