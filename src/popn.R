@@ -7,8 +7,8 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(.popn = "data/DPE403901_20250516_063419_2.csv.gz",
-           n_max_popn = 137,
+cmd_assign(.popn = "data/DPE403901_20260310_100956_20.csv.zip",
+           n_max_popn = 140,
            .out = "out/popn.rds")
 
 age_labels <- age_labels(type = "single", max = 95)
@@ -18,7 +18,7 @@ col_names <- c("time",
 col_types <- paste(rep(c("c", "i"), times = c(1, 2 * length(age_labels))),
                    collapse = "")
 
-popn <- read_csv(.popn,
+out <- read_csv(.popn,
                  skip = 4,
                  n_max = n_max_popn,
                  col_names = col_names,
@@ -30,5 +30,5 @@ popn <- read_csv(.popn,
          age = combine_age(age, to = "lt")) |>
   count(age, sex, time, wt = value, name = "popn")
 
-saveRDS(popn, file = .out)
+saveRDS(out, file = .out)
 

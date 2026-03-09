@@ -1,15 +1,7 @@
 START_DATE = 1998-01-01
 END_DATE = 2020-01-31
-POPN = NEW
-ifeq ($(POPN),NEW)
-  FN_POPN = DPE403901_20250904_045728_88
-  END_DATE_ALL = 2025-02-28
-  N_MAX_POPN = 137
-else
-  FN_POPN = DPE403901_20250318_012204_94
-  END_DATE_ALL = 2024-12-31
-  N_MAX_POPN = 136
-endif
+END_DATE_ALL = 2025-10-31
+N_MAX_POPN = 140
 
 COL_FILL = \#A6CEE3
 COL_LINE = \#1F4E79
@@ -42,13 +34,12 @@ all: out/fig_data_deaths_expose.pdf \
 ## Prepare data
 
 out/deaths.rds: src/deaths.R \
-  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M6.csv.gz
-	Rscript $^ $@ --end_date_all=$(END_DATE_ALL)
+  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M12.xlsx
+	Rscript $^ $@
 
 out/popn.rds: src/popn.R \
-  data/$(FN_POPN).csv.gz
+  data/DPE403901_20260310_100956_20.csv.zip
 	Rscript $^ $@ --n_max_popn=$(N_MAX_POPN)
-
 
 out/exposure.rds: src/exposure.R \
   out/popn.rds
@@ -60,6 +51,10 @@ out/data.rds: src/data.R \
 	Rscript $^ $@
 
 out/example_ages.rds: src/example_ages.R
+	Rscript $^ $@
+
+out/covid_deaths.rds: src/covid_deaths.R \
+  data/weekly-deaths.csv
 	Rscript $^ $@
 
 

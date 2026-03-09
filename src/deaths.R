@@ -1,6 +1,6 @@
 
 suppressPackageStartupMessages({
-  library(readr)
+  library(readxl)
   library(dplyr)
   library(tidyr)
   library(poputils)
@@ -8,19 +8,19 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(.deaths = "data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M6.csv.gz",
-           end_date_all = as.Date("2025-02-28"),
+cmd_assign(.deaths = "data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M12.xlsx",
            .out = "out/deaths.rds")
 
-deaths <- read_csv(.deaths, col_types = "ii-cci") |>
+out <- read_xlsx(.deaths,
+                 col_types = c("numeric", "numeric", "skip",
+                               "text", "text", "numeric")) |>
   mutate(time = sprintf("%d-%02.0f", year_death, month_death)) |>
   select(-year_death, -month_death) |>
   mutate(age = reformat_age(age_group)) |>
   select(age, sex, time, deaths) |>
   complete(age, sex, time, fill = list(deaths = 0L)) |>
   mutate(time = paste0(time, "-15"),
-         time = ymd(time)) |>
-  filter(time <= end_date_all)
+         time = ymd(time))
 
-saveRDS(deaths, file = .out)
+saveRDS(out, file = .out)
 
