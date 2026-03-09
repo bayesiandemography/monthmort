@@ -43,7 +43,10 @@ for (i in seq_along(end_dates)) {
                   data = data_fit,
                   exposure = exposure) |>
     set_prior(age:sex ~ RW2_Infant()) |>
-    set_prior(age:time ~ RW2_Seas(n_seas = 12, sd = 0, con = "by")) |>
+    set_prior(age:time ~ RW2_Seas(n_seas = 12,
+                                  sd = 0,
+                                  s_seas = 0,
+                                  con = "by")) |>
     set_prior(sex:time ~ RW2(sd = 0, con = "by")) |>
     set_prior(time ~ Lin_AR()) |>
     set_datamod_outcome_rr3() |>
