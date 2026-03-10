@@ -11,7 +11,7 @@ cmd_assign(.excess = "out/excess.rds",
            .covid_deaths = "out/covid_deaths.rds",
            col_fill = "#A6CEE3",
            col_line = "#1F4E79",
-           .out = "out/fig_calc_excess_all.pdf")
+           .out = "out/fig_excess_covid.pdf")
 
 excess <- readRDS(.excess)
 covid_deaths <- readRDS(.covid_deaths)
