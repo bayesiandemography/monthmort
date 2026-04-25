@@ -21,6 +21,7 @@ all: out/fig_data_deaths_expose.pdf \
      out/fig_heldback.pdf \
      out/fig_excess.pdf \
      out/fig_excess_ag.pdf \
+     out/fig_excess_covid.pdf \
      out/fig_season_supp.pdf \
      out/fig_rates_all_female.pdf \
      out/fig_rates_all_male.pdf \
@@ -28,7 +29,8 @@ all: out/fig_data_deaths_expose.pdf \
      out/fig_excess_agesex_male.pdf \
      out/fig_repdata_lifeexp.pdf \
      out/fig_repdata_month.pdf \
-     out/tab_excess.tex
+     out/tab_excess.tex \
+     out/tab_hyper.tex
 
 
 ## Prepare data
@@ -170,6 +172,12 @@ out/fig_excess_ag.pdf: src/fig_excess_ag.R \
 	Rscript $^ $@ --col_fill=$(COL_FILL) \
                       --col_line=$(COL_LINE)
 
+out/fig_excess_covid.pdf: src/fig_excess_covid.R \
+  out/excess.rds \
+  out/covid_deaths.rds
+	Rscript $^ $@ --col_fill=$(COL_FILL) \
+                      --col_line=$(COL_LINE)
+
 
 ## Figures for supplementary part of paper
 
@@ -219,6 +227,10 @@ out/fig_repdata_month.pdf: src/fig_repdata_month.R \
 
 out/tab_excess.tex: src/tab_excess.R \
   out/excess.rds
+	Rscript $^ $@
+
+out/tab_hyper.tex: src/tab_hyper.R \
+  out/mod.rds
 	Rscript $^ $@
 
 

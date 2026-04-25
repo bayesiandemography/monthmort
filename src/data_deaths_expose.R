@@ -11,7 +11,7 @@ cmd_assign(.data = "out/data.rds",
 
 data <- readRDS(.data)
 
-sample_dates <- as.Date(c("2015-01-15", "2020-01-15"))
+sample_dates <- as.Date(c("2010-01-15", "2015-01-15", "2020-01-15"))
 
 make_age_mid <- function(x) {
   x$age_mid <- age_mid(x$age)

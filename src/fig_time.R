@@ -47,8 +47,7 @@ p <- ggplot(time, aes(x = time)) +
   geom_hline(data = hline_df,
              aes(yintercept = yintercept),
              linewidth = 0.2) +
-  scale_y_continuous(labels = function(x) format(x, scientific = FALSE),
-                     limits = c(-0.46, 0.46)) +
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
   xlab("") +
   ylab("")
 

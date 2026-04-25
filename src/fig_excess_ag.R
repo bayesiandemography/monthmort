@@ -28,7 +28,8 @@ p <- ggplot(data, aes(x = time)) +
              linewidth = 0.25) +
   ylab("Deaths") +
   xlab("") +
-  theme(text = element_text(size = 10))
+  theme(text = element_text(size = 10),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
 pdf(file = .out,
     width = 6,

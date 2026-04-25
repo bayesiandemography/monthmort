@@ -49,8 +49,8 @@ p <- ggplot(data, aes(x = time)) +
   xlab("")
 
 pdf(file = .out,
-    width = 6,
-    height = 7)
+    width = 5.8,
+    height = 6.5)
 plot(p)
 dev.off()        
 

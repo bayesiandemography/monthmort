@@ -11,12 +11,14 @@ cmd_assign(.data_deaths_expose = "out/data_deaths_expose.rds",
 
 data_deaths_expose <- readRDS(.data_deaths_expose)
 
+cols <- c("#c6dbef", "#63a3cc", "#08306b")
+
 p_deaths <- data_deaths_expose |>
   filter(series == "Deaths") |>
   ggplot(aes(x = age_mid, y = value, color = factor(time))) +
   facet_grid(vars(sex), vars(series)) +
   geom_line() +
-  scale_color_manual(values = c("#63a3cc", "#08306b")) +
+  scale_color_manual(values = cols) +
   xlab("Age") +
   ylab("") +
   scale_x_continuous(breaks = seq(0, 100, 20)) +
@@ -28,7 +30,7 @@ p_expose <- data_deaths_expose |>
   ggplot(aes(x = age_mid, y = value, color = factor(time))) +
   facet_grid(vars(sex), vars(series)) +
   geom_line() +
-  scale_color_manual(values = c("#63a3cc", "#08306b")) +
+  scale_color_manual(values = cols) +
   xlab("Age") +
   ylab("") +
   scale_x_continuous(breaks = seq(0, 100, 20)) +
@@ -41,7 +43,7 @@ p_lograte <- data_deaths_expose |>
   ggplot(aes(x = age_mid, y = value, color = factor(time))) +
   facet_grid(vars(sex), vars(series)) +
   geom_line() +
-  scale_color_manual(values = c("#63a3cc", "#08306b")) +
+  scale_color_manual(values = cols) +
   xlab("Age") +
   ylab("") +
   scale_x_continuous(breaks = seq(0, 100, 20)) +
