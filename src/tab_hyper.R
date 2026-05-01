@@ -6,13 +6,10 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(.mod = "out/mod.rds",
+cmd_assign(.comp = "out/comp.rds",
            .out = "out/tab_hyper.rds")
 
-mod <- readRDS(.mod)
-
-comp <- mod |>
-  components()
+comp <- readRDS(.comp)
 
 out <- comp |>
   filter(component %in% c("hyper", "disp")) |>
@@ -28,10 +25,10 @@ out <- comp |>
                   "Age-time",
                   "Sex-time",
                   "Dispersion")) |>
-  mutate(Parameter = c("Coef $\\phi_1$",
+  mutate(Parameter = c("Std dev $\\tau_{\\mathcal{T}}$",
+                       "Coef $\\phi_1$",
                        "Coef $\\phi_2$",
-                       "Std dev $\\tau_{\\mathcal{T}}$",
-                       "Slope $\\eta^{\\mathcal{T}}$",
+                       "Std dev $\\varphi_{\\mathcal{T}}$",
                        "Std dev $\\tau_{\\mathcal{AS}}$",
                        "Std dev $\\tau_{\\mathcal{AT}}$",
                        "Std dev $\\tau_{\\mathcal{ST}}$",

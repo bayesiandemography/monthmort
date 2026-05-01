@@ -11,6 +11,7 @@ cmd_assign(.data = "out/data.rds",
            end_date_first = as.Date("2007-01-31"),
            end_date_last = as.Date("2015-01-31"),
            years_forecast = 5L,
+           n_draw = 500,
            .out = "out/heldback.rds")
 
 data <- readRDS(.data)
@@ -49,9 +50,9 @@ for (i in seq_along(end_dates)) {
                                   con = "by")) |>
     set_prior(sex:time ~ RW2(sd = 0,
                              con = "by")) |>
-    set_prior(time ~ Lin_AR()) |>
+    set_prior(time ~ RW2_AR(sd = 0)) |>
     set_confidential_rr3() |>
-    set_n_draw(n_draw = 2000) |>
+    set_n_draw(n_draw = n_draw) |>
     fit()
   print(mod)
   ## do forecast

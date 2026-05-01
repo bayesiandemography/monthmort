@@ -1,15 +1,15 @@
-START_DATE = 1998-01-01
-END_DATE = 2020-01-31
-END_DATE_ALL = 2025-10-31
-N_MAX_POPN = 140
-
-COL_FILL = \#A6CEE3
-COL_LINE = \#1F4E79
-COL_POINT = \#D73027
-COL_FILL_1 = \#A6D854
-COL_LINE_1 = \#228B22
-COL_FILL_2 = \#CC79A7
-COL_LINE_2 = \#7E1E9C
+START_DATE := 1998-01-01
+END_DATE := 2020-01-31
+END_DATE_ALL := 2025-10-31
+N_MAX_POPN := 140
+N_DRAW := 2000
+COL_FILL := \#A6CEE3
+COL_LINE := \#1F4E79
+COL_POINT := \#D73027
+COL_FILL_1 := \#A6D854
+COL_LINE_1 := \#228B22
+COL_FILL_2 := \#CC79A7
+COL_LINE_2 := \#7E1E9C
 
 .PHONY: all
 all: out/fig_data_deaths_expose.pdf \
@@ -78,7 +78,8 @@ out/data_monthly.rds: src/data_monthly.R \
 out/mod.rds: src/mod.R \
   out/data.rds
 	Rscript $^ $@ --start_date=$(START_DATE) \
-                      --end_date=$(END_DATE)
+                      --end_date=$(END_DATE) \
+                      --n_draw=$(N_DRAW)
 
 out/aug.rds: src/aug.R \
   out/mod.rds \
@@ -115,7 +116,8 @@ out/heldback.rds: src/heldback.R \
 	Rscript $^ $@ --start_date=$(START_DATE) \
                       --end_date_first=2008-01-31 \
                       --end_date_last=2015-01-31 \
-                      --years_forecast=5
+                      --years_forecast=5 \
+                      --n_draw=$(N_DRAW)
 
 
 ## Figures for main part of paper
@@ -230,7 +232,7 @@ out/tab_excess.tex: src/tab_excess.R \
 	Rscript $^ $@
 
 out/tab_hyper.tex: src/tab_hyper.R \
-  out/mod.rds
+  out/comp.rds
 	Rscript $^ $@
 
 
