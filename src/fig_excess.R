@@ -34,7 +34,7 @@ p <- ggplot(data, aes(x = time)) +
             col = col_line) +
   geom_hline(yintercept = 0,
              linewidth = 0.25) +
-  ylim(-750, 4250) +
+  ylim(-1000, 4250) +
   ylab("Deaths") +
   xlab("") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))

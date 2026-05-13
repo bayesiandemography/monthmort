@@ -30,7 +30,8 @@ all: out/fig_data_deaths_expose.pdf \
      out/fig_repdata_lifeexp.pdf \
      out/fig_repdata_month.pdf \
      out/tab_excess.tex \
-     out/tab_hyper.tex
+     out/tab_hyper.tex \
+     out/num_heldback.csv
 
 
 ## Prepare data
@@ -119,6 +120,10 @@ out/heldback.rds: src/heldback.R \
                       --years_forecast=5 \
                       --n_draw=$(N_DRAW)
 
+out/vals_heldback.rds: src/vals_heldback.R \
+  out/heldback.rds
+	Rscript $^ $@
+
 
 ## Figures for main part of paper
 
@@ -160,7 +165,7 @@ out/fig_rates.pdf: src/fig_rates.R \
                       --col_point=$(COL_POINT)
 
 out/fig_heldback.pdf: src/fig_heldback.R \
-  out/heldback.rds
+  out/vals_heldback.rds
 	Rscript $^ $@ --col_line=darkorange \
                       --col_point=blue
 
@@ -233,6 +238,10 @@ out/tab_excess.tex: src/tab_excess.R \
 
 out/tab_hyper.tex: src/tab_hyper.R \
   out/comp.rds
+	Rscript $^ $@
+
+out/num_heldback.csv: src/num_heldback.R \
+  out/vals_heldback.rds
 	Rscript $^ $@
 
 

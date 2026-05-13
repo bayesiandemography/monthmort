@@ -31,9 +31,8 @@ make_str <- function(x) {
 }
 
 tab_excess <- excess |>
-  filter(time < as.Date("2025-01-01")) |>
+  filter(time <= as.Date("2025-12-31")) |>
   mutate(Year = year(time)) |>
-  mutate(Year <= 2024) |>
   mutate(excess = excess / 1000) |>
   count(Year, wt = excess, name = "Annual") |>
   mutate(Cumulative = cumsum(Annual)) |>
