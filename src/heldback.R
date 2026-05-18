@@ -1,4 +1,7 @@
 
+## Note that we need to update the model specification
+## for the heldback data tests by hand if 'mod' changes.
+
 suppressPackageStartupMessages({
   library(bage)
   library(dplyr)

@@ -10,12 +10,12 @@ suppressPackageStartupMessages({
 })
 
 cmd_assign(.popn = "out/popn.rds",
-           end_date_all = as.Date("2025-02-28"),
+           end_date_all = as.Date("2025-12-31"),
            .out = "out/exposure.rds")
 
 popn <- readRDS(.popn)
 
-exposure <- popn %>%
+exposure <- popn |>
   mutate(time = sub("Q1$", "-03-31", time),
          time = sub("Q2$", "-06-30", time),
          time = sub("Q3$", "-09-30", time),
@@ -26,9 +26,9 @@ exposure <- popn %>%
                                                  to = max(time + 1),
                                                  by = "month") - 1L))) |>
   complete(time, sex, age, fill = list(popn = NA)) |>
-  mutate(time = ymd(as.character(time))) %>%
-  group_by(age, sex) %>%
-  arrange(time) %>%
+  mutate(time = ymd(as.character(time))) |>
+  group_by(age, sex) |>
+  arrange(time) |>
   mutate(popn = na.spline(popn)) |>
   mutate(mean_val = 0.5 * (popn + lag(popn))) |>
   mutate(n_day = as.integer(time - lag(time))) |>

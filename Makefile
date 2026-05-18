@@ -1,6 +1,6 @@
 START_DATE := 1998-01-01
 END_DATE := 2020-01-31
-END_DATE_ALL := 2025-10-31
+END_DATE_ALL := 2025-12-31
 N_MAX_POPN := 140
 N_DRAW := 2000
 COL_FILL := \#A6CEE3
@@ -37,7 +37,7 @@ all: out/fig_data_deaths_expose.pdf \
 ## Prepare data
 
 out/deaths.rds: src/deaths.R \
-  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M12.xlsx
+  data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2026M3.xlsx
 	Rscript $^ $@
 
 out/popn.rds: src/popn.R \

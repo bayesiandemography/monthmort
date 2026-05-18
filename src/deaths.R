@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
   library(command)
 })
 
-cmd_assign(.deaths = "data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2025M12.xlsx",
+cmd_assign(.deaths = "data/Deaths_registered_in_NZ_by_month_of_death_1998M1-2026M3.xlsx",
            .out = "out/deaths.rds")
 
 out <- read_xlsx(.deaths,
