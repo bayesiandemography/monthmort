@@ -18,7 +18,7 @@ covid_deaths <- readRDS(.covid_deaths)
 
 data <- excess |>
   count(time, wt = excess, name = "excess") |>
-  inner_join(covid_deaths, by = "time") |>
+  left_join(covid_deaths, by = "time") |>
   mutate(draws_ci(excess))
 
 p <- ggplot(data, aes(x = time)) +
